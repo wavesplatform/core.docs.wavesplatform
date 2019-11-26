@@ -16,7 +16,7 @@ const GetSearchResultByQuery = require('./getSearchResultByQuery');
 
 const vuepressDestPath = path.join(__dirname, '../../dist');
 
-(async() => {
+module.exports = async() => {
 
     const getSearchResultByQuery = await GetSearchResultByQuery();
 
@@ -55,4 +55,4 @@ const vuepressDestPath = path.join(__dirname, '../../dist');
     app.listen(serverPort, '0.0.0.0');
 
     console.log(`listening on port ${serverPort}`)
-})();
+}
