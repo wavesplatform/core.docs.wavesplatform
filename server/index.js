@@ -14,9 +14,7 @@ const serve = require('koa-static');
 const app = new Koa();
 const GetSearchResultByQuery = require('./getSearchResultByQuery');
 
-const vuepressDestPath = path.join(__dirname, '../../dist');
-
-module.exports = async() => {
+module.exports = async(vuepressDestPath) => {
 
     const getSearchResultByQuery = await GetSearchResultByQuery();
 
@@ -37,9 +35,7 @@ module.exports = async() => {
         if (ctx.req.url === '/') {
             ctx.redirect('/en/');
         } else if(searchQuery) {
-            // console.log('searchQuery:', searchQuery);
             const searchResult = await getSearchResultByQuery(searchQuery);
-            // console.log('searchResult:', searchResult);
             ctx.body = searchResult;
         } else {
             await next();

@@ -186,6 +186,7 @@
         }
         &:not(.langList__item_active) {
             cursor pointer
+            color var(--color7)
             .checkMark {
                 opacity 0
             }
@@ -193,6 +194,7 @@
     }
     .langList__item_active {
         cursor default
+        color var(--color8)
         .checkMark {
 
         }

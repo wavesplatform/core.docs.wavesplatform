@@ -297,6 +297,9 @@
         padding 0
         justify-content center
         background-color var(--color11)
+        &:hover {
+            background-color transparent
+        }
     }
     .sidebar {
         height 100%

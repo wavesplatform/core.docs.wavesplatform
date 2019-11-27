@@ -1,17 +1,20 @@
+const processEnv = process.env;
+const envPort = processEnv.port || 3083;
 const path = require('path');
+const rootDir = path.dirname(require.main.filename);
+const packageName = require(path.join(rootDir, 'package.json')).name;
+const corePath = processEnv.corePath || packageName;
 const fs = require('fs');
 const webpack = require('webpack');
 // const beforeDevServer = require('./beforeDevServer/');
 // const colorationConfig = require('./colouration')
-const destDirectory = path.join(__dirname, '../../../dist');
 
 module.exports = (ctx) => {
-    return {
+    const rootConfig = {
         serviceWorker: false,
         // beforeDevServer: beforeDevServer(ctx),
-        dest: destDirectory,
         host: '0.0.0.0',
-        port: 3083,
+        port: envPort,
         temp: path.join(__dirname, '../.temp'),
         locales: {
             '/en/': {
@@ -94,19 +97,22 @@ module.exports = (ctx) => {
         // ],
         configureWebpack(config, isServer) {
             if (!isServer) {
+
+                config.resolve.alias[packageName] = corePath;
+
                 config.plugins.push({
                     apply: (compiler) => {
                         compiler.hooks.done.tap('compilationDone', (compilation) => {
                             const pageListJson = JSON.stringify(
-                                ctx.pages.map(page => {
-                                    return {
-                                        title: page.title,
-                                        regularPath: page.regularPath,
-                                        localePath: page._localePath,
-                                    };
-                                })
+                              ctx.pages.map(page => {
+                                  return {
+                                      title: page.title,
+                                      regularPath: page.regularPath,
+                                      localePath: page._localePath,
+                                  };
+                              })
                             );
-                            fs.writeFile(`${destDirectory}/documentation-files-map.json`, pageListJson, 'utf8', () => {
+                            fs.writeFile(`${rootConfig.dest}/documentation-files-map.json`, pageListJson, 'utf8', () => {
                                 console.log('documentation-files-map.json done');
                             });
 
@@ -114,14 +120,15 @@ module.exports = (ctx) => {
                     }
                 });
                 config.plugins.push(
-                    new webpack.EnvironmentPlugin({
-                        isDev: process.env.isDev,
-                    })
+                  new webpack.EnvironmentPlugin({
+                      isDev: process.env.isDev,
+                  })
                 );
             }
         },
         // chainWebpack: (config, isServer) => {
         //     // console.log('chainWebpack config:', config, isServer)
         // },
-    }
+    };
+    return rootConfig;
 };
