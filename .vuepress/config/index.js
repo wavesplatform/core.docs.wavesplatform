@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
 // const beforeDevServer = require('./beforeDevServer/');
-const colorationConfig = require('./colouration')
+// const colorationConfig = require('./colouration')
 const destDirectory = path.join(__dirname, '../../../dist');
 
 module.exports = (ctx) => {
@@ -44,8 +44,8 @@ module.exports = (ctx) => {
         theme: path.join(__dirname, '../'),
 
         themeConfig: {
-            activeColouration: 'dark',
-            colouration: colorationConfig,
+            activeColouration: 'default',
+            // /*colouration: colorationConfig,*/
             buildDate: new Date(),
             env: {
                 adminServerUrl: process.env.adminServerUrl
