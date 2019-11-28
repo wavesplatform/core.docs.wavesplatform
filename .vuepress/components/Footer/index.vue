@@ -1,8 +1,17 @@
 <template>
   <footer :class="$style.root">
       <WidthLimit :class="$style.root__widthLimit">
-          <div :class="$style.root__cell1">
-              <a href="https://wavesplatform.com" target="_blank" :class="$style.root__cell1__cell1">
+          <div
+              :class="[$style.root__cell, $style.root__cell1]"
+              :style="{
+                width: root__cellWidth,
+              }"
+          >
+              <a
+                  href="/"
+                  target="_blank"
+                  :class="$style.logotypeLink"
+              >
                   <Logotype
                       :is-show-additional-text="false"
                       :class="$style.logotype"/>
@@ -20,33 +29,35 @@
                   </a>
               </div>
           </div>
-          <nav :class="$style.root__cell2">
-              <div
-                  v-for="(resourcesCategoryI18n, resourcesCategoryI18nKey, resourcesCategoryI18nIndex) of resourcesCategoriesI18n"
-                  :key="resourcesCategoryI18nKey"
-                  :class="[
+
+          <div
+              v-for="(resourcesCategoryI18n, resourcesCategoryI18nKey, resourcesCategoryI18nIndex) of resourcesCategoriesI18n"
+              :key="resourcesCategoryI18nKey"
+              :class="[
                 $style.resourcesCategoryI18n,
-                $style[`root__cell2__cell${resourcesCategoryI18nIndex + 1}`]
+                $style.root__cell,
+                $style[`root__cell${resourcesCategoryI18nIndex + 2}`]
               ]"
-              >
-                  <div :class="$style.resourcesCategoryI18n__wrapper">
-                      <div :class="$style.categoryTitle">
-                          {{resourcesCategoryI18n.title}}
-                      </div>
-                      <ul :class="$style.categoryLinks">
-                          <li
+              :style="{
+                width: root__cellWidth,
+              }"
+          >
+              <div :class="$style.resourcesCategoryI18n__wrapper">
+                  <div :class="$style.categoryTitle">
+                      {{resourcesCategoryI18n.title}}
+                  </div>
+                  <ul :class="$style.categoryLinks">
+                      <li
                               v-for="(categoryLink, categoryLinkKey) of resourcesCategoryI18n.links"
                               :key="categoryLinkKey"
                               :class="$style.categoryLinkWrapper">
-                              <a :class="[$style.link, $style.categoryLink]" :href="categoryLink.link">
-                                  {{categoryLink.title}}
-                              </a>
-                          </li>
-                      </ul>
-                  </div>
-
+                          <a :class="[$style.link, $style.categoryLink]" :href="categoryLink.link" target="_blank">
+                              {{categoryLink.title}}
+                          </a>
+                      </li>
+                  </ul>
               </div>
-          </nav>
+          </div>
       </WidthLimit>
   </footer>
 </template>
@@ -67,7 +78,13 @@
       },
       resourcesCategoriesI18n() {
         return this.footerI18n.resourcesCategories;
-      }
+      },
+        resourcesCategoriesI18nLength() {
+          return Object.keys(this.resourcesCategoriesI18n).length;
+        },
+        root__cellWidth() {
+          return 100/(this.resourcesCategoriesI18nLength + 1) + '%';
+        },
     },
   }
 </script>
@@ -75,7 +92,7 @@
 
 <style lang="stylus" module>
     $resourcesCategoryPadding-t-b = 20px
-    $resourcesCategoryPadding-l-r = 38px
+    $resourcesCategoryPadding-l-r = $indent1
     $resourcesCategoryPadding_min = 3px
     .link {
         transition $transitionS1
@@ -84,6 +101,8 @@
         }
     }
     .root {
+        margin-left (- $resourcesCategoryPadding-l-r)
+        margin-right (- $resourcesCategoryPadding-l-r)
         padding 64px 0
         background-color var(--borderColor)
         display flex
@@ -96,21 +115,26 @@
     }
     .root__widthLimit {
         display flex
-        justify-content space-between
         align-items flex-start
+        margin (- $resourcesCategoryPadding-t-b) 0
+        flex-wrap wrap
+        justify-content flex-start
         @media screen and (max-width: 679px) {
             flex-wrap wrap
         }
     }
+
+    .root__cell {
+        padding $resourcesCategoryPadding-t-b $resourcesCategoryPadding-l-r
+        min-width 235px
+    }
+
     .root__cell1 {
         margin-bottom 40px
         /*margin-right 40px*/
         flex-shrink 0
-        padding-right 32px
     }
-    .root__cell1__cell1 {
-        height 22px
-    }
+
     .root__cell1__cell2,
     .root__cell1__cell3,
     .root__cell1__cell4,
@@ -134,29 +158,17 @@
     .root__cell1__cell4 {
         margin-top 19px
     }
+    .logotypeLink {
+        display flex
+        margin-top: -4px;
+    }
     .logotype {
         /*width 100%*/
         max-width 164px
         height 100%
     }
 
-    .root__cell2 {
-        display flex
-        flex-wrap wrap
-        margin (- $resourcesCategoryPadding-t-b) (- $resourcesCategoryPadding-l-r)
-        width 100%
-        justify-content center
-        @media screen and (max-width: 872px) {
-            justify-content flex-start
-        }
-        @media screen and (max-width: 679px) {
-            margin: (- $resourcesCategoryPadding-t-b) (- $resourcesCategoryPadding_min)
-            justify-content space-between
-        }
-
-    }
     .resourcesCategoryI18n {
-        padding $resourcesCategoryPadding-t-b $resourcesCategoryPadding-l-r
         /*width 220px*/
         &:not(:first-child) {
             /*margin-left 36px*/
@@ -164,9 +176,9 @@
         @media screen and (max-width: 742px) {
             width calc(50% - 10px)
         }
-        @media screen and (max-width: 679px) {
+        /*@media screen and (max-width: 679px) {
             padding $resourcesCategoryPadding-t-b $resourcesCategoryPadding_min
-        }
+        }*/
         @media screen and (max-width: 320px) {
             width 110px
         }

@@ -88,7 +88,7 @@
                                     :class="$style.categoryCardWrapper">
                                     <CategoryCard
                                         :class="$style.categoryCard"
-                                        :root-link="category.rootLink"
+                                        :root-link="getCategoryRootLink(category)"
                                         :category-type="technologyCategories[category.type]"
                                     >
                                         <div
@@ -212,6 +212,15 @@
       selectCategoryTag(categoryTagName) {
         this.currentTechnologyCategoryFilter = categoryTagName;
       },
+        getCategoryRootLink(category) {
+          const categoryRootLink = category.rootLink;
+          const sidebarRootLinks = this.$themeLocaleConfig.sidebar;
+          const rootLink = sidebarRootLinks[categoryRootLink];
+          if(rootLink) {
+              return rootLink[0].path;
+          }
+          return categoryRootLink
+        },
     },
   }
 </script>

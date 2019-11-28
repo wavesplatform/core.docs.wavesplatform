@@ -6,7 +6,6 @@ const { promisify } = require('util');
 const Fuse = require('fuse.js');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const vuepressDestPath = path.join(__dirname, '../../dist');
 const readFileAsync = promisify(fs.readFile);
 
 const fuseOptions = {
@@ -41,7 +40,7 @@ const fuseOptions = {
 const findItemForSendingLimit = 40;
 const textLeftRightRangeLength = 150;
 
-module.exports = async function() {
+module.exports = async function(vuepressDestPath) {
     const vuepressPagesParamsListString = fs.readFileSync(`${vuepressDestPath}/documentation-files-map.json`).toString();
 
     let vuepressPagesParamsList = null;

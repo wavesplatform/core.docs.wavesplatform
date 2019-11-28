@@ -15,8 +15,7 @@ const app = new Koa();
 const GetSearchResultByQuery = require('./getSearchResultByQuery');
 
 module.exports = async(vuepressDestPath) => {
-
-    const getSearchResultByQuery = await GetSearchResultByQuery();
+    const getSearchResultByQuery = await GetSearchResultByQuery(vuepressDestPath);
 
     if(!getSearchResultByQuery) {
         console.error('!getSearchResultByQuery');

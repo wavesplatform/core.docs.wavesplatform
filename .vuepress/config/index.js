@@ -1,16 +1,15 @@
 const processEnv = process.env;
 const envPort = processEnv.port || 3083;
 const path = require('path');
-const rootDir = path.dirname(require.main.filename);
-const packageName = require(path.join(rootDir, 'package.json')).name;
+const packageName = require(path.join(__dirname, '../../package.json')).name;
 const corePath = processEnv.corePath || packageName;
 const fs = require('fs');
 const webpack = require('webpack');
+const deepmerge = require('deepmerge');
 // const beforeDevServer = require('./beforeDevServer/');
-// const colorationConfig = require('./colouration')
 
-module.exports = (ctx) => {
-    const rootConfig = {
+module.exports = (ctx, mixin) => {
+    const rootConfig = deepmerge({
         serviceWorker: false,
         // beforeDevServer: beforeDevServer(ctx),
         host: '0.0.0.0',
@@ -97,9 +96,7 @@ module.exports = (ctx) => {
         // ],
         configureWebpack(config, isServer) {
             if (!isServer) {
-
                 config.resolve.alias[packageName] = corePath;
-
                 config.plugins.push({
                     apply: (compiler) => {
                         compiler.hooks.done.tap('compilationDone', (compilation) => {
@@ -129,6 +126,6 @@ module.exports = (ctx) => {
         // chainWebpack: (config, isServer) => {
         //     // console.log('chainWebpack config:', config, isServer)
         // },
-    };
+    }, mixin);
     return rootConfig;
 };
