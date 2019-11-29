@@ -9,7 +9,6 @@ const deepmerge = require('deepmerge');
 // const beforeDevServer = require('./beforeDevServer/');
 
 module.exports = (ctx, mixin) => {
-    console.log('mixin:', mixin)
     const rootConfig = deepmerge({
         serviceWorker: false,
         // beforeDevServer: beforeDevServer(ctx),
