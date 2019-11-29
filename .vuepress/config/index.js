@@ -1,5 +1,6 @@
 const processEnv = process.env;
 const envPort = processEnv.port || 3083;
+const envHost = processEnv.host || '0.0.0.0';
 const path = require('path');
 const packageName = require(path.join(__dirname, '../../package.json')).name;
 const corePath = processEnv.corePath || packageName;
@@ -10,9 +11,9 @@ const deepmerge = require('deepmerge');
 
 module.exports = (ctx, mixin) => {
     const rootConfig = deepmerge({
-        serviceWorker: false,
         // beforeDevServer: beforeDevServer(ctx),
-        host: '0.0.0.0',
+        serviceWorker: false,
+        host: envHost,
         port: envPort,
         temp: path.join(__dirname, '../.temp'),
         head: [
@@ -30,49 +31,29 @@ module.exports = (ctx, mixin) => {
             ['meta', { name: 'msapplication-TileImage', content: '/icons/msapplication-icon-144x144.png' }],
             ['meta', { name: 'msapplication-TileColor', content: '#000000' }]
         ],
-
         theme: path.join(__dirname, '../'),
-
         themeConfig: {
-            activeColouration: 'default',
-            // /*colouration: colorationConfig,*/
             buildDate: new Date(),
+            activeColouration: 'default',
             env: {
                 adminServerUrl: process.env.adminServerUrl
             },
             logo: '/waves-docs-logo.svg',
             repo: 'vuejs/vuepress',
             docsDir: 'packages/docs/docs',
-
-            // editLinks: true,
-            // nextLinks: true,
-            // prevLinks: true,
         },
-        // plugins: [
-        //     // '../../last-updated',
-        //     // ['../../back-to-top', true],
-        //     // ['../../pwa', {
-        //     //     serviceWorker: true,
-        //     //     updatePopup: true
-        //     // }],
-        //     // ['../../google-analytics', {
-        //     //     ga: 'UA-128189152-1'
-        //     // }],
-        //     // ['container', {
-        //     //     type: 'vue',
-        //     //     before: '<pre class="vue-container"><code>',
-        //     //     after: '</code></pre>'
-        //     // }],
-        //     // ['container', {
-        //     //     type: 'upgrade',
-        //     //     before: info => `<UpgradePath title="${info}">`,
-        //     //     after: '</UpgradePath>'
-        //     // }],
-        //
-        // ],
-        // extraWatchFiles: [
-        //     '.vuepress/locales/**',
-        // ],
+        plugins: [
+            // ['pwa', {
+            //     serviceWorker: true,
+            //     updatePopup: true
+            // }],
+            // ['google-analytics', {
+            //     ga: 'UA-128189152-1'
+            // }],
+        ],
+        extraWatchFiles: [
+            // '.vuepress/locales/**',
+        ],
         configureWebpack(config, isServer) {
             if (!isServer) {
                 config.resolve.alias[packageName] = corePath;

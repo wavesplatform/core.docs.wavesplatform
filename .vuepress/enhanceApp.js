@@ -4,6 +4,7 @@ import routing from './enhanceApp/routing'
 import vuex from './enhanceApp/vuex'
 import elementUi from './enhanceApp/elementUi'
 import scrollTo from './enhanceApp/scrollTo'
+import setTitle from './enhanceApp/setTitle'
 
 export default (context) => {
     setThemeColoration(context);
@@ -11,5 +12,6 @@ export default (context) => {
     elementResizeDetector(context);
     const store = vuex(context);
     routing(context, store);
+    setTitle(context, store);
     elementUi(context);
 }
