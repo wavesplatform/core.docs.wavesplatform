@@ -3,7 +3,6 @@
     "version": "0.1.1",
     "description": "Minimalistic doc generator with Vue component based layout system",
     "main": "./index.js",
-
     "dependencies": {
         "@koa/cors": "^3.0.0",
         "@vuepress/plugin-google-analytics": "^1.2.0",

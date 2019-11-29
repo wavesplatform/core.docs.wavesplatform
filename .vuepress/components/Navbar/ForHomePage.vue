@@ -39,9 +39,6 @@
 <style lang="stylus" module>
     @import '~@themeExtend/components/Navbar/ForHomePage';
 
-    $navbar-vertical-padding = 0.7rem;
-    $navbar-horizontal-padding = 1.5rem;
-
     .root {
 
     }
@@ -51,17 +48,6 @@
         width 100%
         justify-content space-between
     }
-
-    .logotype2Wrapper {
-        width 100%
-        height 100%
-        max-width 200px
-    }
-    .logotype2 {
-        width 100%
-        height 100%
-    }
-
 
     .root__cell {
         display flex
@@ -154,8 +140,8 @@
         white-space nowrap
         font-size 0.9rem
         /*position absolute*/
-        left $navbar-horizontal-padding
-        top $navbar-vertical-padding
+        /*left $navbar-horizontal-padding
+        top $navbar-vertical-padding*/
         display flex
         align-items center
         justify-content flex-end

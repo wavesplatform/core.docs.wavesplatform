@@ -44,7 +44,6 @@ const fuseOptions = {
     //     "author.firstName"
     // ]
 
-
     // keys: [
     //     "name",
     //     "username",
@@ -77,7 +76,6 @@ module.exports = (ctx) => {
             return accumulator;
         }, {});
     };
-
 
     let sortedPagesContentByLocalePath = {};
     Object.defineProperty(ctx, 'pages', {
@@ -119,8 +117,6 @@ module.exports = (ctx) => {
             .slice(0, findItemForSendingLimit)
         ;
 
-        // console.log('fuseSearchResult:', fuseSearchResult);
-
         return dataPreparedForSending;
     }
-}
+};

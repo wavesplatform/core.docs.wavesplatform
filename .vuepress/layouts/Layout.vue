@@ -12,7 +12,7 @@
         <div class="medium-zoom-container"></div>
 
         <template v-if="$page.path !== '/'">
-            <ThemeControl/>
+            <!--<ThemeControl/>-->
             <SearchFrameContent/>
             <LanguageNotification
                 :is-show="isShowLanguageNotification"
@@ -162,7 +162,7 @@
   import WidthLimit from '@theme/components/WidthLimit'
   import PageNavigations from '@theme/components/PageNavigations'
   import LanguageNotification from '@theme/components/LanguageNotification'
-  import ThemeControl from '@theme/components/ThemeControl'
+  // import ThemeControl from '@theme/components/ThemeControl'
 
   import watchLayoutSizeMixin from '@theme/components/_mixins/watchLayoutSize'
   import navbarResizeDetectorMixin from '@theme/components/_mixins/navbarResizeDetector'
@@ -186,7 +186,7 @@
       WidthLimit,
       PageNavigations,
       LanguageNotification,
-      ThemeControl,
+      // ThemeControl,
     },
 
     data () {

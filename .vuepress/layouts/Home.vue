@@ -1,7 +1,7 @@
 <template>
     <div :class="$style.root">
         <template v-if="$page.path !== '/'">
-            <ThemeControl/>
+            <!--<ThemeControl/>-->
             <SearchFrameContent
                 @close="$store.commit('setDisplaySearchResultWindow', false)"
             />
@@ -145,7 +145,7 @@
   import CategoryCard from '@theme/components/CategoryCard'
   import Logotype from '@theme/components/Logotype'
   import Footer from '@theme/components/Footer'
-  import ThemeControl from '@theme/components/ThemeControl'
+  // import ThemeControl from '@theme/components/ThemeControl'
 
   import watchLayoutSizeMixin from '@theme/components/_mixins/watchLayoutSize'
   import navbarResizeDetectorMixin from '@theme/components/_mixins/navbarResizeDetector'
@@ -167,7 +167,7 @@
       Logotype,
       Footer,
       TabsPanel,
-      ThemeControl,
+      // ThemeControl,
     },
 
     data () {

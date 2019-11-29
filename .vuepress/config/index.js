@@ -9,24 +9,13 @@ const deepmerge = require('deepmerge');
 // const beforeDevServer = require('./beforeDevServer/');
 
 module.exports = (ctx, mixin) => {
+    console.log('mixin:', mixin)
     const rootConfig = deepmerge({
         serviceWorker: false,
         // beforeDevServer: beforeDevServer(ctx),
         host: '0.0.0.0',
         port: envPort,
         temp: path.join(__dirname, '../.temp'),
-        locales: {
-            '/en/': {
-                lang: 'en-US',
-                title: 'Waves documentation',
-                description: 'Waves documentation in English'
-            },
-            '/ru/': {
-                lang: 'ru-RU',
-                title: 'Документация Waves',
-                description: 'Документация Waves на русском',
-            }
-        },
         head: [
             ['link', { rel: 'icon', href: `/favicon-32x32.png` }],
             ['link', { rel: 'manifest', href: '/manifest.json' }],
@@ -55,21 +44,12 @@ module.exports = (ctx, mixin) => {
             logo: '/waves-docs-logo.svg',
             repo: 'vuejs/vuepress',
             docsDir: 'packages/docs/docs',
-            locales: {
-            },
+
             // editLinks: true,
             // nextLinks: true,
             // prevLinks: true,
         },
         // plugins: [
-        //     ['@vuepress/medium-zoom', {
-        //         selector: 'body img',
-        //         // medium-zoom options here
-        //         // See: https://github.com/francoischalifour/medium-zoom#options
-        //         options: {
-        //             margin: 16
-        //         }
-        //     }],
         //     // '../../last-updated',
         //     // ['../../back-to-top', true],
         //     // ['../../pwa', {
