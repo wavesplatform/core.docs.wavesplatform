@@ -20,12 +20,12 @@
                   {{ footerI18n.broughtToYouByWavesTeam }}
               </div>
               <div :class="$style.root__cell1__cell3">
-                  © 2019 Waves Platform
+                  {{ footerI18n.copyright }}
               </div>
               <div :class="$style.root__cell1__cell4">
                   <a :class="[$style.link, $style.mailto]"
-                     href="mailto:support@wavesplatform.com">
-                      support@wavesplatform.com
+                     :href="`mailto:${footerI18n.email}`">
+                      {{ footerI18n.email }}
                   </a>
               </div>
           </div>
