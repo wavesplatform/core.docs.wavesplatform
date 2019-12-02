@@ -376,6 +376,10 @@
                 &:hover .header-anchor {
                     opacity: 1
                 }
+                & + ol,
+                & + ul {
+                    margin-top 0
+                }
             }
             .header-anchor {
                 display none
@@ -455,6 +459,11 @@
             p {
                 & + p {
                     margin-top $indent4
+                }
+                code {
+                    background-color var(--color1)
+                    padding: 3px 6px;
+                    border-radius: 4px;
                 }
             }
             hr {
