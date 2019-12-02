@@ -246,9 +246,9 @@
   }
 </script>
 
-
-
 <style lang="stylus" module>
+    @import '~@themeExtend/components/Page';
+
     .root {
         padding-top $indent1
         /*padding-bottom $indent4*/
@@ -259,7 +259,6 @@
         position relative
 
     }
-
     .page__header {
         width 100%
         display flex
@@ -269,7 +268,6 @@
             color lighten($textColor, 25%)
         }
     }
-
     .editLinkWrapper {
         display flex
         width 100%
@@ -280,11 +278,9 @@
         left 0
         margin-top: 4px;
     }
-
     .editLink {
         visibility visible
     }
-
     .editButton {
         padding 0
         background-color var(--color11)
@@ -292,7 +288,6 @@
             display flex
         }
     }
-
     .pageContent {
         :global {
             img {
@@ -315,7 +310,6 @@
             //        em
             //            color #808080
             //            font-weight light
-
             a {
                 &[href*='http'] {
                     &:after {
@@ -323,12 +317,10 @@
                     }
                 }
             }
-
             p a code {
                 font-weight 400
                 color $color6
             }
-
             kbd {
                 background #eee
                 border solid 0.15rem #ddd
@@ -336,22 +328,19 @@
                 border-radius 0.15rem
                 padding 0 0.15em
             }
-
             blockquote {
                 font-size .9rem
                 color #999
-                border-left .5rem solid #dfe2e5
+                border-left .5rem solid var(--borderColor)
                 margin 0.5rem 0
                 padding .25rem 0 .25rem 1rem
                 & > p {
                     margin 0
                 }
             }
-
             ul, ol {
                 margin-top $indent1
             }
-
             li {
                 /*display flex*/
                 align-items baseline
@@ -378,12 +367,9 @@
                     flex-shrink 0
                 }
             }
-
             strong {
                 font-weight 600
             }
-
-
             h1, h2, h3, h4, h5, h6 {
                 font-weight 600
                 line-height 1.25
@@ -391,8 +377,6 @@
                     opacity: 1
                 }
             }
-
-
             .header-anchor {
                 display none
             }
@@ -408,8 +392,6 @@
                     margin-top $indent1
                 }
             }
-
-
             h2 {
                 //font-size 1.2rem
                 //padding-bottom .3rem
@@ -425,12 +407,9 @@
                     padding-top 0
                 }
             }
-
             /*.h1:first-of-type {
                 padding-right $indent2
             }*/
-
-
             h3 {
                 font-size: 24px;
                 font-weight: normal;
@@ -440,7 +419,6 @@
                 letter-spacing: normal;
                 margin-top $indent4
             }
-
             h4 {
                 font-size: 20px;
                 font-weight: normal;
@@ -450,8 +428,6 @@
                 letter-spacing: normal;
                 margin-top $indent4
             }
-
-
             a.header-anchor {
                 font-size 0.85em
                 float left
@@ -464,12 +440,10 @@
                 }
 
             }
-
             code, kbd, .line-number {
                 /*font-family source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace*/
                 font-family : 'Roboto', sans-serif;
             }
-
             p, ul, ol {
                 font-size: 16px;
                 font-weight: normal;
@@ -478,38 +452,30 @@
                 line-height: 1.75;
                 color $color8
             }
-
             p {
                 & + p {
                     margin-top $indent4
                 }
             }
-
             hr {
                 border 0
                 border-top 1px solid var(--borderColor)
             }
-
             table {
                 border-collapse collapse
                 margin 1rem 0
                 display: block
                 overflow-x: auto
             }
-
             tr {
-                border-top 1px solid #dfe2e5
+                border-top 1px solid var(--borderColor)
                 &:nth-child(2n) {
-                    background-color #f6f8fa
                 }
-
             }
-
             th, td {
-                border 1px solid #dfe2e5
+                border 1px solid var(--borderColor)
                 padding .6em 1em
             }
-
         }
     }
 </style>
