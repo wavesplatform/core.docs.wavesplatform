@@ -479,6 +479,12 @@
                 color $color8
             }
 
+            p {
+                & + p {
+                    margin-top $indent4
+                }
+            }
+
             hr {
                 border 0
                 border-top 1px solid var(--borderColor)
