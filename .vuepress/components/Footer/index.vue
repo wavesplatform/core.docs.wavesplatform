@@ -16,9 +16,10 @@
                       :is-show-additional-text="false"
                       :class="$style.logotype"/>
               </a>
-              <div :class="$style.root__cell1__cell2">
-                  {{ footerI18n.broughtToYouByWavesTeam }}
-              </div>
+              <div
+                  :class="$style.root__cell1__cell2"
+                  v-html="footerI18n.broughtToYouByWavesTeam"
+              />
               <div :class="$style.root__cell1__cell3">
                   {{ footerI18n.copyright }}
               </div>
@@ -91,6 +92,7 @@
 
 
 <style lang="stylus" module>
+    @import '~@themeExtend/components/Footer';
     $resourcesCategoryPadding-t-b = 20px
     $resourcesCategoryPadding-l-r = $indent1
     $resourcesCategoryPadding_min = 3px
@@ -104,7 +106,6 @@
         margin-left (- $resourcesCategoryPadding-l-r)
         margin-right (- $resourcesCategoryPadding-l-r)
         padding 64px 0
-        background-color var(--borderColor)
         display flex
         justify-content center
         flex-wrap wrap
@@ -144,7 +145,7 @@
         font-stretch: normal;
         font-style: normal;
         letter-spacing: normal;
-        color $color9
+        color var(--color9)
     }
     .root__cell1__cell2 {
         margin-top 26px
@@ -194,6 +195,7 @@
         line-height: normal;
         letter-spacing: normal;
         word-break: break-word;
+        color var(--color14)
     }
     .categoryLinks {
         margin-top 29px
@@ -216,6 +218,6 @@
         font-stretch: normal;
         font-style: normal;
         letter-spacing: normal;
-        color $color9
+        color var(--color9)
     }
 </style>

@@ -260,7 +260,7 @@ export default {
             font-style: normal;
             letter-spacing: normal;
             /*line-height: 64px;*/
-            color $color9
+            color var(--color9)
         }
         /*&:-moz-placeholder { !* Firefox 18- *!
             line-height: 64px;

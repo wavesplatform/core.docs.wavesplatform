@@ -195,7 +195,7 @@
         /*text-align center*/
         /*padding 0 $indent2*/
         &:not(.onThisPageWrapper_withHeaders) {
-            color $color9
+            color var(--color9)
         }
     }
     .onThisPage {

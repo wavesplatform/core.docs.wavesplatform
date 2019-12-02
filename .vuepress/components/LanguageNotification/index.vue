@@ -215,7 +215,7 @@
         flex-shrink 0
         transition color $transitionS1, transform $transitionS1
         font-size 18px
-        color $color9
+        color var(--color9)
     }
     .closeTrigger__part1 {
 
@@ -261,7 +261,7 @@
         line-height: 1.33;
         letter-spacing: normal;
         text-align: center;
-        color $color9
+        color var(--color9)
         margin-top $indent1
     }
 </style>
