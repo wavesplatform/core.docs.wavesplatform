@@ -29,6 +29,8 @@
                       {{ footerI18n.email }}
                   </a>
               </div>
+
+              <SwitchLanguageType2 :class="$style.switchLanguage"/>
           </div>
 
           <div
@@ -66,11 +68,12 @@
 <script>
   import WidthLimit from '@theme/components/WidthLimit'
   import Logotype from '@theme/components/Logotype'
-
+  import SwitchLanguageType2 from '@theme/components/SwitchLanguage/Type2'
   export default {
     components: {
       WidthLimit,
       Logotype,
+      SwitchLanguageType2,
     },
 
     computed: {
@@ -158,6 +161,9 @@
     }
     .root__cell1__cell4 {
         margin-top 19px
+    }
+    .switchLanguage {
+
     }
     .logotypeLink {
         display flex
