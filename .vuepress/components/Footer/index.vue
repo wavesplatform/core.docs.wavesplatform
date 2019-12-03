@@ -131,6 +131,9 @@
     .root__cell {
         padding $resourcesCategoryPadding-t-b $resourcesCategoryPadding-l-r
         min-width 235px
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .root__cell1 {
@@ -163,7 +166,7 @@
         margin-top 19px
     }
     .switchLanguage {
-
+        margin-top $indent4
     }
     .logotypeLink {
         display flex
