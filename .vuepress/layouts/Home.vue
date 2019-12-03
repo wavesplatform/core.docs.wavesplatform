@@ -428,6 +428,9 @@
         letter-spacing: normal;
         padding 4px 10px
         background-color transparent
+        &:hover {
+            background-color transparent
+        }
     }
     .footer {
         flex-shrink 0

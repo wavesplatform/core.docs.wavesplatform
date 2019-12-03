@@ -163,6 +163,7 @@ export default {
 </script>
 
 <style lang="stylus" module>
+    @import '~@themeExtend/components/SearchBox';
     .searchBox {
         display inline-flex
         position relative
@@ -189,7 +190,6 @@ export default {
             letter-spacing: normal;
             padding-left: 38px
             &::placeholder {
-
                 font-size: 14px;
                 font-weight: normal;
                 font-stretch: normal;
@@ -250,8 +250,6 @@ export default {
         background-color var(--color2)
         background-size 1rem
         &:focus {
-            box-shadow inset 0 0 0 1px #EBEEF5, 0 2px 12px 0 rgba(0, 0, 0, .2)
-            /*border 1px solid var(--borderColor)*/
         }
         &::placeholder {
             font-size: 24px;
