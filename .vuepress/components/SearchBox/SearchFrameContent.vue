@@ -334,7 +334,7 @@
         border-bottom 1px solid var(--borderColor)
     }
     .minimumChartsLimitation {
-        color $color8
+        color var(--color8)
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
@@ -343,7 +343,7 @@
         letter-spacing: normal;
     }
     .root__cell2__part1 {
-        color $color8
+        color var(--color8)
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
@@ -403,7 +403,7 @@
     }
     .noResults {
         text-transform uppercase
-        color $color8
+        color var(--color8)
         padding 20px
         display flex
         justify-content center

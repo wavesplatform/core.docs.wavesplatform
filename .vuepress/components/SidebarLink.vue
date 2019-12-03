@@ -204,7 +204,7 @@
     }
     .sidebarLink_mod2 {
         white-space pre-wrap
-        color $color8
+        color var(--color8)
         &.sidebarLink_active {
         }
     }

@@ -139,7 +139,7 @@
 
         &:not(.tabsList__item_active) {
             cursor pointer
-            color $color8
+            color var(--color8)
             &:hover {
                 color var(--color7)
             }

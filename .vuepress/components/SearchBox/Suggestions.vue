@@ -269,7 +269,7 @@ export default {
                 }
             }
             .header {
-                color $color8
+                color var(--color8)
                 font-size: 16px
                 font-weight: normal;
                 font-stretch: normal;

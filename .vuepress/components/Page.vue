@@ -454,7 +454,7 @@
                 font-stretch: normal;
                 font-style: normal;
                 line-height: 1.75;
-                color $color8
+                color var(--color8)
             }
             p {
                 & + p {

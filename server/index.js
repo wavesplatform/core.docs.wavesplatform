@@ -4,10 +4,10 @@ const envIsDev = processEnv.isDev;
 const serverPort = envPort ? envPort :
     envIsDev ? 3000 : 3083
 ;
-// if(envIsDev) {
-//     const inspector = require('inspector');
-//     inspector.open(9229, '127.0.0.1');
-// }
+if(envIsDev) {
+    const inspector = require('inspector');
+    inspector.open(9229, '127.0.0.1');
+}
 const path = require('path');
 const Koa = require('koa');
 const serve = require('koa-static');
@@ -29,7 +29,6 @@ module.exports = async(vuepressDestPath) => {
     });
 
     app.use(async (ctx, next) => {
-
         const searchQuery = ctx.query.search;
         if (ctx.req.url === '/') {
             ctx.redirect('/en/');
@@ -43,9 +42,26 @@ module.exports = async(vuepressDestPath) => {
 
     app.use(
         serve(
-            vuepressDestPath
+            vuepressDestPath, {
+                gzip: true,
+                br: true,
+                extensions: ['html'],
+                setHeaders(res, path, stats) {
+                    // console.log('res, path, stats:', res, path, stats);
+                },
+            }
         )
     );
+
+    // app.use(async (ctx, next) => {
+    //     // req.url
+    //     console.log('ctx:', ctx);
+    //     ctx.request.url = ctx.request.url.replace('.html', '');
+    //
+    //     ctx.url = ctx.url.replace('.html', '123');
+    //     await next();
+    //
+    // });
 
     app.listen(serverPort, '0.0.0.0');
 

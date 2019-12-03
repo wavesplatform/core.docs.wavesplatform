@@ -140,6 +140,7 @@
                 />
             </WidthLimit>
             <PageNavigations
+                ref="pageNavigations2"
                 :sidebar-items="sidebarItems"
                 :class="$style.pageNavigations2"
                 :style="{
@@ -164,274 +165,276 @@
   import LanguageNotification from '@theme/components/LanguageNotification'
   // import ThemeControl from '@theme/components/ThemeControl'
 
-  import watchLayoutSizeMixin from '@theme/components/_mixins/watchLayoutSize'
-  import navbarResizeDetectorMixin from '@theme/components/_mixins/navbarResizeDetector'
+  import watchLayoutSizeMixin from './_mixins/watchLayoutSize'
+  import navbarResizeDetectorMixin from './_mixins/navbarResizeDetector'
   import searchMixin from '@theme/components/_mixins/search'
-  import setGlobalVm from '@theme/components/_mixins/setGlobalVm'
-
+  import setGlobalVm from './_mixins/setGlobalVm'
+  import mounted from './_mixins/mounted'
   import { resolveSidebarItems } from '../util'
 
   export default {
-    mixins: [
-      watchLayoutSizeMixin,
-      navbarResizeDetectorMixin,
-      searchMixin,
-      setGlobalVm,
-    ],
+      mixins: [
+          watchLayoutSizeMixin,
+          navbarResizeDetectorMixin,
+          searchMixin,
+          setGlobalVm,
+          mounted,
+      ],
 
-    components: {
-      Page,
-      Sidebar,
-      Navbar,
-      WidthLimit,
-      PageNavigations,
-      LanguageNotification,
-      // ThemeControl,
-    },
-
-    data () {
-      return {
-        sidebar1Mod: 1,
-        sidebar2Mod: 2,
-        rightSidebarMinWidthPx: 160,
-        pageNavigationsTranslateY: 0,
-        isShowPageNavigations2: false,
-      }
-    },
-
-    computed: {
-      isUserNaturalScrollState() {
-        return this.$store.state.interface.isUserNaturalScrollState;
-      },
-      documentElementScrollTop() {
-        return this.$store.state.interface.documentElementScrollTop;
-      },
-      isShowLanguageNotification() {
-        return this.$store.state.isShowLanguageNotification;
-      },
-      rightSidebarAlwaysVisiblePartWidth() {
-        return this.$store.state.interface.rightSidebarAlwaysVisiblePartWidth;
-      },
-      isRightSidebarResizingState() {
-        return this.$store.state.interface.isRightSidebarResizingState;
-      },
-      isOpenRightSidebar() {
-        return this.$store.state.interface.isOpenRightSidebar;
-      },
-      isOpenLeftSidebar() {
-        return this.$store.state.interface.isOpenLeftSidebar;
-      },
-      leftSidebarWidth() {
-        return this.$store.state.interface.leftSidebarWidth;
-      },
-      rightSidebarWidth() {
-        return this.$store.state.interface.rightSidebarWidth;
-      },
-      leftSidebarMinWidthPx () {
-        return this.$store.state.interface.leftSidebarMinWidthPx;
-      },
-      leftSidebarMinWidthPxPrepare() {
-        return this.layoutWidth > 719 ? this.leftSidebarMinWidthPx : 260;
-      },
-      layoutHeight() {
-        return this.$store.state.interface.layoutHeight;
-      },
-      mainContentHeight() {
-        return this.$store.state.interface.mainContentHeight;
-      },
-      sidebarItems () {
-        return resolveSidebarItems(
-          this.$page,
-          this.$page.regularPath,
-          this.$site,
-          this.$localePath
-        )
-      },
-      contentCellStyles() {
-        return {
-          marginTop: this.headerHeight + 'px',
-          paddingLeft: this.layoutWidth > 719 ? this.leftSidebarWidth + 'px' : '',
-
-          transform: (this.layoutWidth < 720 && this.isOpenLeftSidebar) ? `translateX(${this.leftSidebarWidth}px)` : '',
-
-          paddingRight: this.isOpenRightSidebar ?
-            this.rightSidebarWidth + 'px' :
-            (this.layoutWidth > 719 ? this.rightSidebarAlwaysVisiblePartWidth + 'px' : 0),
-
-          transition: this.isRightSidebarResizingState ? 'initial' : '',
-        }
-      },
-    },
-
-    watch: {
-      layoutWidth(newValue) {
-        this.computedAndSetMainContentPositionLeft();
-        this.computedPageNavigationsTranslateY();
-        if(newValue < 720) {
-          this.$store.commit('setDisplayRightSidebar', false);
-          this.$store.commit('setDisplayLeftSidebar', false);
-        } else {
-          this.$store.commit('setDisplayLeftSidebar', true);
-        }
-      },
-      layoutHeight() {
-        this.computedPageNavigationsTranslateY();
-      },
-      leftSidebarWidth() {
-        this.computedAndSetMainContentPositionLeft();
+      components: {
+          Page,
+          Sidebar,
+          Navbar,
+          WidthLimit,
+          PageNavigations,
+          LanguageNotification,
+          // ThemeControl,
       },
 
-      rightSidebarWidth() {
-        this.computedAndSetMainContentPositionLeft();
-      },
-
-      isOpenRightSidebar() {
-        this.computedAndSetMainContentPositionLeft();
-      },
-
-      isOpenLeftSidebar() {
-        this.computedAndSetMainContentPositionLeft();
-      },
-      mainContentHeight() {
-        this.computedPageNavigationsTranslateY();
-      },
-    },
-
-    beforeMount() {
-      if(!this.$isServer) {
-        this.setRouterScrollBehavior();
-      }
-    },
-
-    async mounted () {
-      this._prepare();
-      this.interval1 = null;
-      if(this.layoutWidth > 719) {
-        this.$store.commit('setDisplayLeftSidebar', true);
-      }
-      if(!this.$isServer) {
-        this.elementResizeDetector = this.$elementResizeDetectorMaker({
-          strategy: 'scroll'
-        });
-        window.addEventListener('scroll', this.windowScrollEventHandler);
-
-        this.root__contentCellElement.addEventListener('transitionstart', this.transitionstartHandler, false);
-        this.root__contentCellElement.addEventListener('transitionend', this.transitionendHandler, false);
-
-        this.windowScrollEventHandler();
-        this.computedAndSetMainContentPositionLeft();
-
-        this.elementResizeDetector.listenTo(this.root__contentCellElement, this.setMainContentHeightInStore);
-
-        this.computedPageNavigationsTranslateY();
-
-        // const hash = this.$route.hash
-        // await this.$nextTick();
-        // this.scrollBehavior({hash});
-      }
-    },
-
-    updated() {
-      this._prepare();
-    },
-
-    beforeDestroy() {
-      window.removeEventListener('scroll', this.windowScrollEventHandler);
-      this.root__contentCellElement.removeEventListener('transitionstart', this.transitionstartHandler, false);
-      this.root__contentCellElement.removeEventListener('transitionend', this.transitionendHandler, false);
-      this.elementResizeDetector.removeListener(this.pageElement, this.setMainContentHeightInStore);
-    },
-
-    methods: {
-      _prepare() {
-        this.root__contentCellElement = this.$refs.root__contentCell.$el;
-        this.pageElement = this.$refs.page.$el;
-      },
-
-      computedPageNavigationsTranslateY() {
-        const heightDifference = this.mainContentHeight - this.layoutHeight - this.headerHeight;
-        if(heightDifference > 0) {
-          this.pageNavigationsTranslateY = 0;
-          return;
-        }
-        this.pageNavigationsTranslateY = -(this.layoutHeight - this.mainContentHeight - this.headerHeight) /*- this.documentElementScrollTop*/;
-      },
-
-      setMainContentHeightInStore(element) {
-        this.$store.commit('setMainContentHeight', element.offsetHeight);
-      },
-
-      transitionstartHandler() {
-        this.interval1 = setInterval(this.computedAndSetMainContentPositionLeft, 0);
-      },
-
-      transitionendHandler() {
-        clearInterval(this.interval1);
-      },
-
-      async computedAndSetMainContentPositionLeft() {
-        await this.$nextTick()
-        this.$store.commit('setMainContentPositionLeft', this.pageElement.offsetLeft);
-      },
-
-      windowScrollEventHandler(event) {
-        this.$store.commit('setDocumentElementScrollTop', document.documentElement.scrollTop);
-      },
-
-      setSidebarResizeDetector (sidebarRefName, pageContentPaddingSide, callback) {
-        const element = this.$refs[sidebarRefName].$el
-        const resizeFunction = () => {
-          this[pageContentPaddingSide] = element.offsetWidth
-          if (callback) {
-            callback(element)
+      data() {
+          return {
+              sidebar1Mod: 1,
+              sidebar2Mod: 2,
+              rightSidebarMinWidthPx: 160,
+              pageNavigationsTranslateY: 0,
+              isShowPageNavigations2: false,
           }
-        }
-        this.elementResizeDetector.listenTo(element, resizeFunction)
-        return resizeFunction
       },
 
-      scrollBehavior(to, from, savedPosition) {
-        if(this.isUserNaturalScrollState) {
-          return
-        }
-        this.$store.commit('setScrollTopState', true);
-        if (savedPosition) {
-          return window.scrollTo({
-            top: savedPosition.y,
-            behavior: 'smooth',
-          }, () => this.$store.commit('setScrollTopState', false))
-        } else if (to.hash) {
-          const targetElement = document.querySelector(decodeURIComponent(to.hash))
+      computed: {
+          isUserNaturalScrollState() {
+              return this.$store.state.interface.isUserNaturalScrollState;
+          },
+          documentElementScrollTop() {
+              return this.$store.state.interface.documentElementScrollTop;
+          },
+          isShowLanguageNotification() {
+              return this.$store.state.isShowLanguageNotification;
+          },
+          rightSidebarAlwaysVisiblePartWidth() {
+              return this.$store.state.interface.rightSidebarAlwaysVisiblePartWidth;
+          },
+          isRightSidebarResizingState() {
+              return this.$store.state.interface.isRightSidebarResizingState;
+          },
+          isOpenRightSidebar() {
+              return this.$store.state.interface.isOpenRightSidebar;
+          },
+          isOpenLeftSidebar() {
+              return this.$store.state.interface.isOpenLeftSidebar;
+          },
+          leftSidebarWidth() {
+              return this.$store.state.interface.leftSidebarWidth;
+          },
+          rightSidebarWidth() {
+              return this.$store.state.interface.rightSidebarWidth;
+          },
+          leftSidebarMinWidthPx() {
+              return this.$store.state.interface.leftSidebarMinWidthPx;
+          },
+          leftSidebarMinWidthPxPrepare() {
+              return this.layoutWidth > 719 ? this.leftSidebarMinWidthPx : 260;
+          },
+          layoutHeight() {
+              return this.$store.state.interface.layoutHeight;
+          },
+          mainContentHeight() {
+              return this.$store.state.interface.mainContentHeight;
+          },
+          sidebarItems() {
+              return resolveSidebarItems(
+                  this.$page,
+                  this.$page.regularPath,
+                  this.$site,
+                  this.$localePath
+              )
+          },
+          contentCellStyles() {
+              return {
+                  marginTop: this.headerHeight + 'px',
+                  paddingLeft: this.layoutWidth > 719 ? this.leftSidebarWidth + 'px' : '',
 
-          if (targetElement) {
-            return window.scrollTo({
-              top: this.getAnchorElementPosition(targetElement).y,
-              behavior: 'smooth',
-            }, () => this.$store.commit('setScrollTopState', false))
+                  transform: (this.layoutWidth < 720 && this.isOpenLeftSidebar) ? `translateX(${this.leftSidebarWidth}px)` : '',
+
+                  paddingRight: this.isOpenRightSidebar ?
+                      this.rightSidebarWidth + 'px' :
+                      (this.layoutWidth > 719 ? this.rightSidebarAlwaysVisiblePartWidth + 'px' : 0),
+
+                  transition: this.isRightSidebarResizingState ? 'initial' : '',
+              }
+          },
+      },
+
+      watch: {
+          layoutWidth(newValue) {
+              this.computedAndSetMainContentPositionLeft();
+              this.computedPageNavigationsTranslateY();
+              if (newValue < 720) {
+                  this.$store.commit('setDisplayRightSidebar', false);
+                  this.$store.commit('setDisplayLeftSidebar', false);
+              } else {
+                  this.$store.commit('setDisplayLeftSidebar', true);
+              }
+          },
+          layoutHeight() {
+              this.computedPageNavigationsTranslateY();
+          },
+          leftSidebarWidth() {
+              this.computedAndSetMainContentPositionLeft();
+          },
+
+          rightSidebarWidth() {
+              this.computedAndSetMainContentPositionLeft();
+          },
+
+          isOpenRightSidebar() {
+              this.computedAndSetMainContentPositionLeft();
+          },
+
+          isOpenLeftSidebar() {
+              this.computedAndSetMainContentPositionLeft();
+          },
+          mainContentHeight() {
+              this.computedPageNavigationsTranslateY();
+          },
+      },
+
+      beforeMount() {
+          if (!this.$isServer) {
+              this.setRouterScrollBehavior();
           }
-          return false;
-        } else {
-          return window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-          }, () => this.$store.commit('setScrollTopState', false))
-        }
       },
 
-      setRouterScrollBehavior() {
-        this.$router.options.scrollBehavior = this.scrollBehavior
+      async mounted() {
+          this._prepare();
+          this.interval1 = null;
+          if (this.layoutWidth > 719) {
+              this.$store.commit('setDisplayLeftSidebar', true);
+          }
+          if (!this.$isServer) {
+              this.pageNavigations2Element = this.$refs.pageNavigations2.$el;
+              this.elementResizeDetector = this.$elementResizeDetectorMaker({
+                  strategy: 'scroll'
+              });
+              window.addEventListener('scroll', this.windowScrollEventHandler);
+
+              this.root__contentCellElement.addEventListener('transitionstart', this.transitionstartHandler, false);
+              this.root__contentCellElement.addEventListener('transitionend', this.transitionendHandler, false);
+
+              this.windowScrollEventHandler();
+              this.computedAndSetMainContentPositionLeft();
+
+              this.elementResizeDetector.listenTo(this.root__contentCellElement, this.setMainContentHeightInStore);
+
+              this.computedPageNavigationsTranslateY();
+
+              // const hash = this.$route.hash
+              // await this.$nextTick();
+              // this.scrollBehavior({hash});
+          }
       },
 
-      getAnchorElementPosition(targetElement) {
-        const documentElement = document.documentElement
-        const documentRect = documentElement.getBoundingClientRect()
-        const elementRect = targetElement.getBoundingClientRect()
-        return {
-          x: elementRect.left - documentRect.left,
-          y: elementRect.top - documentRect.top - this.headerHeight,
-        }
+      updated() {
+          this._prepare();
       },
-    }
+
+      beforeDestroy() {
+          window.removeEventListener('scroll', this.windowScrollEventHandler);
+          this.root__contentCellElement.removeEventListener('transitionstart', this.transitionstartHandler, false);
+          this.root__contentCellElement.removeEventListener('transitionend', this.transitionendHandler, false);
+          this.elementResizeDetector.removeListener(this.pageElement, this.setMainContentHeightInStore);
+      },
+
+      methods: {
+          _prepare() {
+              this.root__contentCellElement = this.$refs.root__contentCell.$el;
+              this.pageElement = this.$refs.page.$el;
+          },
+
+          computedPageNavigationsTranslateY() {
+              const heightDifference = this.mainContentHeight - this.layoutHeight - this.headerHeight + this.pageNavigations2Element.offsetHeight;
+              if (heightDifference > 0) {
+                  this.pageNavigationsTranslateY = 0;
+                  return;
+              }
+              this.pageNavigationsTranslateY = -(this.layoutHeight - this.mainContentHeight - this.headerHeight) /*- this.documentElementScrollTop*/;
+          },
+
+          setMainContentHeightInStore(element) {
+              this.$store.commit('setMainContentHeight', element.offsetHeight);
+          },
+
+          transitionstartHandler() {
+              this.interval1 = setInterval(this.computedAndSetMainContentPositionLeft, 0);
+          },
+
+          transitionendHandler() {
+              clearInterval(this.interval1);
+          },
+
+          async computedAndSetMainContentPositionLeft() {
+              await this.$nextTick()
+              this.$store.commit('setMainContentPositionLeft', this.pageElement.offsetLeft);
+          },
+
+          windowScrollEventHandler(event) {
+              this.$store.commit('setDocumentElementScrollTop', document.documentElement.scrollTop);
+          },
+
+          setSidebarResizeDetector(sidebarRefName, pageContentPaddingSide, callback) {
+              const element = this.$refs[sidebarRefName].$el
+              const resizeFunction = () => {
+                  this[pageContentPaddingSide] = element.offsetWidth
+                  if (callback) {
+                      callback(element)
+                  }
+              }
+              this.elementResizeDetector.listenTo(element, resizeFunction)
+              return resizeFunction
+          },
+
+          scrollBehavior(to, from, savedPosition) {
+              if (this.isUserNaturalScrollState) {
+                  return
+              }
+              this.$store.commit('setScrollTopState', true);
+              if (savedPosition) {
+                  return window.scrollTo({
+                      top: savedPosition.y,
+                      behavior: 'smooth',
+                  }, () => this.$store.commit('setScrollTopState', false))
+              } else if (to.hash) {
+                  const targetElement = document.querySelector(decodeURIComponent(to.hash))
+
+                  if (targetElement) {
+                      return window.scrollTo({
+                          top: this.getAnchorElementPosition(targetElement).y,
+                          behavior: 'smooth',
+                      }, () => this.$store.commit('setScrollTopState', false))
+                  }
+                  return false;
+              } else {
+                  return window.scrollTo({
+                      top: 0,
+                      behavior: 'smooth',
+                  }, () => this.$store.commit('setScrollTopState', false))
+              }
+          },
+
+          setRouterScrollBehavior() {
+              this.$router.options.scrollBehavior = this.scrollBehavior
+          },
+
+          getAnchorElementPosition(targetElement) {
+              const documentElement = document.documentElement
+              const documentRect = documentElement.getBoundingClientRect()
+              const elementRect = targetElement.getBoundingClientRect()
+              return {
+                  x: elementRect.left - documentRect.left,
+                  y: elementRect.top - documentRect.top - this.headerHeight,
+              }
+          },
+      }
   }
 </script>
 

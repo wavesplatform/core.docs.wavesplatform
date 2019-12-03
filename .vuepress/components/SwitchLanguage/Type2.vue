@@ -121,19 +121,6 @@
     .langList {
     }
     .langList__item {
-        padding 12px 16px
-        display flex
-        align-items center
-        justify-content space-between
-        &:hover {
-            background-color var(--color1)
-        }
-        &:not(.langList__item_active) {
-            cursor pointer
-            color var(--color7)
-            .checkMark {
-                opacity 0
-            }
-        }
+        background-color var(--color3)
     }
 </style>

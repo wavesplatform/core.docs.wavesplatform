@@ -106,6 +106,7 @@
         }
     }
     .root {
+        background-color var(--color3)
         margin-left (- $resourcesCategoryPadding-l-r)
         margin-right (- $resourcesCategoryPadding-l-r)
         padding 64px 0

@@ -237,7 +237,7 @@ export default {
         height 100%
         width 100%
         cursor pointer
-        color lighten($textColor, 25%)
+        color var(--color8)
         display inline-block
         border /*1px solid transparent*/none
         /*border-radius 4px*/

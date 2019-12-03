@@ -147,10 +147,11 @@
   import Footer from '@theme/components/Footer'
   // import ThemeControl from '@theme/components/ThemeControl'
 
-  import watchLayoutSizeMixin from '@theme/components/_mixins/watchLayoutSize'
-  import navbarResizeDetectorMixin from '@theme/components/_mixins/navbarResizeDetector'
+  import watchLayoutSizeMixin from './_mixins/watchLayoutSize'
+  import navbarResizeDetectorMixin from './_mixins/navbarResizeDetector'
   import searchMixin from '@theme/components/_mixins/search'
-  import setGlobalVm from '@theme/components/_mixins/setGlobalVm'
+  import setGlobalVm from './_mixins/setGlobalVm'
+  import mounted from './_mixins/mounted'
 
   export default {
     mixins: [
@@ -158,6 +159,7 @@
       navbarResizeDetectorMixin,
       searchMixin,
       setGlobalVm,
+      mounted,
     ],
 
     components: {
@@ -419,7 +421,7 @@
         letter-spacing: normal;
     }
     .categoryCard__link__button {
-        color $color8
+        color var(--color8)
         font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
