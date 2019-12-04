@@ -339,9 +339,9 @@
                 }
             }
             ul, ol {
-                margin-top $indent1
+                margin-top $indent4
                 & + p {
-                    margin-top $indent1
+                    margin-top $indent4
                 }
             }
             li {
