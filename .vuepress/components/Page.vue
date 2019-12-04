@@ -340,6 +340,9 @@
             }
             ul, ol {
                 margin-top $indent1
+                & + p {
+                    margin-top $indent1
+                }
             }
             li {
                 /*display flex*/
