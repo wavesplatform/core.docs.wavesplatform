@@ -266,7 +266,11 @@
         }
     }
     .pageContent {
+        & > :global(h1:first-of-type) {
+            padding-right $indent2
+        }
         :global {
+
             img {
                 max-width 100%
             }
@@ -369,6 +373,7 @@
             .header-anchor {
                 display none
             }
+
             h1 {
                 font-size: 34px;
                 font-weight: normal;
