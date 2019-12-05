@@ -40,8 +40,8 @@ module.exports = (ctx, mixin) => {
                 adminServerUrl: process.env.adminServerUrl
             },
             logo: '/waves-docs-logo.svg',
-            repo: 'vuejs/vuepress',
-            docsDir: 'packages/docs/docs',
+            docsDir: 'docs',
+            repo: 'https://github.com/wavesplatform/docs.wavesplatform',
         },
         plugins: [
             cleanUrlsPlugin,
