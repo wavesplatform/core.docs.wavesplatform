@@ -61,15 +61,15 @@ module.exports = async function(vuepressDestPath) {
     const vuepressPages = {};
 
     for(let vuepressPageParams of vuepressPagesParamsList) {
-        let vuepressPageRegularPath = vuepressPageParams.regularPath;
+        let vuepressPagePath = vuepressPageParams.path;
         const vuepressPageTitle = vuepressPageParams.title;
         const vuepressPageLocalePath = vuepressPageParams.localePath;
 
-        if(!vuepressPageRegularPath.includes('.html')) {
-            vuepressPageRegularPath = `${vuepressPageRegularPath}index.html`;
+        if(vuepressPagePath.slice(-1) === '/') {
+            vuepressPagePath = `${vuepressPagePath}index.html`;
         }
 
-        const pagePath = path.join(`${vuepressDestPath}/${vuepressPageRegularPath}`);
+        const pagePath = decodeURI(path.join(vuepressDestPath, vuepressPagePath));
         // const vuepressPageContent = await readFileAsync(pagePath)
         //     .then(result => {
         //         return result.toString()
@@ -88,7 +88,6 @@ module.exports = async function(vuepressDestPath) {
         //     }
         //     return pageElement.innerText;
         // });
-
         const vuepressPageContent = await readFileAsync(pagePath)
             .then(result => {
                 return result.toString()
@@ -107,15 +106,15 @@ module.exports = async function(vuepressDestPath) {
         // replace(/\n/g, "<br />");
         // await page.close();
 
-        vuepressPages[vuepressPageRegularPath] = {
-            path: vuepressPageRegularPath,
+        vuepressPages[vuepressPagePath] = {
+            path: vuepressPagePath,
             title: vuepressPageTitle,
             localePath: vuepressPageLocalePath,
             content: vuepressPageText.replace(/(?:\r\n|\r|\n)/g, ''),
         };
 
 
-        console.log('Parsed page:', vuepressPageRegularPath);
+        console.log('Parsed page:', vuepressPagePath);
     }
 
     // await browser.close();

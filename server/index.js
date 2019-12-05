@@ -10,7 +10,7 @@ if(envIsDev) {
 }
 const path = require('path');
 const Koa = require('koa');
-const serve = require('koa-static');
+const serve = require('./koa-static');
 const app = new Koa();
 const GetSearchResultByQuery = require('./getSearchResultByQuery');
 

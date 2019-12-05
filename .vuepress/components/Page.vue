@@ -355,7 +355,7 @@
                     }
                 }
                 &:not(:first-child) {
-                    margin-top 8px
+                    margin-top $indent8
                 }
                 &:before {
                     position absolute
@@ -368,6 +368,11 @@
                     background-color var(--color10)
                     border-radius 50%
                     flex-shrink 0
+                }
+                & > p {
+                    & + p {
+                        margin-top $indent8
+                    }
                 }
             }
             strong {

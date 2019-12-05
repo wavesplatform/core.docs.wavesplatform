@@ -7,6 +7,7 @@ const corePath = processEnv.corePath || packageName;
 const fs = require('fs');
 const webpack = require('webpack');
 const deepmerge = require('deepmerge');
+const cleanUrlsPlugin = require('vuepress-plugin-clean-urls');
 // const beforeDevServer = require('./beforeDevServer/');
 
 module.exports = (ctx, mixin) => {
@@ -43,6 +44,7 @@ module.exports = (ctx, mixin) => {
             docsDir: 'packages/docs/docs',
         },
         plugins: [
+            cleanUrlsPlugin,
             // ['pwa', {
             //     serviceWorker: true,
             //     updatePopup: true
@@ -50,6 +52,14 @@ module.exports = (ctx, mixin) => {
             // ['google-analytics', {
             //     ga: 'UA-128189152-1'
             // }],
+            // [
+            //     'vuepress-plugin-clean-urls',
+            //     {
+            //         normalSuffix: '',
+            //         indexSuffix: '',
+            //         notFoundPath: '/404.html',
+            //     },
+            // ],
         ],
         extraWatchFiles: [
             // '.vuepress/locales/**',
@@ -64,7 +74,7 @@ module.exports = (ctx, mixin) => {
                               ctx.pages.map(page => {
                                   return {
                                       title: page.title,
-                                      regularPath: page.regularPath,
+                                      path: page.path,
                                       localePath: page._localePath,
                                   };
                               })
