@@ -162,7 +162,6 @@
           container: '.medium-zoom-container',
           // template: '.medium-zoom-template',
         });
-        console.log('test:', test);
       },
       setCurrentActiveHeaderId() {
         if(this.isScrollTopState) {
