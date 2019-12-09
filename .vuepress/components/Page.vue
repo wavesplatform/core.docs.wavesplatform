@@ -155,7 +155,7 @@
               return;
           }
           this.mediumZoomInitOnPage = this.$page;
-        const test = mediumZoom(this.$refs.content.$el.querySelectorAll('img'), {
+        mediumZoom(this.$refs.content.$el.querySelectorAll('img'), {
           margin: 20,
           background: this.activeColorationConfigColors.color7_alpha1,
           scrollOffset: 0,
