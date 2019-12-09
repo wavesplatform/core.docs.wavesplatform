@@ -65,7 +65,6 @@
         mounted() {
             if(!this.$isServer) {
                 this.currentLangElement = this.$refs.currentLang.$el;
-                console.log('this.currentLangElement:', this.currentLangElement);
                 this.elementResizeDetector = this.$elementResizeDetectorMaker({
                     strategy: 'scroll'
                 });
