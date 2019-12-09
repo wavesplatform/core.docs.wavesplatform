@@ -58,6 +58,7 @@
       return {
         pageNavigationsTranslateY: 0,
         headersElements: [],
+        mediumZoomInitOnPage: null,
         // intersectionObserverOptions: {
         //     threshold: 0.0,
         //     rootMargin: '0% 0px',
@@ -150,13 +151,18 @@
 
     methods: {
       initMediumZoom() {
-        mediumZoom(this.$refs.content.$el.querySelectorAll('img'), {
+          if(this.$page === this.mediumZoomInitOnPage) {
+              return;
+          }
+          this.mediumZoomInitOnPage = this.$page;
+        const test = mediumZoom(this.$refs.content.$el.querySelectorAll('img'), {
           margin: 20,
           background: this.activeColorationConfigColors.color7_alpha1,
           scrollOffset: 0,
           container: '.medium-zoom-container',
           // template: '.medium-zoom-template',
         });
+        console.log('test:', test);
       },
       setCurrentActiveHeaderId() {
         if(this.isScrollTopState) {
