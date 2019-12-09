@@ -387,10 +387,7 @@
                 }
             }
             h2 {
-                //font-size 1.2rem
-                //padding-bottom .3rem
-                //border-bottom 1px solid var(--borderColor)
-                font-size: 34px;
+                font-size: 27px;
                 font-weight: normal;
                 font-stretch: normal;
                 font-style: normal;
@@ -405,7 +402,7 @@
                 padding-right $indent2
             }*/
             h3 {
-                font-size: 24px;
+                font-size: 23px;
                 font-weight: normal;
                 font-stretch: normal;
                 font-style: normal;
@@ -414,7 +411,7 @@
                 margin-top $indent4
             }
             h4 {
-                font-size: 20px;
+                font-size: 19px;
                 font-weight: normal;
                 font-stretch: normal;
                 font-style: normal;

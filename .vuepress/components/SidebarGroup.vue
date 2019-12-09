@@ -273,7 +273,7 @@
         }
 
         &:hover {
-            color $accentColor
+            /*color $accentColor*/
         }
     }
 

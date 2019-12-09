@@ -100,8 +100,9 @@
           }
         },
         goToPage(path) {
-          this.$store.commit('setSearchQuery', '')
+          this.$store.commit('setSearchQuery', '');
           this.$router.push(path);
+          this.$store.commit('setDisplaySearchResultWindow', false);
         }
     },
 
@@ -135,13 +136,13 @@
         &:hover {
             background-color var(--color2)
             border-radius 4px
-            .title__text {
-                text-decoration underline
+            .title {
+                color $color6
             }
         }
     }
     .title {
-        color $color4
+        color var(--color12)
         font-size: 16px;
         font-weight: normal;
         font-stretch: normal;

@@ -400,6 +400,10 @@
         width 100%
         color $color6
         border-color $color6
+        background-color transparent
+        &:hover {
+            background-color transparent
+        }
     }
     .noResults {
         text-transform uppercase
