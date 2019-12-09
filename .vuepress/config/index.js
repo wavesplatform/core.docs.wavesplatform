@@ -65,37 +65,43 @@ module.exports = (ctx, mixin) => {
             // '.vuepress/locales/**',
         ],
         configureWebpack(config, isServer) {
-            if (!isServer) {
-                config.resolve.alias[packageName] = corePath;
-                config.plugins.push({
-                    apply: (compiler) => {
-                        compiler.hooks.done.tap('compilationDone', (compilation) => {
-                            const pageListJson = JSON.stringify(
-                              ctx.pages.map(page => {
-                                  return {
-                                      title: page.title,
-                                      path: page.path,
-                                      localePath: page._localePath,
-                                  };
-                              })
-                            );
-                            fs.writeFile(`${rootConfig.dest}/documentation-files-map.json`, pageListJson, 'utf8', () => {
-                                console.log('documentation-files-map.json done');
-                            });
+            // console.log('config:',config);
+            // const fontsRule = config.module.rules.filter(rule => rule.__ruleNames.includes('fonts'));
+            // fontsRule.test = /\.(woff2?|eot|ttf|otf)(\?.*)?$/i;
 
-                        });
-                    }
-                });
+
+            config.resolve.alias[packageName] = corePath;
+
+            if (!isServer) {
                 config.plugins.push(
+                  {
+                      apply: (compiler) => {
+                          compiler.hooks.done.tap('compilationDone', (compilation) => {
+                              const pageListJson = JSON.stringify(
+                                ctx.pages.map(page => {
+                                    return {
+                                        title: page.title,
+                                        path: page.path,
+                                        localePath: page._localePath,
+                                    };
+                                })
+                              );
+                              fs.writeFile(`${rootConfig.dest}/documentation-files-map.json`, pageListJson, 'utf8', () => {
+                                  console.log('documentation-files-map.json done');
+                              });
+
+                          });
+                      }
+                  },
+
                   new webpack.EnvironmentPlugin({
                       isDev: process.env.isDev,
-                  })
+                  }),
+
                 );
             }
         },
-        // chainWebpack: (config, isServer) => {
-        //     // console.log('chainWebpack config:', config, isServer)
-        // },
+        // chainWebpack: (config, isServer) => {},
     }, mixin);
     return rootConfig;
 };

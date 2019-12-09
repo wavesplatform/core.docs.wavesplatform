@@ -17,8 +17,8 @@ import {
     Dialog,
     Notification,
 } from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-
+// import './index.scss'
+import 'element-ui/packages/theme-chalk/src/index.scss'
 
 export default async(context) => {
 
