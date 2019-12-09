@@ -7,7 +7,6 @@
             v-html="$themeLocaleConfig.langIconRawSvg"
             @click="toggleLangList"
         ></div>
-
         <el-card
             :class="[$style.langListCard, isShowLangList && $style.langListCard_isShow]"
             :body-style="{
