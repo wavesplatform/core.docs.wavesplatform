@@ -56,7 +56,12 @@
           const active = isActive(route, path + '#' + child.slug) || child.slug === decodeURI(this.$route.hash.slice(1));
 
           const elements = [
-            this.renderLink(h, path + '#' + child.slug, child.title, active),
+            this.renderLink(
+              h,
+              path + '#' + child.slug,
+              child.title,
+              active
+            ),
             this.renderChildren(h, {
               children: child.children,
               path,
@@ -66,7 +71,7 @@
               depth: depth + 1,
               mod
             })
-          ]
+          ];
           return h('li',
             {
               class: this.$style.sidebarSubHeader
