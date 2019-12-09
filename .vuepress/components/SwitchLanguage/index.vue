@@ -79,6 +79,7 @@
         transition .3
         margin-top 40px
         background-color var(--color13)
+        border none
         &:not(.langListCard_isShow) {
             visibility hidden
             opacity 0
