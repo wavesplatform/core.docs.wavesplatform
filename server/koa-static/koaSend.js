@@ -8,6 +8,7 @@ const createError = require('http-errors')
 const assert = require('assert')
 const fs = require('mz/fs')
 const { PassThrough, Writable } = require('stream');
+const htmlExtensionPartName = '.html';
 const {
     normalize,
     basename,
@@ -66,6 +67,10 @@ async function send (ctx, path, opts = {}) {
     if (index && trailingSlash) path += index
 
     path = resolvePath(root, path)
+
+    if(path.slice(-htmlExtensionPartName.length) === '.html') {
+        path = path.substr(0, path.length - htmlExtensionPartName.length);
+    }
 
     // hidden file support, ignore
     if (!hidden && isHidden(root, path)) return

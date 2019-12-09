@@ -65,10 +65,8 @@ module.exports = (ctx, mixin) => {
             // '.vuepress/locales/**',
         ],
         configureWebpack(config, isServer) {
-            // console.log('config:',config);
             // const fontsRule = config.module.rules.filter(rule => rule.__ruleNames.includes('fonts'));
             // fontsRule.test = /\.(woff2?|eot|ttf|otf)(\?.*)?$/i;
-
 
             config.resolve.alias[packageName] = corePath;
 
