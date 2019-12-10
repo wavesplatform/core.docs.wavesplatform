@@ -45,7 +45,6 @@
   import WidthLimit from '@theme/components/WidthLimit'
   import { outboundRE, endingSlashRE } from '../util'
   export default {
-
     components: {
       WidthLimit,
     },
@@ -139,6 +138,7 @@
       if(!this.$isServer) {
         this.updateHeadersElements();
         this.initMediumZoom();
+        vm.pageContentElement = this.$refs.root.$el;
       }
     },
 

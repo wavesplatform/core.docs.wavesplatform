@@ -10,7 +10,8 @@ if(envIsDev) {
 }
 const path = require('path');
 const Koa = require('koa');
-const serve = require('./koa-static');
+console.log('global.coreRootPath:', global.coreRootPath)
+const serve = require(path.join(global.coreRootPath, 'utils/koa-static'));
 const app = new Koa();
 const GetSearchResultByQuery = require('./getSearchResultByQuery');
 
@@ -45,7 +46,7 @@ module.exports = async(vuepressDestPath) => {
             vuepressDestPath, {
                 gzip: true,
                 br: true,
-                extensions: ['html'],
+                extensions: ['html', 'pdf'],
                 setHeaders(res, path, stats) {
                     // console.log('res, path, stats:', res, path, stats);
                 },

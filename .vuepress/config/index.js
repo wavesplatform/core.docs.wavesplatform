@@ -2,13 +2,16 @@ const processEnv = process.env;
 const envPort = processEnv.port || 3083;
 const envHost = processEnv.host || '0.0.0.0';
 const path = require('path');
-const packageName = require(path.join(__dirname, '../../package.json')).name;
+const packageName = require(path.join(global.coreRootPath, 'package.json')).name;
 const corePath = processEnv.corePath || packageName;
 const fs = require('fs');
 const webpack = require('webpack');
 const deepmerge = require('deepmerge');
 const cleanUrlsPlugin = require('vuepress-plugin-clean-urls');
 // const beforeDevServer = require('./beforeDevServer/');
+
+const makePdfPages = require('./makePdfPages');
+
 
 module.exports = (ctx, mixin) => {
     const rootConfig = deepmerge({
@@ -67,27 +70,32 @@ module.exports = (ctx, mixin) => {
         configureWebpack(config, isServer) {
             // const fontsRule = config.module.rules.filter(rule => rule.__ruleNames.includes('fonts'));
             // fontsRule.test = /\.(woff2?|eot|ttf|otf)(\?.*)?$/i;
-
+            // console.log('process:', process);
             config.resolve.alias[packageName] = corePath;
 
-            if (!isServer) {
+            if (!isServer && process.argv.includes('build')) {
                 config.plugins.push(
                   {
-                      apply: (compiler) => {
+                      apply(compiler) {
+                          const vuepressDestPath = rootConfig.dest;
                           compiler.hooks.done.tap('compilationDone', (compilation) => {
+                              const pagePaths = [];
                               const pageListJson = JSON.stringify(
                                 ctx.pages.map(page => {
+                                    const pagePath = page.path;
+                                    pagePaths.push(pagePath);
                                     return {
                                         title: page.title,
-                                        path: page.path,
+                                        path: pagePath,
                                         localePath: page._localePath,
                                     };
                                 })
                               );
-                              fs.writeFile(`${rootConfig.dest}/documentation-files-map.json`, pageListJson, 'utf8', () => {
+                              fs.writeFile(`${vuepressDestPath}/documentation-files-map.json`, pageListJson, 'utf8', () => {
                                   console.log('documentation-files-map.json done');
                               });
-
+                              console.log('pagePaths:', pagePaths);
+                              makePdfPages(vuepressDestPath, pagePaths);
                           });
                       }
                   },

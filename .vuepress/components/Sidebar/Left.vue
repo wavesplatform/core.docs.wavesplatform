@@ -103,7 +103,19 @@
                 </VueScrollbar>
             </div>
 
-
+            <div :class="[$styleLeft.downloadPageInPdfWrapper, $styleLeft.backToIndexWrapper]">
+                <a
+                    :href="downloadPageInPdfLink"
+                    target="_blank"
+                    :class="$styleLeft.backToIndexLink"
+                >
+                    <el-button
+                            :class="$styleLeft.backToIndex"
+                    >
+                        Download page in PDF
+                    </el-button>
+                </a>
+            </div>
 
         </div>
 
@@ -198,7 +210,17 @@
       },
       isShow () {
         return this.$store.state.interface.isOpenLeftSidebar
-      }
+      },
+        downloadPageInPdfLink() {
+          const routePath = this.$route.path;
+          let downloadPageInPdfLink = routePath;
+          if(routePath.slice(-1) === '/') {
+              const routePathSplit = routePath.split('/');
+
+              downloadPageInPdfLink = routePathSplit.slice(0, routePathSplit.length - 2).join('/') + '/' + routePathSplit[routePathSplit.length - 2];
+          }
+          return downloadPageInPdfLink + '.pdf';
+        },
     },
 
     watch: {
@@ -246,6 +268,13 @@
 
 <style lang="stylus" module="$styleLeft">
     $foggingElementSize = 15px;
+
+
+    .downloadPageInPdfWrapper {
+        margin 20px 0;
+        justify-content center !important
+    }
+
     .sidebarWrapper {
         flex-shrink 0
         transition transform $transitionS1

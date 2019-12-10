@@ -1,3 +1,4 @@
+global.coreRootPath = __dirname;
 const getVuepressConfig = require('./.vuepress/config');
 // const vuepressEnhanceApp = require('./.vuepress/enhanceApp');
 const runServer = require('./server');

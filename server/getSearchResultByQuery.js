@@ -209,8 +209,6 @@ module.exports = async function(vuepressDestPath) {
                 if(substringTextLength < textLeftRightRangeLength) {
                     textSubstring = cutStringForSide(side, textSubstring, textLeftRightRangeLength);
                 }
-
-
                 group.push(textSubstring)
             }
 
@@ -279,12 +277,7 @@ module.exports = async function(vuepressDestPath) {
         const fuseSearchResult = fuse.search(searchQueryString);
 
         const dataPreparedForSending = fuseSearchResult.map(page => {
-
-
-
-
                 const matches = page.matches;
-
 
                 const titleMatches = matches.find(item => item.key === 'title');
                 const contentMatches = matches.find(item => item.key === 'content');
