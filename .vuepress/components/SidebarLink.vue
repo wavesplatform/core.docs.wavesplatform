@@ -40,15 +40,14 @@
       },
 
       renderChildren (h, { children, path, route, $store, maxDepth, depth = 1, mod }) {
-        if (!children) {
+        if(
+            !children ||
+            !children.length ||
+            depth > maxDepth
+        ) {
           return null
         }
-        if (!children || depth > maxDepth) {
-          return null
-        }
-        if (!children && !children.length) {
-          return null
-        }
+
         const listWithHeadersAnchors = h('ul', {
           class: this.$style.sidebarSubHeaders
         }, children.map(child => {
@@ -136,7 +135,7 @@
           $store,
           maxDepth,
           mod
-        })
+        });
 
         let result = [link]
 
@@ -162,63 +161,74 @@
 </script>
 
 <style lang="stylus" module>
-    .sidebarSubHeaders {
 
-    }
-    .sidebarSubHeader {
-        display flex
-        padding-top 10px
-    }
-    .sidebarLinkWrapper {
-        display flex
-    }
-    .sidebarLink {
-        font-size: 14px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        color var(--color12)
-        /*white-space nowrap*/
+	.sidebarSubHeaders {
+		display flex
+		flex-direction column
+	}
 
-        display inline-flex
-        align-items baseline
-        width: 100%
+	.sidebarSubHeader {
+		display flex
+		padding-top 10px
+		flex-direction column
+		.sidebarSubHeaders {
+			padding-left $indent1
+		}
+	}
 
-        &:hover {
-            color $color6
-        }
-        &.sidebarLink_active {
-            color $color6
-        }
-    }
+	.sidebarLinkWrapper {
+		display flex
+	}
+
+	.sidebarLink {
+		font-size: 14px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		color var(--color12)
+		/*white-space nowrap*/
+		transition color $transitionS1
+		display inline-flex
+		align-items baseline
+		width: 100%
+
+		&:hover {
+			color $color6
+		}
+
+		&.sidebarLink_active {
+			color $color6
+		}
+	}
 
 
-    .sidebarLink_mod0 {
-        white-space nowrap
-        &.sidebarLink_active {
-            font-weight 500
-        }
-    }
-    .sidebarLink_mod1 {
-        white-space nowrap
-        &.sidebarLink_active {
-            font-weight 500
-        }
-    }
-    .sidebarLink_mod2 {
-        white-space pre-wrap
-        color var(--color8)
-        &.sidebarLink_active {
-        }
-    }
+	.sidebarLink_mod0 {
+		white-space nowrap
 
-    .sidebarSubHeaders {
+		&.sidebarLink_active {
+			font-weight 500
+		}
+	}
 
-    }
+	.sidebarLink_mod1 {
+		white-space nowrap
 
-    .sidebarGroup {
-        padding-left 2rem
-    }
+		&.sidebarLink_active {
+			font-weight 500
+		}
+	}
+
+	.sidebarLink_mod2 {
+		white-space pre-wrap
+		color var(--color8)
+
+		&.sidebarLink_active {
+		}
+	}
+
+	.sidebarGroup {
+		padding-left 2rem
+	}
 </style>

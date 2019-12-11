@@ -90,15 +90,15 @@
       lastUpdated () {
         return this.$page.lastUpdated
       },
-      lastUpdatedText () {
-        if (typeof this.$themeLocaleConfig.lastUpdated === 'string') {
-          return this.$themeLocaleConfig.lastUpdated
-        }
-        if (typeof this.$site.themeConfig.lastUpdated === 'string') {
-          return this.$site.themeConfig.lastUpdated
-        }
-        return 'Last Updated'
-      },
+      // lastUpdatedText () {
+      //   if (typeof this.$themeLocaleConfig.lastUpdated === 'string') {
+      //     return this.$themeLocaleConfig.lastUpdated
+      //   }
+      //   if (typeof this.$site.themeConfig.lastUpdated === 'string') {
+      //     return this.$site.themeConfig.lastUpdated
+      //   }
+      //   return 'Last Updated'
+      // },
 
       editLink () {
         const {
@@ -115,13 +115,13 @@
               + this.$page.relativePath;
       },
 
-      editLinkText () {
-        return (
-          this.$themeLocaleConfig.editLinkText
-          || this.$site.themeConfig.editLinkText
-          || 'Edit'
-        )
-      }
+      // editLinkText () {
+      //   return (
+      //     this.$themeLocaleConfig.editLinkText
+      //     || this.$site.themeConfig.editLinkText
+      //     || 'Edit'
+      //   )
+      // }
     },
 
     watch: {
@@ -219,7 +219,9 @@
       },
 
       updateHeadersElements () {
-        let headers = this.$page.headers
+        let headers = this.$page.headers;
+        let sidebarDepth = this.$frontmatter.sidebarDepth || 1;
+
         // this.headersElements.forEach(headersElement => {
         //   this.interactionObserver.unobserve(headersElement);
         // });
@@ -227,12 +229,10 @@
           return
         }
         headers = headers.filter(header => {
-          return header.level < 3;
+          return header.level <= sidebarDepth + 1;
         });
         this.headersElements = headers.map(header => {
-          const headerElement = document.querySelector(`#${header.slug}`);
-          // this.interactionObserver.observe(headerElement);
-          return headerElement;
+          return document.querySelector(`#${header.slug}`);
         });
       },
 
