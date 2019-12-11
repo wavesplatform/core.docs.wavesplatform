@@ -19,7 +19,6 @@ module.exports = (ctx, mixin) => {
         serviceWorker: false,
         host: envHost,
         port: envPort,
-        temp: path.join(__dirname, '../.temp'),
         head: [
             ['link', { rel: 'icon', href: `/favicon-32x32.png` }],
             ['link', { rel: 'manifest', href: '/manifest.json' }],
@@ -35,6 +34,7 @@ module.exports = (ctx, mixin) => {
             ['meta', { name: 'msapplication-TileImage', content: '/icons/msapplication-icon-144x144.png' }],
             ['meta', { name: 'msapplication-TileColor', content: '#000000' }]
         ],
+        temp: path.join(__dirname, '../.temp'),
         theme: path.join(__dirname, '../'),
         themeConfig: {
             buildDate: new Date(),
