@@ -137,7 +137,14 @@
       //   this.interactionObserver = new IntersectionObserver(this.intersectionObserverCallback, this.intersectionObserverOptions);
       if(!this.$isServer) {
         this.updateHeadersElements();
-        this.initMediumZoom();
+        this.mediumZoomInstance = mediumZoom(/*this.$refs.content.$el.querySelectorAll('img'),*/ {
+            margin: 20,
+            background: this.activeColorationConfigColors.color7_alpha1,
+            scrollOffset: 0,
+            container: '.medium-zoom-container',
+            // template: '.medium-zoom-template',
+        });
+        this.attachToMediumZoom();
         vm.pageContentElement = this.$refs.root.$el;
       }
     },
@@ -145,23 +152,34 @@
     updated () {
       if (!this.$isServer) {
         this.updateHeadersElements();
-        this.initMediumZoom();
+        this.attachToMediumZoom();
       }
     },
 
     methods: {
-      initMediumZoom() {
+      async attachToMediumZoom() {
           if(this.$page === this.mediumZoomInitOnPage) {
               return;
           }
           this.mediumZoomInitOnPage = this.$page;
-        mediumZoom(this.$refs.content.$el.querySelectorAll('img'), {
-          margin: 20,
-          background: this.activeColorationConfigColors.color7_alpha1,
-          scrollOffset: 0,
-          container: '.medium-zoom-container',
-          // template: '.medium-zoom-template',
-        });
+          this.mediumZoomInstance.detach();
+          const imagesElements = [...this.$refs.content.$el.querySelectorAll('img')];
+          const imagesWithZoom = [];
+          for(const imageElement of imagesElements) {
+              if(!imageElement.complete) {
+                  await new Promise(resolve => {
+                      imageElement.onload = resolve;
+                  });
+              }
+              if(
+                      imageElement.width < imageElement.naturalWidth
+                      ||
+                      imageElement.height < imageElement.naturalHeight
+              ) {
+                  imagesWithZoom.push(imageElement);
+              }
+          }
+          this.mediumZoomInstance.attach(...imagesWithZoom);
       },
       setCurrentActiveHeaderId() {
         if(this.isScrollTopState) {
@@ -278,6 +296,7 @@
 
             img {
                 max-width 100%
+                max-height 40vh
             }
             //pre.vue-container
             //    border-left-width: .5rem;
@@ -337,7 +356,7 @@
                 position relative
                 &:hover {
                     &:before {
-                        background-color $color6
+                        /*background-color $color6*/
                     }
                 }
                 &:not(:first-child) {

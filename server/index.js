@@ -46,7 +46,7 @@ module.exports = async(vuepressDestPath) => {
             vuepressDestPath, {
                 gzip: true,
                 br: true,
-                extensions: ['html', 'pdf'],
+                extensions: ['html'/*, 'pdf'*/],
                 setHeaders(res, path, stats) {
                     // console.log('res, path, stats:', res, path, stats);
                 },

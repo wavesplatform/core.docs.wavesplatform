@@ -217,8 +217,10 @@
           if(routePath.slice(-1) === '/') {
               const routePathSplit = routePath.split('/');
 
-              downloadPageInPdfLink = routePathSplit.slice(0, routePathSplit.length - 2).join('/') + '/' + routePathSplit[routePathSplit.length - 2];
+              downloadPageInPdfLink = routePathSplit.slice(0, routePathSplit.length - 3).join('/') + '/' + routePathSplit[routePathSplit.length - 2];
+
           }
+
           return downloadPageInPdfLink + '.pdf';
         },
     },

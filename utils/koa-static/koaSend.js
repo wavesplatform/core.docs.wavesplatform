@@ -6,7 +6,6 @@ const debug = require('debug')('koa-send')
 const resolvePath = require('resolve-path')
 const createError = require('http-errors')
 const assert = require('assert')
-const nodeFs = require('fs')
 const fs = require('mz/fs')
 const { PassThrough, Writable } = require('stream');
 const htmlExtensionPartName = '.html';
@@ -69,15 +68,12 @@ async function send (ctx, path, opts = {}) {
 
     path = resolvePath(root, path)
 
-
     if(path.slice(-htmlExtensionPartName.length) === '.html') {
         path = path.substr(0, path.length - htmlExtensionPartName.length);
     }
 
     // hidden file support, ignore
     if (!hidden && isHidden(root, path)) return
-
-    console.log('path1:');
 
     let encodingExt = ''
     // serve brotli file when possible otherwise gzipped file when possible
@@ -92,7 +88,7 @@ async function send (ctx, path, opts = {}) {
         ctx.res.removeHeader('Content-Length')
         encodingExt = '.gz'
     }
-    console.log('path1_2:');
+
     if (extensions && !/\.[^/]*$/.exec(path)) {
         const list = [].concat(extensions)
         for (let i = 0; i < list.length; i++) {
@@ -112,13 +108,7 @@ async function send (ctx, path, opts = {}) {
     // stat
     let stats
     try {
-        console.log('path1_3:');
         stats = await fs.stat(path)
-        console.log('path1_3:');
-        // stats = await nodeFs.stat(path, (stat) => {
-        //     console.log('stat:', stat);
-        // })
-        console.log('path2:', stats);
         // Format the path to serve static file servers
         // and not require a trailing slash for directories,
         // so that you can do both `/directory` and `/directory/`
