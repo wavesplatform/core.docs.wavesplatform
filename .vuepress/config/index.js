@@ -1,6 +1,7 @@
 const processEnv = process.env;
 const envPort = processEnv.port || 3083;
 const envHost = processEnv.host || '0.0.0.0';
+const envMakePdf = processEnv.makePdf;
 const path = require('path');
 const packageName = require(path.join(global.coreRootPath, 'package.json')).name;
 const corePath = processEnv.corePath || packageName;
@@ -10,7 +11,11 @@ const deepmerge = require('deepmerge');
 const cleanUrlsPlugin = require('vuepress-plugin-clean-urls');
 // const beforeDevServer = require('./beforeDevServer/');
 
-const makePdfPages = require('./makePdfPages');
+let makePdfPages = null;
+if(envMakePdf) {
+    makePdfPages = require('./makePdfPages');
+}
+
 
 
 module.exports = (ctx, mixin) => {
@@ -94,8 +99,9 @@ module.exports = (ctx, mixin) => {
                               fs.writeFile(`${vuepressDestPath}/documentation-files-map.json`, pageListJson, 'utf8', () => {
                                   console.log('documentation-files-map.json done');
                               });
-                              console.log('pagePaths:', pagePaths);
-                              makePdfPages(vuepressDestPath, pagePaths);
+                              if(envMakePdf) {
+                                  makePdfPages(vuepressDestPath, pagePaths);
+                              }
                           });
                       }
                   },

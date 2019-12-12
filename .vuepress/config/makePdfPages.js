@@ -64,9 +64,12 @@ const magePdfPages = async (vuepressDestPath, pagePaths = []) => {
       // width: 1440,
       // height: 0,
       scale: 1,
-      // margin: {
-      //   top: 0,
-      // },
+      margin: {
+        top: 30,
+        bottom: 30,
+        left: 30,
+        right: 30,
+      },
       displayHeaderFooter: false,
       // headerTemplate: '',
       // footerTemplate: '',
