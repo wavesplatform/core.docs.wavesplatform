@@ -148,12 +148,12 @@
         this.attachToMediumZoom();
 
         this.scrollToHashElement(this.$route.hash);
-        // window.scrollTo()
       }
     },
 
     updated () {
       if (!this.$isServer) {
+          console.log('updated')
         this.updateHeadersElements();
         this.attachToMediumZoom();
       }
@@ -161,8 +161,13 @@
 
     methods: {
         scrollToHashElement(hash) {
-            console.log('scrollToHashElement', );
-            document.querySelector(hash)
+            const element = document.querySelector(hash);
+            const rootElement = this.$refs.root.$el;
+            window.scrollTo({
+                behavior: 'smooth',
+                top: element.offsetTop + parseInt(window.getComputedStyle(rootElement, null).getPropertyValue('padding-top')),
+            })
+
         },
       async attachToMediumZoom() {
           if(this.$page === this.mediumZoomInitOnPage) {
