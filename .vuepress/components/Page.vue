@@ -177,7 +177,7 @@
             const rootElement = this.$refs.root.$el;
             window.scrollTo({
                 behavior: 'smooth',
-                top: element.offsetTop + /*parseInt(window.getComputedStyle(rootElement, null).getPropertyValue('padding-top')) +*/ this.headerHeight,
+                top: element.offsetTop /*parseInt(window.getComputedStyle(rootElement, null).getPropertyValue('padding-top')) +*/ ,
             }, () => {
                 this.$store.commit('setScrollTopState', false);
             });
