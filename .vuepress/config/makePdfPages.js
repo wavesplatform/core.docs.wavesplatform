@@ -54,6 +54,14 @@ const magePdfPages = async (vuepressDestPath, pagePaths = []) => {
       const bodyElement = document.body;
       bodyElement.innerHTML = '';
       bodyElement.append(vm.pageContentElement);
+      const editLinkElement = vm.editLinkElement;
+      if(editLinkElement) {
+        editLinkElement.remove();
+      }
+
+      document.documentElement.style.setProperty('--color11', 'rgba(255, 255, 255, 0)');
+      document.documentElement.style.setProperty('--color7', '#000000');
+
     });
     await page.emulateMedia('screen');
     await page.pdf({
@@ -71,8 +79,8 @@ const magePdfPages = async (vuepressDestPath, pagePaths = []) => {
         right: 30,
       },
       displayHeaderFooter: true,
-      headerTemplate: '<div>HEADER pageNumber : {{pageNumber}}</div>',
-      footerTemplate: '<div>FOOTER pageNumber : {{pageNumber}}</div>',
+      headerTemplate: '<div style="font-size: 30px">HEADER pageNumber : {{pageNumber}}</div>',
+      footerTemplate: '<div style="font-size: 30px">FOOTER pageNumber : {{pageNumber}}</div>',
       landscape: false,
       // preferCSSPageSize: false,
     });

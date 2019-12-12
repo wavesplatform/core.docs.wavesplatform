@@ -38,12 +38,13 @@
 
 <style lang="stylus" module>
     .root {
+        backdrop-filter blur(4px)
         display flex
         height 72px
         border-bottom 1px solid var(--borderColor)
         justify-content center
         width 100%
-        background-color var(--color11)
+        background-color var(--color11_alpha2)
         @media screen and (max-width: 719px) {
             height 57px
         }

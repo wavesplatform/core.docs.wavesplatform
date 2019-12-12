@@ -10,6 +10,7 @@
         <slot name="top"/>
         <div :class="$style.page__header">
           <div
+              ref="editLink"
               :class="$style.editLinkWrapper"
             v-if="editLink"
           >
@@ -128,18 +129,18 @@
           // '$route.hash'(newValue) {
           //     console.log('newValue:', newValue);
           // },
-          documentElementScrollTop() {
-              this.setCurrentActiveHeaderId();
-          },
+          // documentElementScrollTop() {
+          //     this.setCurrentActiveHeaderId();
+          // },
           mainContentHeight() {
               this.setCurrentActiveHeaderId();
           },
       },
 
-    mounted () {
+    async mounted () {
       if(!this.$isServer) {
-
           vm.pageContentElement = this.$refs.root.$el;
+          vm.editLinkElement = this.$refs.editLink;
         this.updateHeadersElements();
         this.mediumZoomInstance = mediumZoom(/*this.$refs.content.$el.querySelectorAll('img'),*/ {
             margin: 20,
@@ -150,13 +151,17 @@
         });
         this.attachToMediumZoom();
 
+        await this.$nextTick();
         this.scrollToHashElement(this.$route.hash);
+          await this.$nextTick();
+          this.$watch('documentElementScrollTop', () => {
+              this.setCurrentActiveHeaderId();
+          });
       }
     },
 
     updated () {
       if (!this.$isServer) {
-          console.log('updated')
         this.updateHeadersElements();
         this.attachToMediumZoom();
       }
@@ -172,7 +177,7 @@
             const rootElement = this.$refs.root.$el;
             window.scrollTo({
                 behavior: 'smooth',
-                top: element.offsetTop + parseInt(window.getComputedStyle(rootElement, null).getPropertyValue('padding-top')),
+                top: element.offsetTop + /*parseInt(window.getComputedStyle(rootElement, null).getPropertyValue('padding-top')) +*/ this.headerHeight,
             }, () => {
                 this.$store.commit('setScrollTopState', false);
             });
@@ -202,7 +207,6 @@
           this.mediumZoomInstance.attach(...imagesWithZoom);
       },
       setCurrentActiveHeaderId() {
-            return;
         if(this.isScrollTopState) {
           return;
         }
