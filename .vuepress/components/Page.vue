@@ -134,8 +134,9 @@
     },
 
     mounted () {
-      //   this.interactionObserver = new IntersectionObserver(this.intersectionObserverCallback, this.intersectionObserverOptions);
       if(!this.$isServer) {
+
+          vm.pageContentElement = this.$refs.root.$el;
         this.updateHeadersElements();
         this.mediumZoomInstance = mediumZoom(/*this.$refs.content.$el.querySelectorAll('img'),*/ {
             margin: 20,
@@ -145,7 +146,9 @@
             // template: '.medium-zoom-template',
         });
         this.attachToMediumZoom();
-        vm.pageContentElement = this.$refs.root.$el;
+
+        this.scrollToHashElement(this.$route.hash);
+        // window.scrollTo()
       }
     },
 
@@ -157,6 +160,10 @@
     },
 
     methods: {
+        scrollToHashElement(hash) {
+            console.log('scrollToHashElement', );
+            document.querySelector(hash)
+        },
       async attachToMediumZoom() {
           if(this.$page === this.mediumZoomInitOnPage) {
               return;
