@@ -52,7 +52,7 @@ const magePdfPages = async (vuepressDestPath, pagePaths = []) => {
         return;
       }
       const bodyElement = document.body;
-      bodyElement.innerHTML='';
+      bodyElement.innerHTML = '';
       bodyElement.append(vm.pageContentElement);
     });
     await page.emulateMedia('screen');
@@ -70,9 +70,9 @@ const magePdfPages = async (vuepressDestPath, pagePaths = []) => {
         left: 30,
         right: 30,
       },
-      displayHeaderFooter: false,
-      // headerTemplate: '',
-      // footerTemplate: '',
+      displayHeaderFooter: true,
+      headerTemplate: '<div>HEADER pageNumber : {{pageNumber}}</div>',
+      footerTemplate: '<div>FOOTER pageNumber : {{pageNumber}}</div>',
       landscape: false,
       // preferCSSPageSize: false,
     });

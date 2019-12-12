@@ -124,14 +124,17 @@
       // }
     },
 
-    watch: {
-      documentElementScrollTop() {
-        this.setCurrentActiveHeaderId();
+      watch: {
+          // '$route.hash'(newValue) {
+          //     console.log('newValue:', newValue);
+          // },
+          documentElementScrollTop() {
+              this.setCurrentActiveHeaderId();
+          },
+          mainContentHeight() {
+              this.setCurrentActiveHeaderId();
+          },
       },
-      mainContentHeight() {
-        this.setCurrentActiveHeaderId();
-      },
-    },
 
     mounted () {
       if(!this.$isServer) {
@@ -161,13 +164,18 @@
 
     methods: {
         scrollToHashElement(hash) {
+            if(!hash) {
+                return
+            }
+            this.$store.commit('setScrollTopState', true);
             const element = document.querySelector(hash);
             const rootElement = this.$refs.root.$el;
             window.scrollTo({
                 behavior: 'smooth',
                 top: element.offsetTop + parseInt(window.getComputedStyle(rootElement, null).getPropertyValue('padding-top')),
-            })
-
+            }, () => {
+                this.$store.commit('setScrollTopState', false);
+            });
         },
       async attachToMediumZoom() {
           if(this.$page === this.mediumZoomInitOnPage) {
@@ -194,6 +202,7 @@
           this.mediumZoomInstance.attach(...imagesWithZoom);
       },
       setCurrentActiveHeaderId() {
+            return;
         if(this.isScrollTopState) {
           return;
         }
