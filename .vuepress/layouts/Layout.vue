@@ -294,10 +294,6 @@
           },
       },
 
-      beforeCreate() {
-        console.log('this.', this)
-      },
-
       beforeMount() {
           if (!this.$isServer) {
               this.setRouterScrollBehavior();
