@@ -1,5 +1,8 @@
 <template>
-  <Content class="pageContent"/>
+  <Content
+      ref="root"
+      class="pageContent"
+  />
 </template>
 
 <script>
@@ -9,8 +12,20 @@
     mixins: [
       forPdfMixin,
     ],
-    mounted() {
-      console.log('this:')
+    async mounted() {
+      if(!this.$isServer) {
+        const rootElement = this.$refs.root.$el;
+        const imagesElements = [...rootElement.querySelectorAll('img')];
+        const imageElementLoadPromises = imagesElements.map((imageElement) => {
+          if(!imageElement.complete) {
+            return new Promise(resolve => {
+              imageElement.onload = resolve;
+            });
+          }
+        });
+        await Promise.all(imageElementLoadPromises);
+        console.log('this:', document.body.offsetHeight)
+      }
     }
   }
 </script>

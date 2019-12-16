@@ -53,30 +53,24 @@
         frameElement.onload = async() => {
           const frameWindow = frameElement.contentWindow;
           const frameDocument = frameWindow.document;
-          frameDocument.addEventListener("load", ()=> {
-            console.log('dfdfdf')
-          });
-          const imagesElements = [...frameDocument.querySelectorAll('img')];
-          for(let imageElementIndex = 0; imageElementIndex < imagesElements.length; imageElementIndex++) {
-            const imageElement = imagesElements[imageElementIndex];
-            console.log('imageElement:', imageElement);
-            if(!imageElement.complete) {
-              await new Promise(resolve => {
-                imageElement.onload = resolve;
-              });
-            }
-          }
-          // console.log('document.readyState:', frameDocument, frameWindow.vm._isMounted)
-          console.log('index:', index);
-          if(index === 2) {
-            await frameWindow.vm.$nextTick();
-            await new Promise(resolve => setTimeout(resolve, 0));
-            console.log('document.readyState 1:', frameDocument.body.offsetHeight, frameWindow.vm._isMounted)
+          // const imagesElements = [...frameDocument.querySelectorAll('img')];
+          // for(let imageElementIndex = 0; imageElementIndex < imagesElements.length; imageElementIndex++) {
+          //   const imageElement = imagesElements[imageElementIndex];
+          //   console.log('imageElement:', imageElement);
+          //   if(!imageElement.complete) {
+          //     await new Promise(resolve => {
+          //       imageElement.onload = resolve;
+          //     });
+          //   }
+          // }
+          await frameWindow.vm.$nextTick();
+          // await new Promise(resolve => setTimeout(resolve, 0));
 
-            // setInterval(() => {
-            //   console.log('document.readyState:', frameDocument.body.offsetHeight, frameWindow.vm._isMounted)
-            // }, 1000);
-          }
+          console.log('document.readyState 1:', frameDocument.body.offsetHeight, frameWindow.vm._isMounted)
+
+          // setInterval(() => {
+          //   console.log('document.readyState:', frameDocument.body.offsetHeight, frameWindow.vm._isMounted)
+          // }, 1000);
 
           frameElement.style.height = frameDocument.body.offsetHeight + 'px';
         };
