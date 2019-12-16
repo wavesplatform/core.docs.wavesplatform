@@ -5,8 +5,12 @@ import vuex from './enhanceApp/vuex'
 import elementUi from './enhanceApp/elementUi'
 import scrollTo from './enhanceApp/scrollTo'
 import setTitle from './enhanceApp/setTitle'
-
+let isInit = false;
 export default (context) => {
+    if(isInit) {
+        return
+    }
+    isInit = true;
     setThemeColoration(context);
     scrollTo(context);
     elementResizeDetector(context);

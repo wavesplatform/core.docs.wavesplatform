@@ -150,16 +150,13 @@
   import watchLayoutSizeMixin from './_mixins/watchLayoutSize'
   import navbarResizeDetectorMixin from './_mixins/navbarResizeDetector'
   import searchMixin from '@theme/components/_mixins/search'
-  import setGlobalVm from './_mixins/setGlobalVm'
-  import mounted from './_mixins/mounted'
 
   export default {
+    name: 'Home',
     mixins: [
       watchLayoutSizeMixin,
       navbarResizeDetectorMixin,
       searchMixin,
-      setGlobalVm,
-      mounted,
     ],
 
     components: {

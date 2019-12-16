@@ -59,8 +59,8 @@ const magePdfPages = async (vuepressDestPath, pagePaths = []) => {
         editLinkElement.remove();
       }
 
-      document.documentElement.style.setProperty('--color11', 'rgba(255, 255, 255, 0)');
-      document.documentElement.style.setProperty('--color7', '#000000');
+      // document.documentElement.style.setProperty('--color11', 'rgba(255, 255, 255, 0)');
+      // document.documentElement.style.setProperty('--color7', '#000000');
 
     });
     await page.emulateMedia('screen');

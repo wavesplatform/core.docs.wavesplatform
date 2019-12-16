@@ -152,7 +152,6 @@
             }"
             />
         </template>
-
     </div>
 </template>
 
@@ -164,21 +163,17 @@
   import PageNavigations from '@theme/components/PageNavigations'
   import LanguageNotification from '@theme/components/LanguageNotification'
   // import ThemeControl from '@theme/components/ThemeControl'
-
   import watchLayoutSizeMixin from './_mixins/watchLayoutSize'
   import navbarResizeDetectorMixin from './_mixins/navbarResizeDetector'
   import searchMixin from '@theme/components/_mixins/search'
-  import setGlobalVm from './_mixins/setGlobalVm'
-  import mounted from './_mixins/mounted'
-  import { resolveSidebarItems } from '../util'
+  import { resolveSidebarItems, scrollToHashElement } from '../util'
 
   export default {
+      name: 'Layout',
       mixins: [
           watchLayoutSizeMixin,
           navbarResizeDetectorMixin,
           searchMixin,
-          setGlobalVm,
-          mounted,
       ],
 
       components: {
@@ -299,6 +294,10 @@
           },
       },
 
+      beforeCreate() {
+        console.log('this.', this)
+      },
+
       beforeMount() {
           if (!this.$isServer) {
               this.setRouterScrollBehavior();
@@ -404,14 +403,7 @@
                       behavior: 'smooth',
                   }, () => this.$store.commit('setScrollTopState', false))
               } else if (to.hash) {
-                  const targetElement = document.querySelector(decodeURIComponent(to.hash))
-
-                  if (targetElement) {
-                      return window.scrollTo({
-                          top: this.getAnchorElementPosition(targetElement).y,
-                          behavior: 'smooth',
-                      }, () => this.$store.commit('setScrollTopState', false))
-                  }
+                  scrollToHashElement(to.hash, this.$store);
                   return false;
               } else {
                   return window.scrollTo({
@@ -423,16 +415,6 @@
 
           setRouterScrollBehavior() {
               this.$router.options.scrollBehavior = this.scrollBehavior
-          },
-
-          getAnchorElementPosition(targetElement) {
-              const documentElement = document.documentElement
-              const documentRect = documentElement.getBoundingClientRect()
-              const elementRect = targetElement.getBoundingClientRect()
-              return {
-                  x: elementRect.left - documentRect.left,
-                  y: elementRect.top - documentRect.top - this.headerHeight,
-              }
           },
       }
   }

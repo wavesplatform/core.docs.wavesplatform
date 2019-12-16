@@ -253,3 +253,21 @@ function resolveItem (item, pages, base, groupDepth = 1) {
     };
   }
 }
+
+export function scrollToHashElement(hash, store) {
+  if(!hash) {
+    return
+  }
+  store.commit('setScrollTopState', true);
+  const element = document.querySelector(hash);
+  const elementBoundingClientRect = element.getBoundingClientRect();
+  const elementTopPosition = elementBoundingClientRect.top;
+  const documentElementScrollTop = document.documentElement.scrollTop;
+  const computedScrollTop = elementTopPosition + documentElementScrollTop - store.state.interface.headerHeight;
+  window.scrollTo({
+    behavior: 'smooth',
+    top: computedScrollTop,
+  }, () => {
+    store.commit('setScrollTopState', false);
+  });
+}
