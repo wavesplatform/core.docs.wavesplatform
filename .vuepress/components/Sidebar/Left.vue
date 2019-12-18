@@ -117,6 +117,20 @@
                 </a>
             </div>
 
+            <div :class="[$styleLeft.downloadPageInPdfWrapper, $styleLeft.backToIndexWrapper]">
+                <a
+                        :href="$localePath + 'for-pdf.pdf'"
+                        target="_blank"
+                        :class="$styleLeft.backToIndexLink"
+                >
+                    <el-button
+                            :class="$styleLeft.backToIndex"
+                    >
+                        Download full PDF
+                    </el-button>
+                </a>
+            </div>
+
         </div>
 
         <div

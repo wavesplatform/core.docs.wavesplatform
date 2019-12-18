@@ -10,10 +10,10 @@
         },
         computed: {
             layout() {
-                if (this.$route.query.contentOnly) {
-                    return 'OnlyContent';
-                }
                 if (this.$page.path) {
+                    if (this.$route.query.contentOnly && this.$frontmatter.layout !== 'ForPdf') {
+                        return 'OnlyContent';
+                    }
                     if (this.$frontmatter.layout) {
                         return this.$frontmatter.layout
                     }
@@ -29,8 +29,8 @@
             }
         },
         async mounted () {
-            await this.$nextTick();
             if(!this.$isServer) {
+                await this.$nextTick();
                 document.body.style.transition = 'opacity .3s';
                 document.body.style.opacity = 1;
             }

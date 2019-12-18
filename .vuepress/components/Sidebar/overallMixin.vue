@@ -365,22 +365,26 @@ export default {
     .sidebar {
         width 100%
         position relative
-        background var(--color11)
         display flex
         flex-direction column
         justify-content flex-start
     }
+
     .sidebarHeader {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-shrink 0
+	    backdrop-filter blur(4px)
+	    display: flex;
+	    align-items center
+	    justify-content space-between
+	    flex-shrink 0
+	    background-color var(--color11_alpha2)
     }
+
     .sidebarLinks {
         overflow hidden
         position relative
         display flex
         flex-direction column
+	    background var(--color11)
     }
     .sidebarLinks__content {
         margin-right -1px

@@ -7,6 +7,9 @@ import scrollTo from './enhanceApp/scrollTo'
 import setTitle from './enhanceApp/setTitle'
 let isInit = false;
 export default (context) => {
+    if(!context.isServer) {
+        window.isViewReady = false;
+    }
     if(isInit) {
         return
     }

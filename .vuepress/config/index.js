@@ -1,7 +1,7 @@
 const processEnv = process.env;
 const envPort = processEnv.port || 3083;
 const envHost = processEnv.host || '0.0.0.0';
-const envMakePdf = processEnv.makePdf;
+// const envMakePdf = processEnv.makePdf;
 const path = require('path');
 const packageName = require(path.join(global.coreRootPath, 'package.json')).name;
 const corePath = processEnv.corePath || packageName;
@@ -9,14 +9,13 @@ const fs = require('fs');
 const webpack = require('webpack');
 const deepmerge = require('deepmerge');
 const cleanUrlsPlugin = require('vuepress-plugin-clean-urls');
+// const testPlugin = require('./plugins/test');
 // const beforeDevServer = require('./beforeDevServer/');
 
-let makePdfPages = null;
-if(envMakePdf) {
-    makePdfPages = require('./makePdfPages');
-}
-
-
+// let makePdfPages = null;
+// if(envMakePdf) {
+//     makePdfPages = require('./makePdfPages');
+// }
 
 module.exports = (ctx, mixin) => {
     const rootConfig = deepmerge({
@@ -47,12 +46,11 @@ module.exports = (ctx, mixin) => {
             env: {
                 adminServerUrl: process.env.adminServerUrl
             },
-            logo: '/waves-docs-logo.svg',
             docsDir: 'docs',
-            repo: 'https://github.com/wavesplatform/docs.wavesplatform',
         },
         plugins: [
             cleanUrlsPlugin,
+            // testPlugin,
             // ['pwa', {
             //     serviceWorker: true,
             //     updatePopup: true
@@ -96,12 +94,19 @@ module.exports = (ctx, mixin) => {
                                     };
                                 })
                               );
-                              fs.writeFile(`${vuepressDestPath}/documentation-files-map.json`, pageListJson, 'utf8', () => {
+                              fs.writeFileSync(`${vuepressDestPath}/${global.documentationFilesMapName}`, pageListJson, 'utf8', /*() => {
                                   console.log('documentation-files-map.json done');
-                              });
-                              if(envMakePdf) {
-                                  makePdfPages(vuepressDestPath, pagePaths);
-                              }
+                              }*/);
+                              console.log(`${global.documentationFilesMapName} done`);
+
+                              // if(envMakePdf) {
+                              //     console.log('pagePaths:', pagePaths, pagePaths.filter(item => item.includes('en/waves-matcher/matcher-settings')))
+                              //
+                              //     makePdfPages(
+                              //       vuepressDestPath,
+                              //       pagePaths.filter(item => item.includes('en/waves-matcher/matcher-settings'))
+                              //     );
+                              // }
                           });
                       }
                   },

@@ -1,6 +1,14 @@
+$code {
+    //background-color var(--color1)
+    //padding: 3px 6px;
+    //border-radius: 4px;
+    font-family monospace
+}
 .pageContent {
-    & > h1:first-of-type {
-        padding-right $indent2
+    &.withEditLink {
+        & > h1:first-of-type {
+            padding-right $indent2
+        }
     }
     img {
         max-width 100%
@@ -62,6 +70,9 @@
         align-items baseline
         padding-left 20px
         position relative
+        code {
+            @extends $code
+        }
         &:hover {
             &:before {
                 /*background-color $color6*/
@@ -180,11 +191,10 @@
             margin-top $indent4
         }
         code {
-            background-color var(--color1)
-            padding: 3px 6px;
-            border-radius: 4px;
+            @extends $code
         }
     }
+
     hr {
         border 0
         border-top 1px solid var(--borderColor)

@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import { normalize } from '../util'
+  import { normalize, getFlatSidebarItems } from '../util'
   import WidthLimit from '@theme/components/WidthLimit'
   export default {
     components: {
@@ -90,7 +90,7 @@
         return this.$store.state.interface.headerHeight;
       },
       flatSidebarItems() {
-        return this.getFlatSidebarItems(this.sidebarItems);
+        return getFlatSidebarItems(this.sidebarItems);
       },
       currentIndexInFlatSidebarItems() {
         const routeNormalizePath = normalize(this.$route.path);
@@ -140,16 +140,8 @@
     },
 
     methods: {
-      getFlatSidebarItems(items, accumulator = []) {
-        return items.reduce((accumulator, item) => {
-          accumulator.push(item);
-          if(item.type === 'group') {
-            this.getFlatSidebarItems(item.children, accumulator);
-          }
-          return accumulator;
-        }, accumulator);
-      },
-    }
+
+    },
   }
 </script>
 

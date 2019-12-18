@@ -12,7 +12,7 @@
           <div
               ref="editLink"
               :class="$style.editLinkWrapper"
-            v-if="editLink"
+                v-if="editLink"
           >
             <a
                 :class="$style.editLink"
@@ -36,7 +36,8 @@
         </div>
         <Content
             ref="content"
-            class="pageContent"/>
+            :class="['pageContent', editLink && 'withEditLink']"
+        />
       </main>
     </WidthLimit>
 </template>
@@ -58,7 +59,7 @@
       return {
         pageNavigationsTranslateY: 0,
         headersElements: [],
-        mediumZoomInitOnPage: null,
+        mediumZoomInitOnPagePath: '',
         // intersectionObserverOptions: {
         //     threshold: 0.0,
         //     rootMargin: '0% 0px',
@@ -109,6 +110,10 @@
           docsRepo = repo
         } = this.$themeConfig;
 
+        if(!docsRepo) {
+            return false;
+        }
+
           return docsRepo.replace(endingSlashRE, '')
               + `/edit`
               + `/${docsBranch}/`
@@ -135,33 +140,38 @@
           mainContentHeight() {
               this.setCurrentActiveHeaderId();
           },
+          '$page.path'() {
+              this.updateHeadersElements();
+              this.attachToMediumZoom();
+          },
       },
 
     async mounted () {
-      if(!this.$isServer) {
-          vm.pageContentElement = this.$refs.root.$el;
-          vm.editLinkElement = this.$refs.editLink;
-        this.updateHeadersElements();
-        this.mediumZoomInstance = mediumZoom({
-            margin: 20,
-            background: this.activeColorationConfigColors.color7_alpha1,
-            scrollOffset: 0,
-            container: '.medium-zoom-container',
-            // template: '.medium-zoom-template',
-        });
-        this.attachToMediumZoom();
+        if (!this.$isServer) {
+            vm.pageContentElement = this.$refs.root.$el;
+            vm.editLinkElement = this.$refs.editLink;
+            this.updateHeadersElements();
+            this.mediumZoomInstance = mediumZoom({
+                margin: 20,
+                background: this.activeColorationConfigColors.color7_alpha1,
+                scrollOffset: 0,
+                container: '.medium-zoom-container',
+                // template: '.medium-zoom-template',
+            });
+            this.attachToMediumZoom();
 
-        await this.$nextTick();
-        scrollToHashElement(this.$route.hash, this.$store);
-          await this.$nextTick();
-          this.$watch('documentElementScrollTop', () => {
-              this.setCurrentActiveHeaderId();
-          });
-      }
+            await this.$nextTick();
+            scrollToHashElement(this.$route.hash, this.$store);
+            await this.$nextTick();
+            this.$watch('documentElementScrollTop', () => {
+                this.setCurrentActiveHeaderId();
+            });
+        }
     },
 
     updated () {
       if (!this.$isServer) {
+          console.log('updated')
         this.updateHeadersElements();
         this.attachToMediumZoom();
       }
@@ -169,10 +179,11 @@
 
     methods: {
       async attachToMediumZoom() {
-          if(this.$page === this.mediumZoomInitOnPage) {
+          await this.$nextTick();
+          if(this.$page.path === this.mediumZoomInitOnPagePath) {
               return;
           }
-          this.mediumZoomInitOnPage = this.$page;
+          this.mediumZoomInitOnPagePath = this.$page.path;
           this.mediumZoomInstance.detach();
           const imagesElements = [...this.$refs.content.$el.querySelectorAll('img')];
           const imagesWithZoom = [];
@@ -209,6 +220,7 @@
 
       getCurrentActiveHeaderId() {
         const idsValues = this.headersElements.reduce((accumulator, headerElement) => {
+            console.log('headerElement:', headerElement);
           let value = headerElement.offsetTop - this.documentElementScrollTop + this.headerHeight - headerElement.offsetHeight;
 
           // if(value < 0) {
@@ -242,9 +254,13 @@
         headers = headers.filter(header => {
           return header.level <= sidebarDepth + 1;
         });
-        this.headersElements = headers.map(header => {
-          return document.querySelector(`#${header.slug}`);
-        });
+        this.headersElements = headers.reduce((accumulator, header) => {
+            const element = document.querySelector(`#${header.slug}`);
+            if(element) {
+                accumulator.push(element);
+            }
+          return accumulator;
+        }, []);
       },
 
     }

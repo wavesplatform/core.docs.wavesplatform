@@ -14,16 +14,16 @@
     ],
     async mounted() {
       if(!this.$isServer) {
-        const rootElement = this.$refs.root.$el;
-        const imagesElements = [...rootElement.querySelectorAll('img')];
-        const imageElementLoadPromises = imagesElements.map((imageElement) => {
-          if(!imageElement.complete) {
-            return new Promise(resolve => {
-              imageElement.onload = resolve;
-            });
-          }
-        });
-        await Promise.all(imageElementLoadPromises);
+        // const rootElement = this.$refs.root.$el;
+        // const imagesElements = [...rootElement.querySelectorAll('img')];
+        // const imageElementLoadPromises = imagesElements.map((imageElement) => {
+        //   if(!imageElement.complete) {
+        //     return new Promise(resolve => {
+        //       imageElement.onload = resolve;
+        //     });
+        //   }
+        // });
+        // await Promise.all(imageElementLoadPromises);
         console.log('this:', document.body.offsetHeight)
       }
     }

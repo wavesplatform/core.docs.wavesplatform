@@ -112,19 +112,30 @@
 
 
                                         <template slot="buttonSet">
-                                            <router-link
-                                                v-for="(button, buttonKey) of category.buttonSet"
-                                                :key="`${categoryIndex}_${buttonKey}`"
-                                                :class="$style.categoryCard__link"
-                                                :to="button.link"
-                                            >
-                                                <el-button
-                                                    size="mini"
-                                                    :class="$style.categoryCard__link__button"
+                                            <template v-for="(button, buttonKey) of computedCategoryButtonSet(category.buttonSet)">
+                                                <component
+                                                        :is="button.componentTagName"
+                                                        :key="`${categoryIndex}_${buttonKey}`"
+                                                        :class="$style.categoryCard__link"
+                                                        v-bind="{
+                                                            ... button.componentTagName === 'a' ? {
+                                                                   href: button.link,
+                                                                   target: '_blank',
+                                                                }
+                                                                :
+                                                                {
+                                                                   to: button.link,
+                                                                }
+                                                        }"
                                                 >
-                                                    {{ button.text }}
-                                                </el-button>
-                                            </router-link>
+                                                    <el-button
+                                                            size="mini"
+                                                            :class="$style.categoryCard__link__button"
+                                                    >
+                                                        {{ button.text }}
+                                                    </el-button>
+                                                </component>
+                                            </template>
                                         </template>
                                     </CategoryCard>
                                 </li>
@@ -208,6 +219,19 @@
     },
 
     methods: {
+        computedCategoryButtonSet(buttonSet) {
+            if(!buttonSet) {
+                return
+            }
+            Object.values(buttonSet).forEach(buttonParams => {
+                if(buttonParams.link.slice(0, 4) === 'http') {
+                    buttonParams.componentTagName = 'a';
+                    return
+                }
+                buttonParams.componentTagName = 'router-link';
+            });
+            return buttonSet;
+        },
       selectCategoryTag(categoryTagName) {
         this.currentTechnologyCategoryFilter = categoryTagName;
       },
