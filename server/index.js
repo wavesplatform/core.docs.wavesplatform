@@ -16,7 +16,7 @@ const app = new Koa();
 const GetSearchResultByQuery = require('./getSearchResultByQuery');
 const redirects = require('./redirects')
 
-module.exports = async(vuepressDestPath, redirectList) => {
+module.exports = async(vuepressDestPath, redirectList = []) => {
     const getSearchResultByQuery = await GetSearchResultByQuery(vuepressDestPath);
 
     if(!getSearchResultByQuery) {
@@ -30,7 +30,9 @@ module.exports = async(vuepressDestPath, redirectList) => {
         await next();
     });
 
-    app.use(redirects(redirectList));
+    if(redirectList.length) {
+        app.use(redirects(redirectList));
+    }
 
     app.use(async (ctx, next) => {
         const searchQuery = ctx.query.search;
