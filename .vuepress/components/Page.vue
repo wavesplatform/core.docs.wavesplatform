@@ -220,7 +220,6 @@
 
       getCurrentActiveHeaderId() {
         const idsValues = this.headersElements.reduce((accumulator, headerElement) => {
-            console.log('headerElement:', headerElement);
           let value = headerElement.offsetTop - this.documentElementScrollTop + this.headerHeight - headerElement.offsetHeight;
 
           // if(value < 0) {

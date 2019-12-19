@@ -14,6 +14,7 @@ console.log('global.coreRootPath:', global.coreRootPath)
 const serve = require(path.join(global.coreRootPath, 'utils/koa-static'));
 const app = new Koa();
 const GetSearchResultByQuery = require('./getSearchResultByQuery');
+// const redirects = require('')
 
 module.exports = async(vuepressDestPath) => {
     const getSearchResultByQuery = await GetSearchResultByQuery(vuepressDestPath);
