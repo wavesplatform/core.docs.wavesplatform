@@ -260,7 +260,6 @@ export function scrollToHashElement(hash, store) {
   }
   store.commit('setScrollTopState', true);
   const element = document.querySelector(hash);
-  console.log('element:', element);
   const elementBoundingClientRect = element.getBoundingClientRect();
   const elementTopPosition = elementBoundingClientRect.top;
   const documentElementScrollTop = document.documentElement.scrollTop;
