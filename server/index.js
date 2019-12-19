@@ -14,9 +14,9 @@ console.log('global.coreRootPath:', global.coreRootPath)
 const serve = require(path.join(global.coreRootPath, 'utils/koa-static'));
 const app = new Koa();
 const GetSearchResultByQuery = require('./getSearchResultByQuery');
-// const redirects = require('')
+const redirects = require('./redirects')
 
-module.exports = async(vuepressDestPath) => {
+module.exports = async(vuepressDestPath, redirectList) => {
     const getSearchResultByQuery = await GetSearchResultByQuery(vuepressDestPath);
 
     if(!getSearchResultByQuery) {
@@ -29,6 +29,8 @@ module.exports = async(vuepressDestPath) => {
         ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
         await next();
     });
+
+    app.use(redirects(redirectList));
 
     app.use(async (ctx, next) => {
         const searchQuery = ctx.query.search;

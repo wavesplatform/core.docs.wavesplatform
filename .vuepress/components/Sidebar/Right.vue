@@ -142,6 +142,7 @@
     }
 
     .sidebarHeader {
+        background-color var(--color11)
         justify-content flex-start
         align-items stretch
         cursor pointer

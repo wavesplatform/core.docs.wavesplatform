@@ -4,14 +4,17 @@ export default (context) => {
     const { Vue, isServer } = context;
     const defaultFocusIndex = -1;
     let layoutWidth = 1920;
+    let isBrowserSupportedBackdropFilter = true;
     if(!isServer) {
         layoutWidth = window.innerWidth
+        isBrowserSupportedBackdropFilter = 'backdropFilter' in document.body.style;
     }
     const state = {
         themeConfig: context.siteData.themeConfig,
         defaultLanguage: '',
         currentLanguage: '',
         interface: {
+            isBrowserSupportedBackdropFilter,
             isUserNaturalScrollState: false,
             isScrollTopState: false,
             documentElementScrollTop: 0,

@@ -371,12 +371,10 @@ export default {
     }
 
     .sidebarHeader {
-	    backdrop-filter blur(4px)
 	    display: flex;
 	    align-items center
 	    justify-content space-between
 	    flex-shrink 0
-	    background-color var(--color11_alpha2)
     }
 
     .sidebarLinks {

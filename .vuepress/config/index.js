@@ -24,7 +24,7 @@ module.exports = (ctx, mixin) => {
         host: envHost,
         port: envPort,
         head: [
-            ['link', { rel: 'icon', href: `/favicon-32x32.png` }],
+            // ['link', { rel: 'icon', href: `/favicon-32x32.png` }],
             ['link', { rel: 'manifest', href: '/manifest.json' }],
             ['meta', {
                 name: 'viewport',

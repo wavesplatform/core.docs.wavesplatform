@@ -22,7 +22,11 @@
       <div :class="['sidebar', $style.sidebar, $styleLeft.sidebar]">
         <div
             v-show="layoutWidth > 719"
-          :class="$style.sidebarHeader"
+          :class="[
+            $style.sidebarHeader,
+            $styleLeft.sidebarHeader,
+            isBrowserSupportedBackdropFilter && $styleLeft.sidebarHeader_withBackdropFilter,
+          ]"
         >
           <!--<slot name="header"/>-->
             <div
@@ -210,6 +214,9 @@
     },
 
     computed: {
+        isBrowserSupportedBackdropFilter() {
+            return this.$store.state.interface.isBrowserSupportedBackdropFilter;
+        },
       headerHeight () {
         return this.$store.state.interface.headerHeight;
       },
@@ -295,6 +302,18 @@
         flex-shrink 0
         transition transform $transitionS1
     }
+    .sidebar {
+        height 100%
+    }
+    .sidebarHeader {
+        &.sidebarHeader_withBackdropFilter {
+            backdrop-filter blur(4px)
+            background-color var(--color11_alpha2)
+        }
+        &:not(.sidebarHeader_withBackdropFilter) {
+            background-color var(--color11)
+        }
+    }
     .sidebar__header {
         width 100%
         overflow hidden
@@ -345,9 +364,6 @@
         &:hover {
             background-color transparent
         }
-    }
-    .sidebar {
-        height 100%
     }
 
     .sidebarLinks__contentWrapper {
