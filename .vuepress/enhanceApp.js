@@ -14,10 +14,10 @@ export default (context) => {
         return
     }
     isInit = true;
-    setThemeColoration(context);
     scrollTo(context);
     elementResizeDetector(context);
     const store = vuex(context);
+    setThemeColoration(context, store);
     routing(context, store);
     setTitle(context, store);
     elementUi(context);

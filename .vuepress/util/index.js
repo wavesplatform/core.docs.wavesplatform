@@ -284,3 +284,17 @@ export function getFlatSidebarItems(items, accumulator = []) {
     return accumulator;
   }, accumulator);
 }
+
+export function storeMutationGenerator(object) {
+  return Object.entries(object).reduce((accumulator, setterEntry) => {
+    accumulator[setterEntry[0]] = (state, value) => {
+      setterEntry[1].split('.').reduce((accumulator, element, index, iterable) => {
+        if(index + 1 === iterable.length) {
+          accumulator[element] = value
+        }
+        return accumulator[element];
+      }, state)
+    };
+    return accumulator;
+  }, {});
+}

@@ -1,5 +1,11 @@
 <template>
-    <component :is="layout"></component>
+    <component
+        :is="layout"
+        :class="$style.root"
+        :style="{
+            opacity: isShowRoot ? 1 : 0,
+        }"
+    />
 </template>
 
 <script>
@@ -7,6 +13,11 @@
     export default {
         components: {
             OnlyContent,
+        },
+        data() {
+          return {
+              isShowRoot: false,
+          }
         },
         computed: {
             layout() {
@@ -20,8 +31,11 @@
                     return 'Layout'
                 }
 
-                return /*'404'*/'NotFound';
-            }
+                return 'NotFound';
+            },
+            isThemePainted() {
+              return this.$store.state.interface.isThemePainted;
+            },
         },
         beforeCreate() {
             if(!this.$isServer) {
@@ -30,10 +44,21 @@
         },
         async mounted () {
             if(!this.$isServer) {
-                await this.$nextTick();
-                document.body.style.transition = 'opacity .3s';
-                document.body.style.opacity = 1;
+                this.$watch('isThemePainted', async(newValue) => {
+                    if(newValue) {
+                        await this.$nextTick();
+                        this.isShowRoot = true;
+                    }
+                }, {
+                    immediate: true,
+                })
             }
         },
     }
 </script>
+
+<style lang="stylus" module>
+    .root {
+        transition opacity $transitionS1
+    }
+</style>

@@ -1,19 +1,24 @@
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
+import { storeMutationGenerator } from '../util'
+
 export default (context) => {
     const { Vue, isServer } = context;
     const defaultFocusIndex = -1;
     let layoutWidth = 1920;
     let isBrowserSupportedBackdropFilter = true;
+
     if(!isServer) {
-        layoutWidth = window.innerWidth
+        layoutWidth = window.innerWidth;
         isBrowserSupportedBackdropFilter = 'backdropFilter' in document.body.style;
     }
+
     const state = {
         themeConfig: context.siteData.themeConfig,
         defaultLanguage: '',
         currentLanguage: '',
         interface: {
+            isThemePainted: false,
             isBrowserSupportedBackdropFilter,
             isUserNaturalScrollState: false,
             isScrollTopState: false,
@@ -41,92 +46,39 @@ export default (context) => {
             focusIndex: defaultFocusIndex,
         },
         leftSidebarOpenedGroups: [],
-    }
+    };
+
     if (!isServer) {
         state.defaultLanguage = navigator.language
     }
 
     const modules = {}
 
-    const set = key => (state, val) => {
-        state[key] = val
-    }
     const mutations = {
-
-        setUserNaturalScrollState(state, isUserNaturalScrollState) {
-            state.interface.isUserNaturalScrollState = isUserNaturalScrollState
-        },
-
-        setActiveColoration(state, colorationName) {
-            state.themeConfig.activeColouration = colorationName;
-        },
-
-        setDisplaySearchResultWindow(state, isShow) {
-            state.interface.isShowSearchResultWindow = isShow;
-        },
-        setScrollTopState(state, isScrollTopState) {
-            state.interface.isScrollTopState = isScrollTopState;
-        },
-
-        setMainContentHeight(state, height) {
-            state.interface.mainContentHeight = height;
-        },
-
-        setMainContentPositionLeft(state, left) {
-            state.interface.mainContentPositionLeft = left;
-        },
-
-        setDocumentElementScrollTop(state, scrollTop) {
-            state.interface.documentElementScrollTop = scrollTop;
-        },
-
-        setRightSidebarResizingState(state, isResize) {
-            state.interface.isRightSidebarResizingState = isResize
-        },
-
-        setDisplayRightSidebar(state, isShow) {
-            state.interface.isOpenRightSidebar = isShow
-        },
-
-        setDisplayLeftSidebar(state, isShow) {
-            state.interface.isOpenLeftSidebar = isShow
-        },
-
-        setLeftSidebarWidth(state, width) {
-            state.interface.leftSidebarWidth = width
-        },
-
-        setRightSidebarWidth(state, width) {
-            state.interface.rightSidebarWidth = width
-        },
-
-        setSearchSuggestionsFocusIndex (state, index) {
-            state.search.focusIndex = index
-        },
-
-        setInterfaceInnerWidthLayout (state, width) {
-            state.interface.layoutWidth = width
-        },
-
-        setInterfaceInnerHeightLayout(state, height) {
-            state.interface.layoutHeight = height;
-        },
-
-        setCurrentLanguage: set('currentLanguage'),
-
-        setLeftSidebarOpenedGroups: set('leftSidebarOpenedGroups'),
-
-        setDisplayShowLanguageNotification: set('isShowLanguageNotification'),
-
-        setHeaderHeight (state, value) {
-            state.interface.headerHeight = value
-        },
-
-        setSearchQuery (state, value) {
-            state.search.query = value
-        },
-
-    }
+        ...storeMutationGenerator({
+            setThemePaintedState: 'interface.isThemePainted',
+            setUserNaturalScrollState: 'interface.isUserNaturalScrollState',
+            setActiveColoration: 'themeConfig.activeColouration',
+            setDisplaySearchResultWindow: 'interface.isShowSearchResultWindow',
+            setScrollTopState: 'interface.isScrollTopState',
+            setMainContentHeight: 'interface.mainContentHeight',
+            setMainContentPositionLeft: 'interface.mainContentPositionLeft',
+            setDocumentElementScrollTop: 'interface.documentElementScrollTop',
+            setRightSidebarResizingState: 'interface.isRightSidebarResizingState',
+            setDisplayRightSidebar: 'interface.isOpenRightSidebar',
+            setDisplayLeftSidebar: 'interface.isOpenLeftSidebar',
+            setLeftSidebarWidth: 'interface.leftSidebarWidth',
+            setRightSidebarWidth: 'interface.rightSidebarWidth',
+            setSearchSuggestionsFocusIndex: 'search.focusIndex',
+            setInterfaceInnerWidthLayout: 'interface.layoutWidth',
+            setInterfaceInnerHeightLayout: 'interface.layoutHeight',
+            setCurrentLanguage: 'currentLanguage',
+            setLeftSidebarOpenedGroups: 'leftSidebarOpenedGroups',
+            setDisplayShowLanguageNotification: 'isShowLanguageNotification',
+            setHeaderHeight: 'interface.headerHeight',
+            setSearchQuery: 'search.query',
+        }),
+    };
 
     const actions = {};
 
@@ -140,15 +92,10 @@ export default (context) => {
                         activeColouration,
                     },
                     interface: {
-                        // documentElementScrollTop,
-                        // layoutWidth,
-                        // layoutHeight,
-                        // headerHeight,
                         leftSidebarWidth,
                         isOpenLeftSidebar,
                         rightSidebarWidth,
                         isOpenRightSidebar,
-                        // isShowSearchResultWindow,
                     },
                 } = state;
                 return {
@@ -164,7 +111,7 @@ export default (context) => {
                 };
             },
         });
-    };
+    }
 
     const getters = {
         activeColorationConfig: state => {
@@ -174,8 +121,10 @@ export default (context) => {
         activeColorationConfigColors(state) {
             return getters.activeColorationConfig(state).colors;
         },
-    }
+    };
+
     Vue.use(Vuex);
+
     const store = new Vuex.Store({
         state,
         modules,
@@ -183,17 +132,11 @@ export default (context) => {
         actions,
         getters,
         plugins: vuexPersistence ? [vuexPersistence.plugin] : [],
-    })
-    // if (!isServer) {
-    //     // new VuexPersistence({
-    //     //     storage: window.localStorage,
-    //     //     reducer: (state) => ({
-    //     //         search: state.search,
-    //     //     })
-    //     // }).plugin(store)
-    // }
+    });
+
     Vue.mixin({
         store
     });
+
     return store
 }

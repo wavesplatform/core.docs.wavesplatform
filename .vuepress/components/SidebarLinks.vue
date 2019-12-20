@@ -40,7 +40,7 @@
 <script>
 import SidebarGroup from '@theme/components/SidebarGroup.vue'
 import SidebarLink from '@theme/components/SidebarLink.vue'
-import { isActive } from '../util'
+`import { isActive } from '../util'`
 
 export default {
   name: 'SidebarLinks',

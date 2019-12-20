@@ -1,4 +1,4 @@
-export default (context) => {
+export default (context, store) => {
     const { isServer } = context
     if(!isServer) {
         const themeConfig = context.siteData.themeConfig;
@@ -6,5 +6,6 @@ export default (context) => {
         Object.entries(currentColorationConfig.colors).forEach(colorationPropEntry => {
             document.documentElement.style.setProperty(`--${colorationPropEntry[0]}`, colorationPropEntry[1]);
         });
+        store.commit('setThemePaintedState', true);
     }
 };

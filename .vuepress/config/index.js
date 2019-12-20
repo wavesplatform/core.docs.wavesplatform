@@ -8,7 +8,9 @@ const corePath = processEnv.corePath || packageName;
 const fs = require('fs');
 const webpack = require('webpack');
 const deepmerge = require('deepmerge');
+const markdownConfig = require('./markdownConfig');
 const cleanUrlsPlugin = require('vuepress-plugin-clean-urls');
+
 // const testPlugin = require('./plugins/test');
 // const beforeDevServer = require('./beforeDevServer/');
 
@@ -23,6 +25,7 @@ module.exports = (ctx, mixin) => {
         serviceWorker: false,
         host: envHost,
         port: envPort,
+        markdown: markdownConfig(ctx),
         head: [
             // ['link', { rel: 'icon', href: `/favicon-32x32.png` }],
             ['link', { rel: 'manifest', href: '/manifest.json' }],
