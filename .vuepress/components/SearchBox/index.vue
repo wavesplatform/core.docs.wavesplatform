@@ -196,6 +196,9 @@ export default {
                 font-style: normal;
                 letter-spacing: normal;
             }
+            &::-moz-placeholder {  /* Firefox 19+ */
+                line-height: 40px;
+            }
         }
     }
     .searchBox_size_2 {
@@ -264,7 +267,7 @@ export default {
             line-height: 64px;
         }*/
         &::-moz-placeholder {  /* Firefox 19+ */
-            line-height: 64px;
+            line-height: 65px;
         }
         /*&.focused {
             border-color var(--borderColor)
