@@ -28,7 +28,7 @@
         <div :class="$style.root__body">
             <div :class="$style.stateIconWrapper">
                 <img
-                    src="./warning-80-mix-sunset.svg"
+                    src="./userimg-empty-80.svg"
                     :class="$style.stateIcon"
                     alt=""
                 >
@@ -37,21 +37,25 @@
                 <!--NFT Tokens are not displayed-->
                 {{$themeLocaleConfig.languageAbsenceNotification.title}}
             </h5>
-            <p :class="$style.caption">
-                {{$themeLocaleConfig.languageAbsenceNotification.message}}
-                <!--Waves Dex & Wallet currently does not support displaying non-fungible tokens (NFT). To view your NFT tokens, you can go
-                to Waves Explorer.-->
-            </p>
+            <p v-html="$themeLocaleConfig.languageAbsenceNotification.message" :class="$style.caption"/>
+
+            <ButtonTrigger
+                :class="$style.closeButton"
+                @click.native="$emit('close')"
+            >
+                Ok
+            </ButtonTrigger>
         </div>
     </el-dialog>
 </template>
 
 <script>
   import SearchBox from '@theme/components/SearchBox'
-
+  import ButtonTrigger from '@theme/components/ButtonTrigger/'
   export default {
     components: {
-      SearchBox
+      SearchBox,
+        ButtonTrigger,
     },
 
     props: {
@@ -180,22 +184,24 @@
     }
     .dialog {
         max-width 540px
+        background-color var(--color2)
         /*max-height 850px*/
         /*height calc(100% - 40px)*/
         width calc(100% - 40px)
         margin auto
         border-radius 6px
-        padding-left $indent3
-        padding-right $indent3
-        padding-top $indent3
         padding-bottom $indent3
         &:not(:global(.is-fullscreen)) {
             max-height 850px
         }
     }
     .root__header {
+        padding-left $indent1
+        padding-right $indent1
         display flex
         justify-content flex-end
+        height 56px
+        align-items center
     }
     .closeTrigger {
         cursor pointer
@@ -227,6 +233,8 @@
         position relative
         display flex
         flex-direction column
+        padding-left $indent9
+        padding-right $indent9
     }
     .stateIconWrapper {
         /*max-height 80px*/
@@ -252,16 +260,30 @@
         letter-spacing: normal;
         text-align: center;
         margin-top $indent1
+        color var(--color7)
     }
     .caption {
-        font-size: 15px;
+        font-size: 16px;
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
-        line-height: 1.33;
+        line-height: 1.75;
         letter-spacing: normal;
         text-align: center;
-        color var(--color9)
+        color var(--color8)
         margin-top $indent1
+    }
+
+    .closeButton {
+        margin-top 40px
+        font-size: 17px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: normal;
+        text-align: center;
+        text-transform uppercase
+        color: #fff
     }
 </style>

@@ -75,6 +75,9 @@ export default {
         return [];
       }
       const { pages } = this.$site;
+
+      // console.log('pages:', pages);
+
       const max = /*SEARCH_MAX_SUGGESTIONS*/8
       const localePath = this.$localePath
       const matches = item => (
