@@ -5,6 +5,7 @@ import vuex from './enhanceApp/vuex'
 import elementUi from './enhanceApp/elementUi'
 import scrollTo from './enhanceApp/scrollTo'
 import setTitle from './enhanceApp/setTitle'
+// import globalComponents from './enhanceApp/globalComponents';
 let isInit = false;
 export default (context) => {
     if(!context.isServer) {
@@ -21,4 +22,5 @@ export default (context) => {
     routing(context, store);
     setTitle(context, store);
     elementUi(context);
+    // globalComponents(context);
 }

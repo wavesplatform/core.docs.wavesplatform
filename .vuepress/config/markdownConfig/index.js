@@ -18,7 +18,7 @@ module.exports = (ctx) => {
 
 
 
-                console.log('md', md, options);
+                // console.log('md', md, options);
 
 
 

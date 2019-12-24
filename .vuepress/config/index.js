@@ -53,6 +53,24 @@ module.exports = (ctx, mixin) => {
         },
         plugins: [
             cleanUrlsPlugin,
+            // require('vuepress-plugin-container'),
+            // [
+            //     'vuepress-plugin-container',
+            //     {
+            //         // type: 'right',
+            //         // defaultTitle: '',
+            //     },
+            // ],
+            // [
+            //     'vuepress-plugin-container',
+            //     {
+            //         type: 'tip',
+            //         defaultTitle: {
+            //             '/': 'TIP',
+            //             '/zh/': '提示',
+            //         },
+            //     },
+            // ],
             // testPlugin,
             // ['pwa', {
             //     serviceWorker: true,

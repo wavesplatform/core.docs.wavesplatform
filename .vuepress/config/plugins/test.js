@@ -1,10 +1,10 @@
 module.exports = (options, context) => {
-  console.log('options, context:', options, context);
+  // console.log('options, context:', options, context);
   return {
     name: 'test',
 
     extendPageData(page) {
-      console.log('page:', page, options, context)
+      // console.log('page:', page, options, context)
       /*const { regularPath, frontmatter = {} } = page
       if (frontmatter.permalink) return
       if (regularPath === '/404.html') {
