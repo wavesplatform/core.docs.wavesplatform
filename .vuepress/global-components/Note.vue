@@ -6,6 +6,7 @@
 			$style.root,
 			$style[`root_${type}`],
 			withTitle && $style.root_withTitle,
+			$style[`root_size${noteSize}`],
 		]">
 		<div
 			v-if="withTitle"
@@ -16,6 +17,7 @@
 				:is="NoteIcon"
 				:class="[$style.icon, $style.title__icon]"
 				:type="type"
+				:size="noteSize"
 			/>
 			<div :class="$style.title__container">
 				<template v-if="title">
@@ -31,6 +33,7 @@
 				:is="NoteIcon"
 				:class="[$style.icon, $style.content__icon]"
 				:type="type"
+				:size="noteSize"
 			/>
 			<div :class="$style.content__container">
 				<template v-if="content">
@@ -70,7 +73,8 @@
 	    data() {
 	      return {
             NoteIcon,
-	        size: 1,
+	        noteSize: 1,
+	        switchSizePoint: 500,
 	      };
 	    },
 
@@ -85,20 +89,28 @@
             this.elementResizeDetector = this.$elementResizeDetectorMaker({
               strategy: 'scroll'
             });
-            // this.elementResizeDetector.listenTo(this.$refs.root, this.update);
+            this.elementResizeDetector.listenTo(this.$refs.root, this.setNoteSize);
 	      }
+	    },
+
+	    methods: {
+	      setNoteSize(element) {
+	        if(element.offsetWidth > this.switchSizePoint) {
+	          this.noteSize = 1;
+	          return
+	        }
+            this.noteSize = 2;
+	      },
 	    },
 	}
 </script>
 
 <style lang="stylus" module>
 	.root {
-		padding $indent1
 		border-radius $borderRadius1
 		border 1px dashed
 		display flex
 		flex-direction column
-		font-size: 16px;
 		font-weight: normal;
 		font-stretch: normal;
 		font-style: normal;
@@ -110,6 +122,20 @@
 	}
 	.root_withTitle {
 
+	}
+	.root_size1 {
+		font-size 16px
+		padding $indent1
+		.content__icon {
+			margin-top 8px
+		}
+	}
+	.root_size2 {
+		font-size 14px
+		padding $indent4
+		.content__icon {
+			margin-top 6px
+		}
 	}
 	.root_warning {
 		border-color var(--color15)
@@ -187,7 +213,6 @@
 		align-items flex-start
 	}
 	.content__icon {
-		margin-top 8px
 	}
 	.content__container {
 		color var(--color8)

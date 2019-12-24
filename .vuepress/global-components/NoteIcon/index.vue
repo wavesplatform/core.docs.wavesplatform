@@ -59,7 +59,7 @@
         height 23px
     }
     .root_size2 {
-        width 24px
-        height 23px
+        width 20px
+        height 20px
     }
 </style>
