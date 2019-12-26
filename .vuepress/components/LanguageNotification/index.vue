@@ -126,11 +126,11 @@
 
 <style lang="stylus">
     .dialog-fade-enter-active {
-        animation: dialog-fade-in .8s;
+        animation: dialog-fade-in $transitionS2;
     }
 
     .dialog-fade-leave-active {
-        animation: dialog-fade-out .8s;
+        animation: dialog-fade-out $transitionS1;
     }
 
     @keyframes dialog-fade-in {
@@ -149,12 +149,12 @@
             transform: translate3d(0, 0, 0) scale(1);
             opacity: 1;
         }
-        50% {
+        /*50% {
             transform: scale(.8);
             opacity: .7;
-        }
+        }*/
         100% {
-            transform: translate3d(0, -20px, 0) scale(1);
+            transform: translate3d(0, -20px, 0) scale(.5);
             opacity: 0;
         }
     }

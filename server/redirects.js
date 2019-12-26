@@ -21,7 +21,6 @@ module.exports = (redirectList = []) => {
                 const regexpResult = requestOriginalUrl.replace(new RegExp(redirectRule.from), redirectRule.to);
                 if(requestOriginalUrl !== regexpResult) {
                     ctx.redirect(`${ctx.protocol}://${ctx.headers.host + regexpResult}`);
-                    console.log()
                     return;
                 }
             }

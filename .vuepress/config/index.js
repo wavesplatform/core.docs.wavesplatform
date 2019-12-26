@@ -11,7 +11,7 @@ const deepmerge = require('deepmerge');
 const markdownConfig = require('./markdownConfig');
 const cleanUrlsPlugin = require('vuepress-plugin-clean-urls');
 
-// const testPlugin = require('./plugins/test');
+const testPlugin = require('./plugins/test');
 // const beforeDevServer = require('./beforeDevServer/');
 
 // let makePdfPages = null;
@@ -71,7 +71,15 @@ module.exports = (ctx, mixin) => {
             //         },
             //     },
             // ],
-            // testPlugin,
+            // testPlugin({
+            //     test: '123',
+            // }),
+            [
+                testPlugin,
+                {
+                    test: '',
+                }
+            ]
             // ['pwa', {
             //     serviceWorker: true,
             //     updatePopup: true

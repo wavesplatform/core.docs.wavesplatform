@@ -30,7 +30,7 @@
                   </a>
               </div>
 
-<!--              <SwitchLanguageType2 :class="$style.switchLanguage"/>-->
+              <SwitchLanguageType2 :class="$style.switchLanguage"/>
           </div>
 
           <div

@@ -1,5 +1,6 @@
 const processEnv = process.env;
 const envPort = processEnv.port;
+const envHost = processEnv.host || '127.0.0.1';
 const envIsDev = processEnv.isDev;
 const serverPort = envPort ? envPort :
     envIsDev ? 3000 : 3083
@@ -69,7 +70,7 @@ module.exports = async(vuepressDestPath, redirectList = []) => {
     //
     // });
 
-    app.listen(serverPort, '0.0.0.0');
+    app.listen(serverPort, /*'0.0.0.0'*/envHost);
 
     console.log(`listening on port ${serverPort}`)
 }

@@ -161,7 +161,13 @@
             this.attachToMediumZoom();
 
             await this.$nextTick();
-            scrollToHashElement(this.$route.hash, this.$store);
+            await new Promise(resolve => setTimeout(resolve, 0));
+
+            await this.awaitLoadContentImages();
+
+            if(document.documentElement.scrollTop === 0) {
+                scrollToHashElement(this.$route.hash, this.$store);
+            }
             await this.$nextTick();
             this.$watch('documentElementScrollTop', () => {
                 this.setCurrentActiveHeaderId();
@@ -171,13 +177,23 @@
 
     updated () {
       if (!this.$isServer) {
-          console.log('updated')
         this.updateHeadersElements();
         this.attachToMediumZoom();
       }
     },
 
     methods: {
+        async awaitLoadContentImages(imageLoadCallback) {
+            const imagesElements = [...this.$refs.content.$el.querySelectorAll('img')];
+            for(const imageElement of imagesElements) {
+                if(!imageElement.complete) {
+                    await new Promise(resolve => {
+                        imageElement.onload = resolve;
+                    });
+                }
+                imageLoadCallback && imageLoadCallback(imageElement);
+            }
+        },
       async attachToMediumZoom() {
           await this.$nextTick();
           if(this.$page.path === this.mediumZoomInitOnPagePath) {
@@ -187,12 +203,8 @@
           this.mediumZoomInstance.detach();
           const imagesElements = [...this.$refs.content.$el.querySelectorAll('img')];
           const imagesWithZoom = [];
-          for(const imageElement of imagesElements) {
-              if(!imageElement.complete) {
-                  await new Promise(resolve => {
-                      imageElement.onload = resolve;
-                  });
-              }
+
+          await this.awaitLoadContentImages((imageElement) => {
               if(
                       imageElement.width < imageElement.naturalWidth
                       ||
@@ -200,7 +212,7 @@
               ) {
                   imagesWithZoom.push(imageElement);
               }
-          }
+          });
           this.mediumZoomInstance.attach(...imagesWithZoom);
       },
       setCurrentActiveHeaderId() {
