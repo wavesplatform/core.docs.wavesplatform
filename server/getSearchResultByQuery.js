@@ -7,6 +7,7 @@ const Fuse = require('fuse.js');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const readFileAsync = promisify(fs.readFile);
+const vuepressPagesInParsedQueueCount = 20;
 
 const fuseOptions = {
     // include: ['score', 'matches'],
@@ -41,6 +42,45 @@ const findItemForSendingLimit = 40;
 const textLeftRightRangeLength = 150;
 
 module.exports = async function(vuepressDestPath) {
+    const getParsePagesQueue = (vuepressPages, pagesParamsList, start, end) => {
+        const pagesQueue = [];
+        pagesParamsList.slice(start, end).forEach(pageParams => {
+            pagesQueue.push((async() => {
+                let vuepressPagePath = pageParams.path;
+                const vuepressPageTitle = pageParams.title;
+                const vuepressPageLocalePath = pageParams.localePath;
+
+                if(vuepressPagePath.slice(-1) === '/') {
+                    vuepressPagePath = `${vuepressPagePath}index.html`;
+                }
+                const pagePath = decodeURI(path.join(vuepressDestPath, vuepressPagePath));
+                const vuepressPageContent = await readFileAsync(pagePath)
+                  .then(result => {
+                      return result.toString()
+                  })
+                  .catch(error => {
+                      console.error(error);
+                  });
+
+                const dom = new JSDOM(vuepressPageContent);
+                let vuepressPageText = '';
+                const pageDomMainElement = dom.window.document.querySelector('main');
+
+                if(pageDomMainElement) {
+                    vuepressPageText = pageDomMainElement.textContent;
+                }
+                vuepressPages[vuepressPagePath] = {
+                    path: vuepressPagePath,
+                    title: vuepressPageTitle,
+                    localePath: vuepressPageLocalePath,
+                    content: vuepressPageText.replace(/(?:\r\n|\r|\n)/g, ''),
+                };
+                console.log('Parsed page:', vuepressPagePath);
+            })())
+        });
+        return pagesQueue;
+    };
+
     const vuepressPagesParamsListString = fs.readFileSync(`${vuepressDestPath}/documentation-files-map.json`).toString();
 
     let vuepressPagesParamsList = null;
@@ -55,70 +95,23 @@ module.exports = async function(vuepressDestPath) {
         console.error('Vuepress pages list with paths not found');
         return;
     }
-
-    // const browser = await puppeteer.launch();
-
     const vuepressPages = {};
+    const vuepressPagesParamsListLength = vuepressPagesParamsList.length;
 
-    for(let vuepressPageParams of vuepressPagesParamsList) {
-        let vuepressPagePath = vuepressPageParams.path;
-        const vuepressPageTitle = vuepressPageParams.title;
-        const vuepressPageLocalePath = vuepressPageParams.localePath;
 
-        if(vuepressPagePath.slice(-1) === '/') {
-            vuepressPagePath = `${vuepressPagePath}index.html`;
+    for(let vuepressPageParamsIndex = 0; vuepressPageParamsIndex < vuepressPagesParamsListLength;) {
+        let end = vuepressPageParamsIndex + vuepressPagesInParsedQueueCount;
+        if(end > vuepressPagesParamsListLength) {
+            end = vuepressPagesParamsListLength
         }
-
-        const pagePath = decodeURI(path.join(vuepressDestPath, vuepressPagePath));
-        // const vuepressPageContent = await readFileAsync(pagePath)
-        //     .then(result => {
-        //         return result.toString()
-        //     })
-        //     .catch(error => {
-        //         console.error(error);
-        //     });
-
-        // const page = await browser.newPage();
-        // await page.goto(`file:${pagePath}`);
-        // const pageText = await page.evaluate(() => {
-        //     // const pageElement = /*document.querySelector('body .page')*/document.body;
-        //     const pageElement = document.querySelector('main');
-        //     if(!pageElement) {
-        //         return '';
-        //     }
-        //     return pageElement.innerText;
-        // });
-        const vuepressPageContent = await readFileAsync(pagePath)
-            .then(result => {
-                return result.toString()
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-        const dom = new JSDOM(vuepressPageContent);
-        let vuepressPageText = '';
-        const pageDomMainElement = dom.window.document.querySelector('main');
-
-        if(pageDomMainElement) {
-            vuepressPageText = pageDomMainElement.textContent;
+        await Promise.all(
+          getParsePagesQueue(vuepressPages, vuepressPagesParamsList, vuepressPageParamsIndex, end)
+        );
+        if(end === vuepressPagesParamsListLength) {
+            break;
         }
-        // replace(/\n/g, "<br />");
-        // await page.close();
-
-        vuepressPages[vuepressPagePath] = {
-            path: vuepressPagePath,
-            title: vuepressPageTitle,
-            localePath: vuepressPageLocalePath,
-            content: vuepressPageText.replace(/(?:\r\n|\r|\n)/g, ''),
-        };
-
-
-        console.log('Parsed page:', vuepressPagePath);
+        vuepressPageParamsIndex = end;
     }
-
-    // await browser.close();
-
     // let sortedPagesContentByLocalePath = vuepressPages.reduce((accumulator, page) => {
     //     const pageLocalePath = page.localePath;
     //     const accumulatorLocalePath = accumulator[pageLocalePath];
