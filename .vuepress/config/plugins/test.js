@@ -1,6 +1,6 @@
 module.exports = (options, context) => {
 
-  console.log('context:', context);
+  // console.log('context:', context);
   // let pages = context.__proto__.pages;
 
   // Object.defineProperty(context.__proto__, 'pages', {
@@ -15,16 +15,16 @@ module.exports = (options, context) => {
   // });
 
   // const pages =
-  Object.defineProperty(context.__proto__.pages, "push", {
-
-    value(value) {
-      console.log(value)
-      // for (var i = 0, n = this.length, l = arguments.length; i < l; i++, n++) {
-      //   RaiseMyEvent(this, n, this[n] = arguments[i]); // assign/raise your event
-      // }
-      // return n;
-    }
-  });
+  // Object.defineProperty(context.__proto__.pages, "push", {
+  //
+  //   value(value) {
+  //     console.log(value)
+  //     // for (var i = 0, n = this.length, l = arguments.length; i < l; i++, n++) {
+  //     //   RaiseMyEvent(this, n, this[n] = arguments[i]); // assign/raise your event
+  //     // }
+  //     // return n;
+  //   }
+  // });
 
   // pages.push = (value) => {
   //   console.log('push newValue:', value);
