@@ -5,14 +5,10 @@ module.exports = (redirectList = []) => {
     return async(ctx, next) => {
         const requestOriginalUrl = ctx.originalUrl;
         const urlParsedPath = path.parse(requestOriginalUrl);
-
-        // console.log('urlParsedPath:', urlParsedPath);
-
         if(!redirectList.length) {
             await next();
             return;
         }
-
         switch (urlParsedPath.ext) {
             case '':
             case '.html':
@@ -20,8 +16,14 @@ module.exports = (redirectList = []) => {
                 for (const redirectRule of redirectList) {
                     const redirectRuleFrom = redirectRule.from;
                     const redirectRuleTo = redirectRule.to;
-                    if (redirectRuleTo && redirectRuleFrom === requestOriginalUrl) {
-                        ctx.redirect(`${ctx.protocol}://${ctx.headers.host + redirectRuleTo}`)
+                    const isExternalLinkTo = redirectRuleTo.slice(0, 4) === 'http';
+                    if (
+                            redirectRuleTo &&
+                            redirectRuleFrom === requestOriginalUrl
+                    ) {
+                        ctx.redirect(
+                          isExternalLinkTo ? redirectRuleTo : `${ctx.protocol}://${ctx.headers.host + redirectRuleTo}`
+                        );
                         return;
                     }
                     let regexpResult = '';
@@ -29,7 +31,9 @@ module.exports = (redirectList = []) => {
                         regexpResult = requestOriginalUrl.replace(new RegExp(redirectRuleFrom), redirectRuleTo);
                     }
                     if(regexpResult && requestOriginalUrl !== regexpResult) {
-                        ctx.redirect(`${ctx.protocol}://${ctx.headers.host + regexpResult}`);
+                        ctx.redirect(
+                          isExternalLinkTo ? regexpResult : `${ctx.protocol}://${ctx.headers.host + regexpResult}`
+                        );
                         return;
                     }
                 }
