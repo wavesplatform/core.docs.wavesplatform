@@ -46,6 +46,9 @@ module.exports = (ctx, mixin) => {
         themeConfig: {
             buildDate: new Date(),
             activeColouration: 'default',
+            colouration: [
+
+            ],
             env: {
                 adminServerUrl: process.env.adminServerUrl
             },
