@@ -29,9 +29,6 @@ module.exports = (redirectList = []) => {
             const redirectRuleFrom = redirectRule.from;
             const redirectRuleTo = redirectRule.to;
             const isTestMatch = new RegExp(redirectRuleFrom).test(originalUrlParsed.path);
-            console.log('isTestMatch', urlPathParsed, isTestMatch, originalUrlParsed);
-
-
             if(!isTestMatch) {
                 continue
             }
