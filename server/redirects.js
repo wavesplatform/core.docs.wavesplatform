@@ -3,7 +3,6 @@ const url = require('url');
 const checkedExtensionsForRedirect = ['', '.html', '.md'];
 const removeExtensionPartFromUrl = (url) => {
     const urlPathParsed = path.parse(url);
-    console.log('urlPathParsed:', urlPathParsed);
     return urlPathParsed.dir;
 };
 
