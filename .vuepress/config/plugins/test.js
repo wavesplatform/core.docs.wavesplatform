@@ -1,5 +1,26 @@
-module.exports = (options, context) => {
+const getFlatSidebarItems = (items, accumulator = []) => {
+  if(!items) {
+    return accumulator;
+  }
+  return items.reduce((accumulator, item) => {
+    accumulator.push(item);
+    if(item.children) {
+      getFlatSidebarItems(item.children, accumulator);
+    }
+    return accumulator;
+  }, accumulator);
+};
 
+module.exports = (options, context) => {
+  console.log('context:', context, context.themeConfig.locales);
+  const flatSidebarLinks = Object.values(context.themeConfig.locales).reduce((accumulator, locale) => {
+    Object.values(locale.sidebar).forEach(sidebarGroup => {
+      getFlatSidebarItems(sidebarGroup, accumulator)
+    });
+    return accumulator;
+  }, []);
+
+  // context.themeConfig.locales.
   // console.log('context:', context);
   // let pages = context.__proto__.pages;
   //
@@ -14,18 +35,22 @@ module.exports = (options, context) => {
   //   apply
   // });
 
-  // const pages =
-  // Object.defineProperty(context.__proto__.pages, "push", {
-  //
-  //   value(value) {
-  //     console.log(value)
-  //     // for (var i = 0, n = this.length, l = arguments.length; i < l; i++, n++) {
-  //     //   RaiseMyEvent(this, n, this[n] = arguments[i]); // assign/raise your event
-  //     // }
-  //     // return n;
-  //   }
-  // });
+  const pages = context.__proto__.pages;
+  Object.defineProperty(pages, "push", {
+    value(page) {
+      const isPageAvailableInSidebar = flatSidebarLinks.some(sidebarLink => {
+        return sidebarLink.path === page.path;
+      });
+      if(isPageAvailableInSidebar) {
+        console.log(page);
+        pages[pages.length] = page;
+      }
+      return pages;
+    }
+  });
 
+
+  console.log('flatSidebarLinks:', flatSidebarLinks, pages, pages.length);
   // pages.push = (value) => {
   //   console.log('push newValue:', value);
   //   return pages.__proto__.push(value);
