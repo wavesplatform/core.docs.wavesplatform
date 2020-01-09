@@ -2,7 +2,7 @@ module.exports = (options, context) => {
 
   // console.log('context:', context);
   // let pages = context.__proto__.pages;
-
+  //
   // Object.defineProperty(context.__proto__, 'pages', {
   //   set(newValue) {
   //     console.log('newValue:', newValue);
