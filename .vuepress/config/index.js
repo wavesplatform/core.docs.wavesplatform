@@ -11,13 +11,8 @@ const deepmerge = require('deepmerge');
 const markdownConfig = require('./markdownConfig');
 const cleanUrlsPlugin = require('vuepress-plugin-clean-urls');
 
-const testPlugin = require('./plugins/test');
+// const ignoreNotIndexedFilesPlugin = require('./plugins/ignoreNotIndexedFiles');
 // const beforeDevServer = require('./beforeDevServer/');
-
-// let makePdfPages = null;
-// if(envMakePdf) {
-//     makePdfPages = require('./makePdfPages');
-// }
 
 module.exports = (ctx, mixin) => {
     const rootConfig = deepmerge({
@@ -55,13 +50,17 @@ module.exports = (ctx, mixin) => {
             docsDir: 'docs',
         },
         plugins: [
-            cleanUrlsPlugin,
-            // require('vuepress-plugin-container'),
             // [
-            //     'vuepress-plugin-container',
+            //     ignoreNotIndexedFilesPlugin,
+            //     {}
+            // ],
+            cleanUrlsPlugin,
+            // [
+            //     cleanUrlsPlugin,
             //     {
-            //         // type: 'right',
-            //         // defaultTitle: '',
+            //         normalSuffix: '',
+            //         indexSuffix: '',
+            //         notFoundPath: '/404.html',
             //     },
             // ],
             // [
@@ -74,15 +73,6 @@ module.exports = (ctx, mixin) => {
             //         },
             //     },
             // ],
-            // testPlugin({
-            //     test: '123',
-            // }),
-            [
-                testPlugin,
-                {
-                    test: '',
-                }
-            ]
             // ['pwa', {
             //     serviceWorker: true,
             //     updatePopup: true
@@ -90,22 +80,12 @@ module.exports = (ctx, mixin) => {
             // ['google-analytics', {
             //     ga: 'UA-128189152-1'
             // }],
-            // [
-            //     'vuepress-plugin-clean-urls',
-            //     {
-            //         normalSuffix: '',
-            //         indexSuffix: '',
-            //         notFoundPath: '/404.html',
-            //     },
-            // ],
+
         ],
         extraWatchFiles: [
             // '.vuepress/locales/**',
         ],
         configureWebpack(config, isServer) {
-            // const fontsRule = config.module.rules.filter(rule => rule.__ruleNames.includes('fonts'));
-            // fontsRule.test = /\.(woff2?|eot|ttf|otf)(\?.*)?$/i;
-            // console.log('process:', process);
             config.resolve.alias[packageName] = corePath;
 
             if (!isServer && process.argv.includes('build')) {
@@ -130,15 +110,6 @@ module.exports = (ctx, mixin) => {
                                   console.log('documentation-files-map.json done');
                               }*/);
                               console.log(`${global.documentationFilesMapName} done`);
-
-                              // if(envMakePdf) {
-                              //     console.log('pagePaths:', pagePaths, pagePaths.filter(item => item.includes('en/waves-matcher/matcher-settings')))
-                              //
-                              //     makePdfPages(
-                              //       vuepressDestPath,
-                              //       pagePaths.filter(item => item.includes('en/waves-matcher/matcher-settings'))
-                              //     );
-                              // }
                           });
                       }
                   },
