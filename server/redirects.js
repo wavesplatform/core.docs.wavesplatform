@@ -34,7 +34,6 @@ module.exports = (redirectList = []) => {
               redirectRuleTo &&
               redirectRuleFrom === requestOriginalUrl
             ) {
-                console.log('test1')
                 ctx.redirect(
                   removeExtensionPartFromUrl(
                     isExternalLinkTo ? redirectRuleTo : `${ctx.protocol}://${ctx.headers.host + redirectRuleTo}`
