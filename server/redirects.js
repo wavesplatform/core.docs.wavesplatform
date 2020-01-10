@@ -50,11 +50,15 @@ module.exports = (redirectList = []) => {
                 regexpResult = originalUrl.replace(new RegExp(redirectRuleFrom), redirectRuleTo);
             }
             if(regexpResult && requestOriginalUrl !== regexpResult) {
-                ctx.redirect(
-                  removeExtensionPartFromUrl(
-                    isExternalLinkTo ? regexpResult : `${ctx.protocol}://${ctx.headers.host + regexpResult}`
-                  )
-                );
+                if(redirectRuleTo.includes('$')) {
+                    ctx.redirect(
+                      removeExtensionPartFromUrl(
+                        isExternalLinkTo ? regexpResult : `${ctx.protocol}://${ctx.headers.host + regexpResult}`
+                      )
+                    );
+                    return;
+                }
+                ctx.redirect(redirectRuleTo);
                 return;
             }
 
