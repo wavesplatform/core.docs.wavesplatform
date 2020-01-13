@@ -58,10 +58,11 @@ module.exports = (redirectList = []) => {
                     );
                     return;
                 }
-                ctx.redirect(redirectRuleTo);
+                ctx.redirect(
+                  removeExtensionPartFromUrl(redirectRuleTo)
+                );
                 return;
             }
-
         }
         await next();
     };
