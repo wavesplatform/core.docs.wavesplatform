@@ -5,7 +5,7 @@ const checkedUrlEndForRedirect = ['', ...checkedExtensionsForRedirect];
 const removeExtensionPartFromUrl = (url) => {
     const urlPathParsed = path.parse(url);
     const urlPathParsedName = urlPathParsed.name;
-    return `${urlPathParsed.dir}${urlPathParsedName ? '/' + urlPathParsedName : ''}`.replace('//', '/');
+    return `${urlPathParsed.dir}${urlPathParsedName ? '/' + urlPathParsedName : ''}`/*.replace('//', '/')*/;
 };
 module.exports = (redirectList = []) => {
     return async(ctx, next) => {
@@ -23,7 +23,6 @@ module.exports = (redirectList = []) => {
             await next();
             return;
         }
-
         for (const redirectRule of redirectList) {
             const redirectRuleFrom = redirectRule.from;
             const redirectRuleTo = redirectRule.to;
@@ -52,6 +51,7 @@ module.exports = (redirectList = []) => {
                 regexpResult = originalUrl.replace(new RegExp(redirectRuleFrom), redirectRuleTo);
             }
             if(regexpResult && requestOriginalUrl !== regexpResult) {
+
                 if(redirectRuleTo.includes('$')) {
                     ctx.redirect(
                       removeExtensionPartFromUrl(
@@ -66,15 +66,6 @@ module.exports = (redirectList = []) => {
                 return;
             }
         }
-
-        if(checkedExtensionsForRedirect.some(extension => {
-            return extension === urlPathParsed.ext;
-        })) {
-            ctx.redirect(
-              removeExtensionPartFromUrl(requestOriginalUrl)
-            );
-        }
-
 
         await next();
     };
