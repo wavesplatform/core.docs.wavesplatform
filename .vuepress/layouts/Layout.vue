@@ -398,6 +398,7 @@
                       top: savedPosition.y,
                       behavior: 'smooth',
                   }, () => this.$store.commit('setScrollTopState', false))
+
               } else if (to.hash) {
                   scrollToHashElement(to.hash, this.$store);
                   return false;

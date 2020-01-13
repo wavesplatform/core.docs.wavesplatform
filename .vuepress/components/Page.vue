@@ -215,6 +215,8 @@
           });
           this.mediumZoomInstance.attach(...imagesWithZoom);
       },
+
+
       setCurrentActiveHeaderId() {
         if(this.isScrollTopState) {
           return;
@@ -225,10 +227,13 @@
         }
         if(decodeURIComponent(this.$route.hash).slice(1) !== currentActiveHeaderId) {
           this.$store.commit('setUserNaturalScrollState', true);
-          this.$router.push({hash: currentActiveHeaderId})
+          this.$router.push({hash: currentActiveHeaderId});
           setTimeout(() => this.$store.commit('setUserNaturalScrollState', false), 0)
+            // console.log('test', this.$store.state.interface.isUserNaturalScrollState)
         }
       },
+
+
 
       getCurrentActiveHeaderId() {
         const idsValues = this.headersElements.reduce((accumulator, headerElement) => {

@@ -10,6 +10,7 @@
 
 <script>
     import OnlyContent from './OnlyContent';
+    import {scrollToHashElement} from '../util';
     export default {
         components: {
             OnlyContent,
@@ -20,6 +21,9 @@
           }
         },
         computed: {
+            isUserNaturalScrollState() {
+                return this.$store.state.interface.isUserNaturalScrollState;
+            },
             layout() {
                 if (this.$page.path) {
                     if (this.$route.query.contentOnly && this.$frontmatter.layout !== 'ForPdf') {
@@ -51,7 +55,24 @@
                     }
                 }, {
                     immediate: true,
-                })
+                });
+                // window.addEventListener('hashchange', (event) => {
+                //     // event.preventDefault();
+                //     console.log('hashchange event:', event);
+                // });
+                document.addEventListener('click', (event) => {
+                   const target = event.target;
+                   if(target.tagName !== 'A') {
+                       return;
+                   }
+                   const targetHostname = target.hostname;
+                   const isExternalUrl = targetHostname !== location.hostname;
+                   const targetHash = target.hash;
+                   if(!isExternalUrl && targetHash) {
+                       event.preventDefault();
+                       scrollToHashElement(targetHash, this.$store);
+                   }
+                });
             }
         },
     }
