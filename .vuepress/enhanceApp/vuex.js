@@ -119,7 +119,6 @@ export default (context) => {
             return themeConfig.colouration[themeConfig.activeColouration]
         },
         activeColorationConfigColors(state) {
-            console.log('state:', state, getters)
             return getters.activeColorationConfig(state).colors;
         },
     };

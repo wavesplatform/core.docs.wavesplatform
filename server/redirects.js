@@ -1,10 +1,11 @@
 const path = require('path');
 const url = require('url');
-const checkedExtensionsForRedirect = ['', '.html', '.md'];
+const checkedExtensionsForRedirect = ['.html', '.md'];
+const checkedUrlEndForRedirect = ['', ...checkedExtensionsForRedirect];
 const removeExtensionPartFromUrl = (url) => {
     const urlPathParsed = path.parse(url);
     const urlPathParsedName = urlPathParsed.name;
-    return `${urlPathParsed.dir}${urlPathParsedName ? '/' + urlPathParsedName : ''}`;
+    return `${urlPathParsed.dir}${urlPathParsedName ? '/' + urlPathParsedName : ''}`.replace('//', '/');
 };
 module.exports = (redirectList = []) => {
     return async(ctx, next) => {
@@ -15,13 +16,14 @@ module.exports = (redirectList = []) => {
             await next();
             return;
         }
-        const isUrlPathExtensionNeedRedirect = checkedExtensionsForRedirect.some(extension => {
+        const isUrlPathExtensionNeedRedirect = checkedUrlEndForRedirect.some(extension => {
             return extension === urlPathParsed.ext;
         });
         if(!isUrlPathExtensionNeedRedirect) {
             await next();
             return;
         }
+
         for (const redirectRule of redirectList) {
             const redirectRuleFrom = redirectRule.from;
             const redirectRuleTo = redirectRule.to;
@@ -64,6 +66,16 @@ module.exports = (redirectList = []) => {
                 return;
             }
         }
+
+        if(checkedExtensionsForRedirect.some(extension => {
+            return extension === urlPathParsed.ext;
+        })) {
+            ctx.redirect(
+              removeExtensionPartFromUrl(requestOriginalUrl)
+            );
+        }
+
+
         await next();
     };
 };
