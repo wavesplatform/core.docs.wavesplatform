@@ -5,7 +5,11 @@ const checkedUrlEndForRedirect = ['', ...checkedExtensionsForRedirect];
 const removeExtensionPartFromUrl = (url) => {
     const urlPathParsed = path.parse(url);
     const urlPathParsedName = urlPathParsed.name;
-    return `${urlPathParsed.dir}${urlPathParsedName ? '/' + urlPathParsedName : ''}`/*.replace('//', '/')*/;
+    let computedUrl = `${urlPathParsed.dir}${urlPathParsedName ? '/' + urlPathParsedName : ''}`;
+    if(computedUrl.slice(0, 2) === '//') {
+        computedUrl = computedUrl.slice(1);
+    }
+    return computedUrl;
 };
 module.exports = (redirectList = []) => {
     return async(ctx, next) => {
@@ -66,7 +70,14 @@ module.exports = (redirectList = []) => {
                 return;
             }
         }
-
+        if(checkedExtensionsForRedirect.some(extension => {
+            return extension === urlPathParsed.ext;
+        })) {
+            ctx.redirect(
+              removeExtensionPartFromUrl(requestOriginalUrl)
+            );
+            return;
+        }
         await next();
     };
 };
