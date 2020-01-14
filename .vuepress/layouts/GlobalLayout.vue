@@ -41,6 +41,7 @@
               return this.$store.state.interface.isThemePainted;
             },
         },
+
         beforeCreate() {
             if(!this.$isServer) {
                 window.vm = this;
@@ -58,7 +59,6 @@
                 });
                 // window.addEventListener('hashchange', (event) => {
                 //     // event.preventDefault();
-                //     console.log('hashchange event:', event);
                 // });
                 document.addEventListener('click', (event) => {
                    const target = event.target;
@@ -77,6 +77,13 @@
                        scrollToHashElement(targetHash, this.$store);
                    }
                 });
+
+                this.$watch('$localeConfig', (newValue) => {
+                    this.$cookies.set('lang', newValue.lang);
+                }, {
+                    immediate: true,
+                });
+
             }
         },
     }

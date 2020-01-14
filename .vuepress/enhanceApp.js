@@ -5,6 +5,7 @@ import vuex from './enhanceApp/vuex'
 import elementUi from './enhanceApp/elementUi'
 import scrollTo from './enhanceApp/scrollTo'
 import setTitle from './enhanceApp/setTitle'
+import vueCookie from './enhanceApp/vueCookie'
 // import globalComponents from './enhanceApp/globalComponents';
 let isInit = false;
 export default (context) => {
@@ -22,5 +23,6 @@ export default (context) => {
     routing(context, store);
     setTitle(context, store);
     elementUi(context);
+    vueCookie(context);
     // globalComponents(context);
 }
