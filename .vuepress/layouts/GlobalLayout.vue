@@ -67,7 +67,11 @@
                    }
                    const targetHostname = target.hostname;
                    const isExternalUrl = targetHostname !== location.hostname;
-                   const targetHash = target.hash;
+                   let targetHash = decodeURI(target.hash);
+                   const isCyrillicURI = new RegExp('[А-я]').test(targetHash);
+                   if(isCyrillicURI) {
+                       targetHash = targetHash.replace(/л/gi, 'n');
+                   }
                    if(!isExternalUrl && targetHash) {
                        event.preventDefault();
                        scrollToHashElement(targetHash, this.$store);
