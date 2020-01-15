@@ -4,41 +4,28 @@
             ref="navbar"
             :class="$style.navbar"
             type="content"
+            :options="{
+              isShowSidebar: false,
+            }"
     />
-<!--    <div :class="$style.navbarWrapper2">
-      <WidthLimit
-              :type="2"
-              :class="$style.navbarWrapper"
-      >
-        <Navbar
-                ref="navbar"
-                :class="$style.navbar"
-                type="content"
-                :style="{
-                        transform: (layoutWidth < 720 && isOpenLeftSidebar) ? `translateX(${leftSidebarWidth}px)` : '',
-                    }"
-        />
-      </WidthLimit>
-    </div>-->
+
+    <div :class="$style.content">
+      <Icon404/>
+      <span>Something’s missing</span>
+      <span>The page you are looking for is not found</span>
+
+    </div>
   </div>
 </template>
 
 <script>
   import Navbar from '@theme/components/Navbar'
-  import Page from '@theme/components/Page.vue'
-  import Sidebar from '@theme/components/Sidebar/'
-  import WidthLimit from '@theme/components/WidthLimit'
-  import PageNavigations from '@theme/components/PageNavigations'
-  import LanguageNotification from '@theme/components/LanguageNotification'
-  // import ThemeControl from '@theme/components/ThemeControl'
-  import watchLayoutSizeMixin from './_mixins/watchLayoutSize'
-  import navbarResizeDetectorMixin from './_mixins/navbarResizeDetector'
-  import searchMixin from '@theme/components/_mixins/search'
-  import { resolveSidebarItems, scrollToHashElement } from '../util'
+  import Icon404 from './404/Icon404'
 
   export default {
     components: {
-      Navbar
+      Navbar,
+      Icon404,
     },
 
     data() {
@@ -86,6 +73,7 @@
     overflow hidden
     align-items center
     min-height 100vh
+    justify-content center
   }
 
   .navbar {
@@ -95,6 +83,12 @@
     flex-shrink 0
     z-index 1
     transition transform $transitionS1
+    top 0
+    left 0
   }
-
+  .content {
+    display flex
+    flex-direction column
+    align-items center
+  }
 </style>

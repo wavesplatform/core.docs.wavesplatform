@@ -48,7 +48,7 @@
             </div>
 
             <Sidebar
-                v-show="layoutWidth > 719"
+                v-show="isShowSidebar && layoutWidth > 719"
                 ref="sidebar2"
                 side="right"
                 :sidebar-toggle-trigger-options="{
@@ -117,6 +117,12 @@
   import searchMixin from '@theme/components/_mixins/search'
 
   export default {
+      props: {
+        isShowSidebar: {
+            type: Boolean,
+            default: true,
+        }
+      },
     mixins: [
       overallMixin,
       searchMixin,

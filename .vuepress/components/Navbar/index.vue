@@ -4,7 +4,11 @@
             $style.root,
             isBrowserSupportedBackdropFilter && $style.root_withBackdropFilter,
         ]"
-        :is="componentName"/>
+        :is="componentName"
+        v-bind="{
+            ...options,
+        }"
+    />
 </template>
 
 <script>
@@ -13,13 +17,17 @@
 
   export default {
     props: {
-      type: {
-        type: String,
-        default: 'home',
-        validator(value) {
-          return ['home', 'content'].includes(value);
+        type: {
+            type: String,
+            default: 'home',
+            validator(value) {
+                return ['home', 'content'].includes(value);
+            },
         },
-      }
+        options: {
+            type: Object,
+            default: {},
+        },
     },
 
     computed: {
