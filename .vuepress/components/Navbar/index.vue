@@ -26,7 +26,7 @@
         },
         options: {
             type: Object,
-            default: {},
+            default: () => ({}),
         },
     },
 
