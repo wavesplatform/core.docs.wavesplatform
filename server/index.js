@@ -14,11 +14,13 @@ const Koa = require('koa');
 console.log('global.coreRootPath:', global.coreRootPath)
 const serve = require(path.join(global.coreRootPath, 'utils/koa-static'));
 const app = new Koa();
+const statusHandle = require('./statusHandle');
 const redirects = require('./redirects');
 const toLocale = require('./toLocale');
 const cookies = require('./cookies');
 
 module.exports = async(vuepressDestPath, redirectList = []) => {
+
     app.use(async(ctx, next) => {
         ctx.set('Access-Control-Allow-Origin', '*');
         ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -35,6 +37,8 @@ module.exports = async(vuepressDestPath, redirectList = []) => {
     app.use(
       await toLocale(vuepressDestPath)
     );
+
+    app.use(statusHandle());
 
     app.use(
         serve(
