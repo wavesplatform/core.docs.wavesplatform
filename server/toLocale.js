@@ -1,13 +1,6 @@
-const GetSearchResultByQuery = require('./getSearchResultByQuery');
 const ruLangKey = 'ru-RU';
-module.exports = async (vuepressDestPath) => {
-    const getSearchResultByQuery = await GetSearchResultByQuery(vuepressDestPath);
-    if(!getSearchResultByQuery) {
-        console.error('!getSearchResultByQuery');
-    }
-
+module.exports = () => {
     return async (ctx, next) => {
-        const searchQuery = ctx.query.search;
         if (ctx.req.url === '/') {
             const acceptLanguage = ctx.header['accept-language'];
             const cookieLang = ctx.cookie && ctx.cookie.lang;
@@ -20,9 +13,6 @@ module.exports = async (vuepressDestPath) => {
             }
             ctx.redirect('/en/');
             return;
-        } else if(searchQuery) {
-            const searchResult = await getSearchResultByQuery(searchQuery);
-            ctx.body = searchResult;
         }
         await next();
     };

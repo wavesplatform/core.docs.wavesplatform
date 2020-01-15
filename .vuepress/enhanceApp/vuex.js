@@ -88,6 +88,7 @@ export default (context) => {
             storage: window.localStorage,
             reducer: (state) => {
                 const {
+                    currentLanguage,
                     themeConfig: {
                         activeColouration,
                     },
@@ -99,6 +100,7 @@ export default (context) => {
                     },
                 } = state;
                 return {
+                    currentLanguage,
                     themeConfig: {
                         activeColouration,
                     },

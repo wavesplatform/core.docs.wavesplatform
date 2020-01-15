@@ -14,6 +14,7 @@ const Koa = require('koa');
 console.log('global.coreRootPath:', global.coreRootPath)
 const serve = require(path.join(global.coreRootPath, 'utils/koa-static'));
 const app = new Koa();
+const search = require('./search');
 const statusHandle = require('./statusHandle');
 const redirects = require('./redirects');
 const toLocale = require('./toLocale');
@@ -28,15 +29,15 @@ module.exports = async(vuepressDestPath, redirectList = []) => {
         await next();
     });
 
+    app.use(await search(vuepressDestPath));
+
     if(redirectList.length) {
         app.use(redirects(redirectList));
     }
 
     app.use(cookies());
 
-    app.use(
-      await toLocale(vuepressDestPath)
-    );
+    app.use(toLocale());
 
     app.use(statusHandle());
 
