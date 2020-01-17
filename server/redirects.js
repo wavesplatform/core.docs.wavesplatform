@@ -54,6 +54,7 @@ module.exports = (redirectList = []) => {
                 ctx.redirect(
                   requestOriginalUrl.replace(new RegExp(`${ctx.protocol}://${ctx.headers.host + redirectRuleFrom}`), redirectRuleTo)
                 );
+                return
             }
             /*/TODO: need refactor/*/
 
