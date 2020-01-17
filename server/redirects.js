@@ -47,13 +47,11 @@ module.exports = (redirectList = []) => {
                 return;
             }
             let regexpResult = '';
-            if(redirectRuleFrom && redirectRuleTo) {
-                let originalUrl = requestOriginalUrl;
-                if(isExternalLinkTo) {
-                    originalUrl = redirectRuleTo;
-                }
-                regexpResult = originalUrl.replace(new RegExp(redirectRuleFrom), redirectRuleTo);
-            }
+            let originalUrl = requestOriginalUrl;
+            // if(isExternalLinkTo) {
+            //     originalUrl = redirectRuleTo;
+            // }
+            regexpResult = originalUrl.replace(new RegExp(redirectRuleFrom), redirectRuleTo);
             if(regexpResult && requestOriginalUrl !== regexpResult) {
 
                 if(redirectRuleTo.includes('$')) {
