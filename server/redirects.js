@@ -46,12 +46,27 @@ module.exports = (redirectList = []) => {
                 );
                 return;
             }
+            /*TODO: need refactor*/
+            const isMatch = ['/zh/()', '/ko/()', '/pt-br/()'].some(rule => {
+                return  new RegExp(`${ctx.protocol}://${ctx.headers.host + rule}`).test(requestOriginalUrl);
+            });
+            if(isMatch) {
+                ctx.redirect(
+                  requestOriginalUrl.replace(new RegExp(`${ctx.protocol}://${ctx.headers.host + redirectRuleFrom}`), redirectRuleTo)
+                );
+            }
+            /*/TODO: need refactor/*/
+
+
+
             let regexpResult = '';
-            let originalUrl = requestOriginalUrl;
-            // if(isExternalLinkTo) {
-            //     originalUrl = redirectRuleTo;
-            // }
-            regexpResult = originalUrl.replace(new RegExp(redirectRuleFrom), redirectRuleTo);
+            if(redirectRuleFrom && redirectRuleTo) {
+                let originalUrl = requestOriginalUrl;
+                if(isExternalLinkTo) {
+                    originalUrl = redirectRuleTo;
+                }
+                regexpResult = originalUrl.replace(new RegExp(redirectRuleFrom), redirectRuleTo);
+            }
             if(regexpResult && requestOriginalUrl !== regexpResult) {
 
                 if(redirectRuleTo.includes('$')) {
