@@ -51,10 +51,15 @@ module.exports = (redirectList = []) => {
                 return  new RegExp(`${ctx.protocol}://${ctx.headers.host + rule}`).test(requestOriginalUrl);
             });
             if(isMatch) {
-                ctx.redirect(
-                  requestOriginalUrl.replace(new RegExp(`${ctx.protocol}://${ctx.headers.host + redirectRuleFrom}`), redirectRuleTo)
-                );
-                return
+                const regExpResult = requestOriginalUrl.replace(new RegExp(`${ctx.protocol}://${ctx.headers.host + redirectRuleFrom}`), redirectRuleTo);
+
+                if(requestOriginalUrl !== regExpResult) {
+                    ctx.redirect(
+                      regExpResult
+                    );
+                    return
+                }
+
             }
             /*/TODO: need refactor/*/
 
