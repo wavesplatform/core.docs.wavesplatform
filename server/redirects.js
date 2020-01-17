@@ -47,20 +47,22 @@ module.exports = (redirectList = []) => {
                 return;
             }
             /*TODO: need refactor*/
-            const isMatch = ['/zh/()', '/ko/()', '/pt-br/()'].some(rule => {
-                return  new RegExp(`${ctx.protocol}://${ctx.headers.host + rule}`).test(requestOriginalUrl);
-            });
-            if(isMatch) {
-                const regExpResult = requestOriginalUrl.replace(new RegExp(`${ctx.protocol}://${ctx.headers.host + redirectRuleFrom}`), redirectRuleTo);
 
-                if(requestOriginalUrl !== regExpResult) {
-                    ctx.redirect(
-                      regExpResult
-                    );
-                    return
-                }
+            // const isMatch = ['/zh/()', '/ko/()', '/pt-br/()'].some(rule => {
+            //     return  new RegExp(`${ctx.protocol}://${ctx.headers.host + rule}`).test(requestOriginalUrl);
+            // });
+            // if(isMatch) {
+            //     const regExpResult = requestOriginalUrl.replace(new RegExp(`${ctx.protocol}://${ctx.headers.host + redirectRuleFrom}`), redirectRuleTo);
+            //
+            //     if(requestOriginalUrl !== regExpResult) {
+            //         ctx.redirect(
+            //           regExpResult
+            //         );
+            //         return
+            //     }
+            //
+            // }
 
-            }
             /*/TODO: need refactor/*/
 
 
