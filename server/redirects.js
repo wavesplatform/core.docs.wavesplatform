@@ -11,7 +11,7 @@ const removeExtensionPartFromUrl = (url) => {
     if(computedUrl.slice(0, 2) === '//') {
         computedUrl = computedUrl.slice(1);
     }
-    console.log('computedUrl:', computedUrl);
+    // console.log('computedUrl:', computedUrl);
     return computedUrl;
 };
 module.exports = (redirectList = []) => {
@@ -34,7 +34,7 @@ module.exports = (redirectList = []) => {
         }
         for (const redirectRule of redirectList) {
 
-            console.log('originalUrlParsed:', originalUrlParsed, urlPathParsed);
+            // console.log('originalUrlParsed:', originalUrlParsed, urlPathParsed);
 
             const redirectRuleFrom = redirectRule.from;
             const redirectRuleTo = redirectRule.to;
