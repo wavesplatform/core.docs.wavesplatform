@@ -5,10 +5,13 @@ const checkedUrlEndForRedirect = ['', ...checkedExtensionsForRedirect];
 const removeExtensionPartFromUrl = (url) => {
     const urlPathParsed = path.parse(url);
     const urlPathParsedName = urlPathParsed.name;
-    let computedUrl = `${urlPathParsed.dir}${urlPathParsedName ? '/' + urlPathParsedName : ''}`;
+    let computedUrl = `${urlPathParsed.dir}${urlPathParsedName ? '/' + urlPathParsedName : ''}${
+        checkedExtensionsForRedirect.every(extensionForRedirect =>  extensionForRedirect !== urlPathParsed.ext) ? urlPathParsed.ext : ''
+    }`;
     if(computedUrl.slice(0, 2) === '//') {
         computedUrl = computedUrl.slice(1);
     }
+    console.log('computedUrl:', computedUrl);
     return computedUrl;
 };
 module.exports = (redirectList = []) => {
@@ -16,6 +19,8 @@ module.exports = (redirectList = []) => {
         const requestOriginalUrl = ctx.originalUrl;
         const originalUrlParsed = url.parse(requestOriginalUrl);
         const urlPathParsed = path.parse(requestOriginalUrl);
+
+
         if(!redirectList.length) {
             await next();
             return;
@@ -28,6 +33,9 @@ module.exports = (redirectList = []) => {
             return;
         }
         for (const redirectRule of redirectList) {
+
+            console.log('originalUrlParsed:', originalUrlParsed, urlPathParsed);
+
             const redirectRuleFrom = redirectRule.from;
             const redirectRuleTo = redirectRule.to;
             const isTestMatch = new RegExp(redirectRuleFrom).test(originalUrlParsed.path);
