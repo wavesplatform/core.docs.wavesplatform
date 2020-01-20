@@ -19,14 +19,14 @@ export default async(context, store) => {
         }
     };
 
-    store.watch(
-        (state, getters) => {
-            return state.currentLanguage;
-        },
-        (newValue, oldValue) => {
-            goToLocalePage(newValue);
-        },
-    );
+    // store.watch(
+    //     (state, getters) => {
+    //         return state.currentLanguage;
+    //     },
+    //     (newValue, oldValue) => {
+    //         goToLocalePage(newValue);
+    //     },
+    // );
 
     if(!isServer) {
         if(window.location.pathname === '/') {

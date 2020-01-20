@@ -79,6 +79,13 @@
                 });
 
                 this.$watch('$localeConfig', (newValue) => {
+                    const localePath = newValue.path;
+                    const localeLang = newValue.lang;
+                    if(!localePath) {
+                        return;
+                    }
+                    this.$store.commit('setCurrentLanguage', localeLang);
+                    console.log('newValue:', newValue);
                     this.$cookies.set('lang', newValue.lang);
                 }, {
                     immediate: true,

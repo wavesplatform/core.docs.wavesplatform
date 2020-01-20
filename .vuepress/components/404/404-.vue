@@ -157,7 +157,7 @@
   import searchMixin from '@theme/components/_mixins/search'
   import { resolveSidebarItems, scrollToHashElement } from '../util'
 
-  import Icon404 from '../components/404/Icon404'
+  import Icon404 from './404/Icon404'
 
   export default {
     name: 'Layout',
@@ -286,6 +286,7 @@
     },
 
     beforeMount() {
+      this.$themeLocaleConfig = this.$themeConfig.locales['/en/'];
       if (!this.$isServer) {
         this.setRouterScrollBehavior();
       }
