@@ -202,7 +202,11 @@
           return;
         }
 
-        const searchResult = await axios.get(`${process.env.isDev ? `${location.protocol}//${location.hostname}:3000` : ''}/?search=${this.query}`)
+          let searchResult = await axios.get(`/?search=${this.query}&localePath=${this.$localePath}`)
+        if(process.env.isDev) {
+            searchResult = await axios.get(`${location.protocol}//${location.hostname}:3000/?search=${this.query}&localePath=${this.$localePath}`);
+        }
+
 
         let searchResultData = searchResult.data
 
