@@ -60,9 +60,21 @@
                 // window.addEventListener('hashchange', (event) => {
                 //     // event.preventDefault();
                 // });
+
                 document.addEventListener('click', (event) => {
-                   const target = event.target;
+                    const target = event.target;
                    if(target.tagName !== 'A') {
+                       return;
+                   }
+                   if(new RegExp(location.host).test(target.href) && !('__vue__' in target)) {
+                       event.preventDefault();
+                       this.$router.push(target.pathname + target.search + target.hash)
+                       .catch(error => {
+                           console.error(error)
+                           if(error) {
+                               this.$router.push('/404');
+                           }
+                       });
                        return;
                    }
                    const targetHostname = target.hostname;
@@ -85,7 +97,6 @@
                         return;
                     }
                     this.$store.commit('setCurrentLanguage', localeLang);
-                    console.log('newValue:', newValue);
                     this.$cookies.set('lang', newValue.lang);
                 }, {
                     immediate: true,

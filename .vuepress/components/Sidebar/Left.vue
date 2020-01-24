@@ -422,6 +422,9 @@
         /*justify-content start*/
         display flex
         position relative
+        & > *:first-child {
+            min-width 100%
+        }
         :global(.ps__rail-y) {
             left 0;
             right auto
@@ -432,20 +435,21 @@
         }
     }
     .sidebarLinksListWrapper2 {
-
+        min-width 100%
     }
 
     .sidebarLinksListWrapper {
         position relative
         /*margin-left $indent1*/
         display flex
-        justify-content: flex-end;
+        justify-content: flex-start;
         direction: ltr
         float left
         /*max-width 100%*/
         padding-right $indent1
         padding-left $indent1
         padding-bottom $indent1
+        min-width 100%
     }
 
     .sidebarLinksList {

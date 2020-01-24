@@ -1,5 +1,5 @@
 <template>
-	<section
+	<div
 			:class="[
         $style.sidebarGroup,
         $style[`depth${depth}`],
@@ -8,27 +8,26 @@
         depth !== 0 && $style.sidebarGroup_isSubGroup,
     ]"
 	>
-    <span
-		    v-if="collapsable"
-		    :class="[
-            $style.sidebarGroup__cell1,
-            $style.arrowIcon,
-            open ? 'el-icon-arrow-down' : 'el-icon-arrow-right',
-        ]"
-		    @click="clickToggleTrigger"
-    />
+	    <span
+			    v-if="collapsable"
+			    :class="[
+		            $style.sidebarGroup__cell1,
+		            $style.arrowIcon,
+		            open ? 'el-icon-arrow-down' : 'el-icon-arrow-right',
+		        ]"
+			    @click="clickToggleTrigger"
+	    />
 		<div :class="$style.sidebarGroup__cell2">
 			<template v-if="mod === 1 || mod === 0">
-				<!--ref="routerLink"-->
 				<router-link
 						v-if="item.path"
 						:class="[
-                    $style.sidebarHeading,
-                    $style.sidebarHeading_clickable,
-                    open && $style.sidebarHeading_open,
-                    isActiveItem && $style.sidebarHeading_active,
-                    withActiveStateItem && $style.sidebarHeading_withActive,
-                ]"
+		                    $style.sidebarHeading,
+		                    $style.sidebarHeading_clickable,
+		                    open && $style.sidebarHeading_open,
+		                    isActiveItem && $style.sidebarHeading_active,
+		                    withActiveStateItem && $style.sidebarHeading_withActive,
+		                ]"
 						:to="item.path"
 						@click.native.prevent.stop="clickOnLink($event)"
 				>
@@ -39,26 +38,6 @@
                     {{ item.title }}
                 </span>
 				</router-link>
-				<!--<p
-				  v-else
-				  :class="[
-					  $style.sidebarHeading,
-					  {
-						  [$style.open]: open,
-					  }
-				  ]"
-				  @click="$emit('toggle')"
-				>
-				  <span
-					v-if="collapsable"
-					:class="[
-					  $style.arrowIcon, open ? 'el-icon-arrow-down' : 'el-icon-arrow-right'
-					]"
-				  />
-				  <span class="sidebar-heading__title">
-					  {{ item.title }}
-				  </span>
-				</p>-->
 			</template>
 			<DropdownTransition>
 				<SidebarLinks
@@ -71,7 +50,7 @@
 				/>
 			</DropdownTransition>
 		</div>
-	</section>
+	</div>
 </template>
 
 <script>
@@ -159,30 +138,6 @@
       if (this.withActiveStateItem) {
         this.$emit('open');
       }
-      // this.$router.beforeEach((to, from, next) => {
-      //   const routerLinkRef = this.$refs.routerLink;
-      //   if(!routerLinkRef) {
-      //     next();
-      //     return
-      //   }
-      //   if (normalize(routerLinkRef.to) === normalize(to.path)) {
-      //
-      //     if(!this.isActiveItem) {
-      //       this.$emit('open');
-      //       // this.isInsensitivity = false;
-      //
-      //     }
-      //   }
-      //   next();
-      // });
-    },
-
-    updated() {
-
-      // if(this.leftSidebarOpenedGroups.includes(this.item.path)) {
-      //     /*this.$emit('open');*/
-      //     console.log('this.leftSidebarOpenedGroups.includes(this.item.path)', this.item.path)
-      // }
     },
 
     methods: {
@@ -207,7 +162,7 @@
 <style lang="stylus" module>
 	.sidebarGroup {
 		display flex
-
+		min-width 100%
 		&:not(.sidebarGroup_collapsable) {
 
 		}
@@ -233,7 +188,6 @@
 		display flex
 		margin-right 5px
 		align-items flex-start
-		/*padding-top 4px*/
 	}
 
 	.arrowIcon {
@@ -248,6 +202,7 @@
 		display flex
 		flex-direction column
 		overflow hidden
+		min-width 100%
 	}
 
 	.sidebarHeading {
@@ -263,7 +218,7 @@
 		line-height: normal;
 		letter-spacing: normal;
 		color var(--color12)
-
+		min-width 100%
 		&:not(.sidebarHeading_active) {
 			cursor pointer
 
@@ -281,11 +236,6 @@
 		&.sidebarHeading_active {
 			font-weight 500
 			color $color6
-			/*border-left-color $accentColor*/
-		}
-
-		&:hover {
-			/*color $accentColor*/
 		}
 	}
 
@@ -301,7 +251,6 @@
 	.sidebarHeading_active {
 		font-weight 500
 		color $color6
-		/*border-left-color $accentColor*/
 	}
 
 	.sidebarHeading_open {

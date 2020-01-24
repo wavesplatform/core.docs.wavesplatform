@@ -38,6 +38,7 @@ module.exports = (ctx, mixin) => {
         themeConfig: {
             buildDate: new Date(),
             activeColouration: 'default',
+            isShowEditLink: true,
             colouration: [
 
             ],

@@ -4,9 +4,6 @@
         v-if="prev || next"
         :type="2"
         :class="$style.pageNavigations"
-        :style="{
-            // transform: `translateY(${pageNavigationsTranslateY}px)`,
-        }"
     >
         <WidthLimit
             ref="root"

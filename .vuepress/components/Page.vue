@@ -12,7 +12,7 @@
           <div
               ref="editLink"
               :class="$style.editLinkWrapper"
-                v-if="editLink"
+                v-if="isShowEditLink && editLink"
           >
             <a
                 :class="$style.editLink"
@@ -101,7 +101,9 @@
       //   }
       //   return 'Last Updated'
       // },
-
+        isShowEditLink() {
+          return this.$themeConfig.isShowEditLink;
+        },
       editLink () {
         const {
           repo,
