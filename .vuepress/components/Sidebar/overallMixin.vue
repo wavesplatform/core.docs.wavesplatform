@@ -236,7 +236,7 @@ export default {
         .sidebarWrapper {
             max-width 30%
             @media screen and (max-width: 719px) {
-                max-width calc(100vw - 40px)
+                max-width calc(100vw - 80px)
             }
         }
         .resizeTrigger {
