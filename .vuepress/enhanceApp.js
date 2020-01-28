@@ -6,16 +6,23 @@ import elementUi from './enhanceApp/elementUi'
 import scrollTo from './enhanceApp/scrollTo'
 import setTitle from './enhanceApp/setTitle'
 import vueCookie from './enhanceApp/vueCookie'
-// import globalComponents from './enhanceApp/globalComponents';
+// import googleTagManager from './enhanceApp/googleTagManager'
 let isInit = false;
 export default (context) => {
-    if(!context.isServer) {
+    const isServer = context.isServer;
+    if(!isServer) {
         window.isViewReady = false;
     }
     if(isInit) {
         return
     }
     isInit = true;
+    const gtmId = context.siteData.themeConfig.gtmId;
+    if(!isServer && gtmId) {
+        import('./enhanceApp/googleTagManager').then(module => {
+            module.default(context, gtmId);
+        });
+    }
     scrollTo(context);
     elementResizeDetector(context);
     const store = vuex(context);
@@ -24,5 +31,4 @@ export default (context) => {
     setTitle(context, store);
     elementUi(context);
     vueCookie(context);
-    // globalComponents(context);
 }

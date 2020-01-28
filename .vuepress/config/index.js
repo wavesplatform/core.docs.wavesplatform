@@ -46,6 +46,7 @@ module.exports = (ctx, mixin) => {
                 adminServerUrl: process.env.adminServerUrl
             },
             docsDir: 'docs',
+            gtmId: '',
         },
         plugins: [
             // [
