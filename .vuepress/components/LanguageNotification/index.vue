@@ -35,9 +35,9 @@
             </div>
             <h5 :class="$style.title">
                 <!--NFT Tokens are not displayed-->
-                {{$themeLocaleConfig.languageAbsenceNotification.title}}
+                {{themeLocaleConfig.languageAbsenceNotification.title}}
             </h5>
-            <p v-html="$themeLocaleConfig.languageAbsenceNotification.message" :class="$style.caption"/>
+            <p v-html="themeLocaleConfig.languageAbsenceNotification.message" :class="$style.caption"/>
 
             <ButtonTrigger
                 :class="$style.closeButton"
@@ -90,8 +90,11 @@
       layoutWidth () {
         return this.$store.state.interface.layoutWidth
       },
+        themeLocaleConfig() {
+            return this.$store.getters.themeLocaleConfig;
+        },
       i18nSearchPopupConfig() {
-        return this.$themeLocaleConfig.searchPopup;
+        return this.themeLocaleConfig.searchPopup;
       },
       minQueryLength() {
         return this.i18nSearchPopupConfig.minQueryLength;

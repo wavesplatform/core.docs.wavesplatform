@@ -12,11 +12,11 @@ export default (context) => {
         layoutWidth = window.innerWidth;
         isBrowserSupportedBackdropFilter = 'backdropFilter' in document.body.style;
     }
-
+    const defaultLanguage = 'en-US';
     const state = {
         themeConfig: context.siteData.themeConfig,
-        defaultLanguage: '',
-        currentLanguage: '',
+        defaultLanguage,
+        currentLanguage: defaultLanguage,
         interface: {
             isThemePainted: false,
             isBrowserSupportedBackdropFilter,
@@ -120,8 +120,18 @@ export default (context) => {
             const themeConfig = state.themeConfig;
             return themeConfig.colouration[themeConfig.activeColouration]
         },
-        activeColorationConfigColors(state) {
+        activeColorationConfigColors: state => {
             return getters.activeColorationConfig(state).colors;
+        },
+        themeLocaleConfig: state => {
+            let localeName = '';
+            for(const localeEntry of Object.entries(context.siteData.locales)) {
+                if(localeEntry[1].lang === state.currentLanguage) {
+                    localeName = localeEntry[0];
+                    break;
+                }
+            }
+            return state.themeConfig.locales[localeName];
         },
     };
 

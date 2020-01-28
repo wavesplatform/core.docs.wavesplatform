@@ -77,8 +77,11 @@
     },
 
     computed: {
+        themeLocaleConfig() {
+            return this.$store.getters.themeLocaleConfig;
+        },
       footerI18n() {
-        return this.$themeLocaleConfig.footer;
+        return this.themeLocaleConfig.footer;
       },
       resourcesCategoriesI18n() {
         return this.footerI18n.resourcesCategories;

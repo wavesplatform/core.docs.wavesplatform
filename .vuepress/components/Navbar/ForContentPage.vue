@@ -44,7 +44,7 @@
                 </WidthLimit>
 
 
-                <SwitchLanguage :class="$style.switchLanguage"/>123
+                <SwitchLanguage :class="$style.switchLanguage"/>
             </div>
 
             <Sidebar

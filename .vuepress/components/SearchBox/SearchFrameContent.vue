@@ -142,8 +142,11 @@
       layoutWidth () {
         return this.$store.state.interface.layoutWidth
       },
+        themeLocaleConfig() {
+          return this.$store.getters.themeLocaleConfig;
+        },
       i18nSearchPopupConfig() {
-        return this.$themeLocaleConfig.searchPopup;
+        return this.themeLocaleConfig.searchPopup;
       },
       minQueryLength() {
         return this.i18nSearchPopupConfig.minQueryLength;

@@ -11,6 +11,9 @@ export default {
     },
 
     computed: {
+        themeLocaleConfig() {
+            return this.$store.getters.themeLocaleConfig;
+        },
         languageNavDropdown() {
             const {locales} = this.$site;
             let languageDropdown = [];
@@ -19,7 +22,7 @@ export default {
                 const routes = this.$router.options.routes
                 const themeLocales = this.$site.themeConfig.locales || {}
                 languageDropdown = {
-                    text: this.$themeLocaleConfig.selectText || 'Languages',
+                    text: this.themeLocaleConfig.selectText || 'Languages',
                     items: Object.keys(locales).map(path => {
                         const locale = locales[path];
                         const themeLocale = themeLocales[path];

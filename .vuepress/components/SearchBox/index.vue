@@ -30,7 +30,7 @@
         @blur="focused = false"
         @keyup.up.prevent.stop="suggestionUp"
         @keyup.down.prevent.stop="suggestionDown"
-        :placeholder="$themeLocaleConfig.searchPlaceholderText"
+        :placeholder="themeLocaleConfig.searchPlaceholderText"
         :style="{
             borderRadius: withSuggestions && (suggestionsList.length && layoutWidth > 719) ? '4px 4px 0 0' : '4px',
         }"
@@ -93,6 +93,9 @@ export default {
   },
 
   computed: {
+      themeLocaleConfig() {
+          return this.$store.getters.themeLocaleConfig;
+      },
     isShowSearchResultWindow() {
       return this.$store.state.interface.isShowSearchResultWindow;
     },

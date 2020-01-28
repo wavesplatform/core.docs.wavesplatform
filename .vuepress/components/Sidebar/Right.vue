@@ -39,7 +39,7 @@
                     isPageContentWithHeaders && $styleRight.onThisPageWrapper_withHeaders,
                 ]">
                 <span :class="$styleRight.onThisPage">
-                    {{$themeLocaleConfig.sidebarOnThisPageText}}
+                    {{themeLocaleConfig.sidebarOnThisPageText}}
                 </span>
             </div>
         </div>
@@ -108,7 +108,10 @@
       },
       isPageContentWithHeaders() {
         return this.$page.headers && this.$page.headers.length;
-      }
+      },
+        themeLocaleConfig() {
+            return this.$store.getters.themeLocaleConfig;
+        },
     },
     methods: {
       toggleSidebar(isShow) {

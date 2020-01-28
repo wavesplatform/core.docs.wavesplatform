@@ -45,8 +45,11 @@ export default {
 
 
   computed: {
+    themeLocaleConfig() {
+      return this.$store.getters.themeLocaleConfig;
+    },
     userNav () {
-      return this.$themeLocaleConfig.nav || this.$site.themeConfig.nav || []
+      return this.themeLocaleConfig.nav || this.$site.themeConfig.nav || []
     },
 
     languageNavDropdown () {
@@ -57,7 +60,7 @@ export default {
         const routes = this.$router.options.routes
         const themeLocales = this.$site.themeConfig.locales || {}
         languageDropdown = {
-          text: this.$themeLocaleConfig.selectText || 'Languages',
+          text: this.themeLocaleConfig.selectText || 'Languages',
           items: Object.keys(locales).map(path => {
             const locale = locales[path]
             const text = themeLocales[path] && themeLocales[path].label || locale.lang

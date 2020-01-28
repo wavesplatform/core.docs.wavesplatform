@@ -16,6 +16,12 @@
       }
     },
 
+    computed: {
+      themeLocaleConfig() {
+        return this.$store.getters.themeLocaleConfig;
+      },
+    },
+
     methods: {
       renderLink (h, to, text, active) {
         return h('router-link', {
@@ -89,7 +95,7 @@
         $route,
         $store,
         $themeConfig,
-        $themeLocaleConfig,
+        themeLocaleConfig,
         item,
         sidebarDepth,
         mod
@@ -104,12 +110,12 @@
 
       const configDepth = $page.frontmatter.sidebarDepth
         || sidebarDepth
-        || $themeLocaleConfig.sidebarDepth
+        || themeLocaleConfig.sidebarDepth
         || $themeConfig.sidebarDepth
 
       const maxDepth = configDepth == null ? 1 : configDepth
 
-      const displayAllHeaders = $themeLocaleConfig.displayAllHeaders
+      const displayAllHeaders = themeLocaleConfig.displayAllHeaders
         || $themeConfig.displayAllHeaders
 
       if (item.type === 'auto') {

@@ -4,7 +4,7 @@
         :class="$style.root">
         <div
             :class="$style.currentLangIconWrapper"
-            v-html="$themeLocaleConfig.langIconRawSvg"
+            v-html="themeLocaleConfig.langIconRawSvg"
             @click="toggleLangList"
         ></div>
         <el-card
@@ -59,6 +59,11 @@
         mixins: [
             mixin
         ],
+        computed: {
+            themeLocaleConfig() {
+                return this.$store.getters.themeLocaleConfig;
+            },
+        },
     }
 </script>
 

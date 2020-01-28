@@ -68,8 +68,8 @@
                         :class="$styleLeft.backToIndex"
                     >
                         <i class="el-icon-arrow-left"></i>
-                        <!--{{backToIndexButtonWidth > 100 ? $themeLocaleConfig.backToIndexButtonText : ''}}-->
-                        {{$themeLocaleConfig.backToIndexButtonText}}
+                        <!--{{backToIndexButtonWidth > 100 ? themeLocaleConfig.backToIndexButtonText : ''}}-->
+                        {{themeLocaleConfig.backToIndexButtonText}}
                     </el-button>
                 </router-link>
             </div>
@@ -214,6 +214,9 @@
     },
 
     computed: {
+        themeLocaleConfig() {
+            return this.$store.getters.themeLocaleConfig;
+        },
         isBrowserSupportedBackdropFilter() {
             return this.$store.state.interface.isBrowserSupportedBackdropFilter;
         },
