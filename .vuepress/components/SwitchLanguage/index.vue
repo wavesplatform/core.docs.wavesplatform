@@ -39,7 +39,7 @@
                     </div>
                 </li>-->
                 <ListItem
-                        v-for="(languageItem, index) in languageNavDropdown.items"
+                        v-for="(languageItem, index) in languageNavDropdown"
                         :key="index"
                         v-bind="{
                             languageItem,

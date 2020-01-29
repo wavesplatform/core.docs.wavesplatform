@@ -4,17 +4,22 @@ import { storeMutationGenerator } from '../util'
 
 export default (context) => {
     const { Vue, isServer } = context;
+    const themeConfig = context.siteData.themeConfig;
+    const defaultLanguage = themeConfig.defaultLanguage;
+    const defaultDocsVersionName = themeConfig.defaultDocsVersionName;
     const defaultFocusIndex = -1;
     let layoutWidth = 1920;
     let isBrowserSupportedBackdropFilter = true;
-
     if(!isServer) {
         layoutWidth = window.innerWidth;
         isBrowserSupportedBackdropFilter = 'backdropFilter' in document.body.style;
     }
-    const defaultLanguage = 'en-US';
+
+
     const state = {
-        themeConfig: context.siteData.themeConfig,
+        themeConfig,
+        defaultDocsVersionName,
+        currentDocsVersionName: defaultDocsVersionName,
         defaultLanguage,
         currentLanguage: defaultLanguage,
         interface: {
@@ -52,7 +57,7 @@ export default (context) => {
         state.defaultLanguage = navigator.language
     }
 
-    const modules = {}
+    const modules = {};
 
     const mutations = {
         ...storeMutationGenerator({
@@ -88,6 +93,7 @@ export default (context) => {
             storage: window.localStorage,
             reducer: (state) => {
                 const {
+                    currentDocsVersionName,
                     currentLanguage,
                     themeConfig: {
                         activeColouration,
@@ -125,15 +131,18 @@ export default (context) => {
         },
         themeLocaleConfig: state => {
             let localeName = '';
-            for(const localeEntry of Object.entries(context.siteData.locales)) {
-                if(localeEntry[1].lang === state.currentLanguage) {
+            const siteDataLocales = context.siteData.locales;
+            for(const localeEntry of Object.entries(siteDataLocales)) {
+                if(localeEntry[1][state.currentDocsVersionName].data.lang === state.currentLanguage) {
                     localeName = localeEntry[0];
                     break;
                 }
             }
-            return state.themeConfig.locales[localeName];
+            return siteDataLocales[localeName][state.currentDocsVersionName].data;
         },
     };
+
+    // Vue.prototype.themeLocaleConfig = getters.themeLocaleConfig(state);
 
     Vue.use(Vuex);
 

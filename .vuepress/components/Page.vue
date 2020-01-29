@@ -93,8 +93,8 @@
         return this.$page.lastUpdated
       },
       // lastUpdatedText () {
-      //   if (typeof this.$themeLocaleConfig.lastUpdated === 'string') {
-      //     return this.$themeLocaleConfig.lastUpdated
+      //   if (typeof this.$$themeLocaleConfig.lastUpdated === 'string') {
+      //     return this.$$themeLocaleConfig.lastUpdated
       //   }
       //   if (typeof this.$site.themeConfig.lastUpdated === 'string') {
       //     return this.$site.themeConfig.lastUpdated
@@ -125,7 +125,7 @@
 
       // editLinkText () {
       //   return (
-      //     this.$themeLocaleConfig.editLinkText
+      //     this.$$themeLocaleConfig.editLinkText
       //     || this.$site.themeConfig.editLinkText
       //     || 'Edit'
       //   )

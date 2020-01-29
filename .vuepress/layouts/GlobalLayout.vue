@@ -1,19 +1,26 @@
 <template>
-    <component
-        :is="layout"
-        :class="$style.root"
-        :style="{
+    <div>
+        versioning:
+        <SwitchVersion/>
+        <component
+                :is="layout"
+                :class="$style.root"
+                :style="{
             opacity: isShowRoot ? 1 : 0,
         }"
-    />
+        />
+    </div>
+
 </template>
 
 <script>
     import OnlyContent from './OnlyContent';
+    import SwitchVersion from '@theme/components/SwitchVersion'
     import {scrollToHashElement} from '../util';
     export default {
         components: {
             OnlyContent,
+            SwitchVersion
         },
         data() {
           return {
@@ -96,7 +103,7 @@
                     if(!localePath) {
                         return;
                     }
-                    this.$store.commit('setCurrentLanguage', localeLang);
+                    // this.$store.commit('setCurrentLanguage', localeLang);
                     this.$cookies.set('lang', newValue.lang);
                 }, {
                     immediate: true,

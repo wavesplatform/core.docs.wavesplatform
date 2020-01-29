@@ -58,7 +58,7 @@ export default {
       if (locales && Object.keys(locales).length > 1) {
         const currentLink = this.$page.path
         const routes = this.$router.options.routes
-        const themeLocales = this.$site.themeConfig.locales || {}
+        const themeLocales = this.$site.locales || {}
         languageDropdown = {
           text: this.themeLocaleConfig.selectText || 'Languages',
           items: Object.keys(locales).map(path => {

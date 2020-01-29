@@ -12,7 +12,7 @@
             >
                 <ul :class="$style.langList">
                     <ListItem
-                        v-for="(languageItem, index) in languageNavDropdown.items"
+                        v-for="(languageItem, index) in languageNavDropdown"
                         v-if="languageItem.link !== $page.path"
                         :key="index"
                         v-bind="{
@@ -57,7 +57,7 @@
         },
         computed: {
             activeLanguageItem() {
-                return this.languageNavDropdown.items.filter(languageItem => {
+                return this.languageNavDropdown.filter(languageItem => {
                     return languageItem.link === this.$page.path;
                 })[0];
             },

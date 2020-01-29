@@ -47,12 +47,10 @@ module.exports = (ctx, mixin) => {
             },
             docsDir: 'docs',
             gtmId: '',
+            defaultDocsVersionName: '',
+            defaultLanguage: '',
         },
         plugins: [
-            // [
-            //     ignoreNotIndexedFilesPlugin,
-            //     {}
-            // ],
             cleanUrlsPlugin,
             // [
             //     cleanUrlsPlugin,
@@ -76,10 +74,6 @@ module.exports = (ctx, mixin) => {
             //     serviceWorker: true,
             //     updatePopup: true
             // }],
-            // ['google-analytics', {
-            //     ga: 'UA-128189152-1'
-            // }],
-
         ],
         extraWatchFiles: [
             // '.vuepress/locales/**',

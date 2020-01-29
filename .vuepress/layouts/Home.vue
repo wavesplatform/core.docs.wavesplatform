@@ -28,7 +28,7 @@
                             <h1
                                 v-show="layoutWidth > 719"
                                 :class="$style.mainContentCell__row2__text">
-                                {{ $themeLocaleConfig.homePage.welcomeText }}
+                                {{ themeLocaleConfig.homePage.welcomeText }}
                             </h1>
                             <div :class="$style.searchBoxWrapper">
                                 <SearchBox
@@ -60,11 +60,11 @@
                         <WidthLimit :class="$style.mainContentCell__row3__WidthLimit">
                             <div :class="$style.technologyCategoryCheckboxes">
                                 <!--                <span :class="$style.technologyCategoryCheckboxes__row1">-->
-                                <!--                    {{ $themeLocaleConfig.homePage.or }}-->
+                                <!--                    {{ themeLocaleConfig.homePage.or }}-->
                                 <!--                </span>-->
                                 <div :class="$style.technologyCategoryCheckboxes__row2">
                                     <!--                    <span :class="[$style.technologyCategoryCheckboxes__row2__part, $style.technologyCategoryCheckboxes__row2__text]">-->
-                                    <!--                        {{ $themeLocaleConfig.homePage.technologyCategoriesText }}-->
+                                    <!--                        {{ themeLocaleConfig.homePage.technologyCategoriesText }}-->
                                     <!--                    </span>-->
                                     <TabsPanel
                                         ref="tabsPanelComponentExemplar"
@@ -190,14 +190,17 @@
     },
 
     computed: {
+        themeLocaleConfig() {
+            return this.$store.getters.themeLocaleConfig;
+        },
       isShowSearchResultWindow() {
         return this.$store.state.interface.isShowSearchResultWindow;
       },
       categories() {
-        return Object.values(this.$themeLocaleConfig.homePage.technologyList);
+        return Object.values(this.themeLocaleConfig.homePage.technologyList);
       },
       technologyCategories() {
-        return this.$themeLocaleConfig.homePage.technologyCategories;
+        return this.themeLocaleConfig.homePage.technologyCategories;
       },
       technologyCategoriesFiltered() {
         if(this.currentTechnologyCategoryFilter === 'all') {
@@ -237,7 +240,7 @@
       },
         getCategoryRootLink(category) {
           const categoryRootLink = category.rootLink;
-          const sidebarRootLinks = this.$themeLocaleConfig.sidebar;
+          const sidebarRootLinks = this.themeLocaleConfig.sidebar;
           const rootLink = sidebarRootLinks[categoryRootLink];
           if(rootLink) {
               return rootLink[0].path;

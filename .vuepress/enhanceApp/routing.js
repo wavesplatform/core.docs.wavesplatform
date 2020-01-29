@@ -34,7 +34,7 @@ export default async(context, store) => {
             if(currentLanguage) {
                 goToLocalePage(currentLanguage);
             } else {
-                store.commit('setCurrentLanguage', defaultLanguage);
+                // store.commit('setCurrentLanguage', defaultLanguage);
             }
         }
     }

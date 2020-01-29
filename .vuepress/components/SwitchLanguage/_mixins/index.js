@@ -14,40 +14,37 @@ export default {
         themeLocaleConfig() {
             return this.$store.getters.themeLocaleConfig;
         },
-        languageNavDropdown() {
-            const {locales} = this.$site;
-            let languageDropdown = [];
-            if (locales && Object.keys(locales).length > 1) {
-                const currentLink = this.$page.path
-                const routes = this.$router.options.routes
-                const themeLocales = this.$site.themeConfig.locales || {}
-                languageDropdown = {
-                    text: this.themeLocaleConfig.selectText || 'Languages',
-                    items: Object.keys(locales).map(path => {
-                        const locale = locales[path];
-                        const themeLocale = themeLocales[path];
-                        const text = themeLocale && themeLocale.label || locale.lang;
 
-                        let link
-                        // Stay on the current page
-                        if (locale.lang === this.$lang) {
-                            link = currentLink
-                        } else {
-                            // Try to stay on the same page
-                            link = currentLink.replace(this.$localeConfig.path, path)
-                            // fallback to homepage
-                            if (!routes.some(route => route.path === link)) {
-                                link = path
-                            }
-                        }
-                        return {
-                            text,
-                            link,
-                            langIconRawSvg: themeLocale.langIconRawSvg,
-                        }
-                    })
+        languageNavDropdown() {
+            const { locales } = this.$site;
+
+            let languageDropdown = [];
+
+            const currentLink = this.$page.path;
+
+            const routes = this.$router.options.routes;
+
+
+            Object.keys(locales).forEach(path => {
+                const locale = locales[path][this.$store.state.currentDocsVersionName].data;
+                const text = locale && locale.label || locale.lang;
+                let link;
+
+                if (locale.lang === this.$lang) {
+                    link = currentLink
+                } else {
+                    link = currentLink.replace(this.$localeConfig.path, path);
+                    if (!routes.some(route => route.path === link)) {
+                        link = path
+                    }
                 }
-            }
+                languageDropdown.push({
+                    text,
+                    link,
+                    langIconRawSvg: locale.langIconRawSvg,
+                });
+            });
+
             return languageDropdown;
         },
     },
@@ -79,13 +76,19 @@ export default {
         selectLanguage(languageItem) {
             const languageItemLink = languageItem.link;
             const pagePath = this.$page.path;
-            if (this.$themeConfig.locales[languageItemLink] && !this.$themeConfig.locales[pagePath]) {
+            const locales = this.$site.locales;
+
+            console.log('languageItem:', languageItem, this.languageNavDropdown, languageItemLink, locales[languageItemLink]);
+
+            if (locales[languageItemLink] && !locales[pagePath]) {
+                console.log('test')
                 this.$store.commit('setDisplayShowLanguageNotification', true);
                 this.isShowLangList = false;
                 return;
             }
 
-            if (languageItemLink !== this.$page.path) {
+            if (languageItemLink !== pagePath) {
+                console.log('test2');
                 this.$router.push(languageItemLink)
             }
 
