@@ -64,6 +64,9 @@
                 return this.$store.getters.themeLocaleConfig;
             },
         },
+        mounted() {
+            console.log('languageNavDropdown:', this.languageNavDropdown);
+        }
     }
 </script>
 

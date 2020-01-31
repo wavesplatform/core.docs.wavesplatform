@@ -15,7 +15,6 @@ export default (context) => {
         isBrowserSupportedBackdropFilter = 'backdropFilter' in document.body.style;
     }
 
-
     const state = {
         themeConfig,
         defaultDocsVersionName,
@@ -82,6 +81,7 @@ export default (context) => {
             setDisplayShowLanguageNotification: 'isShowLanguageNotification',
             setHeaderHeight: 'interface.headerHeight',
             setSearchQuery: 'search.query',
+            setCurrentDocsVersionName: 'currentDocsVersionName',
         }),
     };
 

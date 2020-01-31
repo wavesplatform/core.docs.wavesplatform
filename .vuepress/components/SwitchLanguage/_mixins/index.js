@@ -11,41 +11,33 @@ export default {
     },
 
     computed: {
+        currentDocsVersionName() {
+            return this.$store.state.currentDocsVersionName;
+        },
         themeLocaleConfig() {
             return this.$store.getters.themeLocaleConfig;
         },
-
         languageNavDropdown() {
-            const { locales } = this.$site;
-
-            let languageDropdown = [];
-
-            const currentLink = this.$page.path;
-
-            const routes = this.$router.options.routes;
-
-
-            Object.keys(locales).forEach(path => {
-                const locale = locales[path][this.$store.state.currentDocsVersionName].data;
-                const text = locale && locale.label || locale.lang;
-                let link;
-
-                if (locale.lang === this.$lang) {
-                    link = currentLink
-                } else {
-                    link = currentLink.replace(this.$localeConfig.path, path);
-                    if (!routes.some(route => route.path === link)) {
-                        link = path
-                    }
+            return Object.entries(this.$site.locales).map(localeEntry => {
+                const localePath = localeEntry[0];
+                const localeValue = localeEntry[1];
+                let versionName = this.currentDocsVersionName;
+                let localeVersion = localeValue[versionName];
+                if(!localeVersion) {
+                    const lastLocaleVersionEntry = this.getLastLocaleVersionEntry(localePath);
+                    versionName = lastLocaleVersionEntry[0];
+                    localeVersion = lastLocaleVersionEntry[1];
                 }
-                languageDropdown.push({
-                    text,
-                    link,
-                    langIconRawSvg: locale.langIconRawSvg,
-                });
+                const localeVersionData = localeVersion.data;
+                return {
+                    text: localeVersionData.label,
+                    link: this.$page.path.replace(
+                      this.$localePath + this.currentDocsVersionName,
+                      localePath + versionName
+                    ),
+                    langIconRawSvg: localeVersionData.langIconRawSvg,
+                };
             });
-
-            return languageDropdown;
         },
     },
     watch: {
@@ -55,6 +47,16 @@ export default {
         },
     },
     methods: {
+        getLastLocaleVersionEntry(localePath) {
+            let localeLastVersionEntry = null;
+            for (const localeEntry of Object.entries(this.$site.locales[localePath])) {
+                if(localeEntry[0] !== 'path') {
+                    localeLastVersionEntry = localeEntry;
+                }
+            }
+            return localeLastVersionEntry;
+        },
+
         langListDocumentHandler(event) {
             const isClickOnThisComponentElements = event.path.some(element => {
                 return element === this.$refs.root;
@@ -64,6 +66,7 @@ export default {
                 this.isShowLangList = false;
             }
         },
+
         toggleLangList() {
             if (this.isShowLangList) {
                 document.removeEventListener('click', this.langListDocumentHandler);
@@ -78,21 +81,22 @@ export default {
             const pagePath = this.$page.path;
             const locales = this.$site.locales;
 
-            console.log('languageItem:', languageItem, this.languageNavDropdown, languageItemLink, locales[languageItemLink]);
 
             if (locales[languageItemLink] && !locales[pagePath]) {
-                console.log('test')
                 this.$store.commit('setDisplayShowLanguageNotification', true);
                 this.isShowLangList = false;
                 return;
             }
 
             if (languageItemLink !== pagePath) {
-                console.log('test2');
                 this.$router.push(languageItemLink)
             }
 
         },
+    },
+
+    mounted() {
+      console.log('languageNavDropdown:', this.languageNavDropdown)
     },
 
     beforeDestroy() {

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="$localePath !== '/'">
         versioning:
         <SwitchVersion/>
         <component
@@ -28,13 +28,16 @@
           }
         },
         computed: {
+            currentDocsVersionName() {
+              return this.$store.state.currentDocsVersionName;
+            },
             isUserNaturalScrollState() {
                 return this.$store.state.interface.isUserNaturalScrollState;
             },
             layout() {
                 if (this.$page.path) {
                     if (this.$route.query.contentOnly && this.$frontmatter.layout !== 'ForPdf') {
-                        return 'OnlyContent';
+                        return 'OnlyContent'
                     }
                     if (this.$frontmatter.layout) {
                         return this.$frontmatter.layout
@@ -42,11 +45,23 @@
                     return 'Layout'
                 }
 
-                return 'NotFound';
+                return 'NotFound'
             },
             isThemePainted() {
               return this.$store.state.interface.isThemePainted;
             },
+        },
+
+        watch: {
+            $route: {
+                handler(route) {
+                    this.$store.commit(
+                            'setCurrentDocsVersionName',
+                            route.path.replace(new RegExp(`${this.$localePath}(.*?)/(.*)`), '$1')
+                    );
+                },
+                immediate: true,
+            }
         },
 
         beforeCreate() {
@@ -64,9 +79,6 @@
                 }, {
                     immediate: true,
                 });
-                // window.addEventListener('hashchange', (event) => {
-                //     // event.preventDefault();
-                // });
 
                 document.addEventListener('click', (event) => {
                     const target = event.target;
@@ -98,12 +110,8 @@
                 });
 
                 this.$watch('$localeConfig', (newValue) => {
-                    const localePath = newValue.path;
-                    const localeLang = newValue.lang;
-                    if(!localePath) {
-                        return;
-                    }
-                    // this.$store.commit('setCurrentLanguage', localeLang);
+                    const localeLang = newValue[this.currentDocsVersionName].data.lang;
+                    this.$store.commit('setCurrentLanguage', localeLang);
                     this.$cookies.set('lang', newValue.lang);
                 }, {
                     immediate: true,

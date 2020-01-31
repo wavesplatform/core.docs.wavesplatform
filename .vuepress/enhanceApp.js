@@ -6,7 +6,8 @@ import elementUi from './enhanceApp/elementUi'
 import scrollTo from './enhanceApp/scrollTo'
 import setTitle from './enhanceApp/setTitle'
 import vueCookie from './enhanceApp/vueCookie'
-// import themeLocaleConfig from './enhanceApp/themeLocaleConfig';
+// import themeLocaleConfig from './enhanceApp/themeLocaleConfig'
+import deleteLocalesPathProp from './enhanceApp/deleteLocalesPathProp'
 let isInit = false;
 export default (context) => {
     if(isInit) {
@@ -18,7 +19,9 @@ export default (context) => {
     if(!isServer) {
         window.isViewReady = false;
     }
-
+    /*TODO: need review*/
+    // deleteLocalesPathProp(context);
+    /*/TODO: need review/*/
     const gtmId = context.siteData.themeConfig.gtmId;
     if(!isServer && gtmId) {
         import('./enhanceApp/googleTagManager').then(module => {
