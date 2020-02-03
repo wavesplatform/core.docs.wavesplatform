@@ -38,7 +38,7 @@
                 }"
             >
                 <router-link
-                    :to="$localePath"
+                    :to="$store.getters.rootPagePath"
                     :class="$styleLeft.logotypeLink"
                 >
                     <Logotype :class="$styleLeft.logotype"/>

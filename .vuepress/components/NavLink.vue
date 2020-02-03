@@ -28,13 +28,16 @@ export default {
   },
 
   computed: {
+    themeLocaleConfig() {
+      return this.$store.getters.themeLocaleConfig;
+    },
     link () {
       return ensureExt(this.item.link)
     },
 
     exact () {
-      if (this.$site.locales) {
-        return Object.keys(this.$site.locales).some(rootLink => rootLink === this.link)
+      if (this.themeLocaleConfig.locales) {
+        return Object.keys(this.themeLocaleConfig.locales).some(rootLink => rootLink === this.link)
       }
       return this.link === '/'
     }

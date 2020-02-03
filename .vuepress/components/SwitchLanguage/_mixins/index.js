@@ -18,17 +18,20 @@ export default {
             return this.$store.getters.themeLocaleConfig;
         },
         languageNavDropdown() {
-            return Object.entries(this.$site.locales).map(localeEntry => {
+            return Object.entries(this.$store.state.locales).map(localeEntry => {
                 const localePath = localeEntry[0];
                 const localeValue = localeEntry[1];
                 let versionName = this.currentDocsVersionName;
+
                 let localeVersion = localeValue[versionName];
                 if(!localeVersion) {
+
                     const lastLocaleVersionEntry = this.getLastLocaleVersionEntry(localePath);
                     versionName = lastLocaleVersionEntry[0];
                     localeVersion = lastLocaleVersionEntry[1];
                 }
                 const localeVersionData = localeVersion.data;
+
                 return {
                     text: localeVersionData.label,
                     link: this.$page.path.replace(
@@ -48,8 +51,10 @@ export default {
     },
     methods: {
         getLastLocaleVersionEntry(localePath) {
+            console.log('localePath:', localePath);
             let localeLastVersionEntry = null;
-            for (const localeEntry of Object.entries(this.$site.locales[localePath])) {
+            for (const localeEntry of Object.entries(this.themeLocaleConfig.locales[localePath])) {
+                console.log('localeEntry:', localeEntry);
                 if(localeEntry[0] !== 'path') {
                     localeLastVersionEntry = localeEntry;
                 }
@@ -79,8 +84,7 @@ export default {
         selectLanguage(languageItem) {
             const languageItemLink = languageItem.link;
             const pagePath = this.$page.path;
-            const locales = this.$site.locales;
-
+            const locales = this.$store.state.locales;
 
             if (locales[languageItemLink] && !locales[pagePath]) {
                 this.$store.commit('setDisplayShowLanguageNotification', true);
@@ -93,10 +97,6 @@ export default {
             }
 
         },
-    },
-
-    mounted() {
-      console.log('languageNavDropdown:', this.languageNavDropdown)
     },
 
     beforeDestroy() {

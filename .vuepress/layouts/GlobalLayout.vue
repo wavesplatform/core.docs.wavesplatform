@@ -16,7 +16,8 @@
 <script>
     import OnlyContent from './OnlyContent';
     import SwitchVersion from '@theme/components/SwitchVersion'
-    import {scrollToHashElement} from '../util';
+    import {scrollToHashElement} from '../util'
+
     export default {
         components: {
             OnlyContent,
@@ -28,6 +29,9 @@
           }
         },
         computed: {
+            themeLocaleConfig() {
+                return this.$store.getters.themeLocaleConfig;
+            },
             currentDocsVersionName() {
               return this.$store.state.currentDocsVersionName;
             },
@@ -110,9 +114,9 @@
                 });
 
                 this.$watch('$localeConfig', (newValue) => {
-                    const localeLang = newValue[this.currentDocsVersionName].data.lang;
+                    const localeLang = this.$store.state.locales[newValue.path][this.currentDocsVersionName].data.lang;
                     this.$store.commit('setCurrentLanguage', localeLang);
-                    this.$cookies.set('lang', newValue.lang);
+                    this.$cookies.set('lang', localeLang);
                 }, {
                     immediate: true,
                 });

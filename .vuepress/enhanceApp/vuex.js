@@ -2,7 +2,7 @@ import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 import { storeMutationGenerator } from '../util'
 
-export default (context) => {
+export default (context, locales) => {
     const { Vue, isServer } = context;
     const themeConfig = context.siteData.themeConfig;
     const defaultLanguage = themeConfig.defaultLanguage;
@@ -16,7 +16,15 @@ export default (context) => {
     }
 
     const state = {
-        themeConfig,
+        themeConfig: {
+            ...themeConfig,
+            // locales: {
+            //     ...themeConfig.locales,
+            //     ...locales
+            // }
+            locales,
+        },
+        locales,
         defaultDocsVersionName,
         currentDocsVersionName: defaultDocsVersionName,
         defaultLanguage,
@@ -129,16 +137,26 @@ export default (context) => {
         activeColorationConfigColors: state => {
             return getters.activeColorationConfig(state).colors;
         },
-        themeLocaleConfig: state => {
-            let localeName = '';
-            const siteDataLocales = context.siteData.locales;
-            for(const localeEntry of Object.entries(siteDataLocales)) {
+        localePath: state => {
+            let localePath = '';
+            for(const localeEntry of Object.entries(state.locales)) {
                 if(localeEntry[1][state.currentDocsVersionName].data.lang === state.currentLanguage) {
-                    localeName = localeEntry[0];
+                    localePath = localeEntry[0];
                     break;
                 }
             }
-            return siteDataLocales[localeName][state.currentDocsVersionName].data;
+            return localePath;
+        },
+        themeLocaleConfig: state => {
+            return state.locales[getters.localePath(state)][state.currentDocsVersionName].data;
+        },
+
+        // sidebarItems() {
+        //
+        // },
+
+        rootPagePath: state => {
+            return getters.localePath(state) + state.currentDocsVersionName
         },
     };
 

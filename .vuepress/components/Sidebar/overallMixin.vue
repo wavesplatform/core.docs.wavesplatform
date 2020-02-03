@@ -109,6 +109,7 @@ export default {
     }
   },
 
+
   updated() {
     this.sidebarElement = this.$refs.sidebar;
   },

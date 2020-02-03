@@ -9,7 +9,7 @@ import vueCookie from './enhanceApp/vueCookie'
 // import themeLocaleConfig from './enhanceApp/themeLocaleConfig'
 import deleteLocalesPathProp from './enhanceApp/deleteLocalesPathProp'
 let isInit = false;
-export default (context) => {
+export default (context, locales) => {
     if(isInit) {
         return
     }
@@ -30,7 +30,7 @@ export default (context) => {
     }
     scrollTo(context);
     elementResizeDetector(context);
-    const store = vuex(context);
+    const store = vuex(context, locales);
     setThemeColoration(context, store);
     routing(context, store);
     // themeLocaleConfig(context, store);

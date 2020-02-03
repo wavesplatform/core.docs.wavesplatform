@@ -91,7 +91,7 @@
                     :class="$style.logotypeWrapper"
                     :type="1"
                 >
-                    <router-link :to="$localePath">
+                    <router-link :to="$store.getters.rootPagePath">
                         <Logotype
                             :class="$style.logotype"/>
                     </router-link>
@@ -157,7 +157,11 @@
       rightSidebarWidth () {
         return this.$store.state.interface.rightSidebarWidth
       }
-    }
+    },
+
+      mounted() {
+          console.log('$page:', this.$page)
+      }
   }
 </script>
 

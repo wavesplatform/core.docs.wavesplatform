@@ -78,7 +78,27 @@ module.exports = (ctx, mixin) => {
         extraWatchFiles: [
             // '.vuepress/locales/**',
         ],
+
         configureWebpack(config, isServer) {
+            // console.log('config:', config);
+            // config.module
+            //   .rule('js') // Find the rule.
+            //   .use('babel-loader') // Find the loader
+            //   .tap(options => {
+            //       // Object.assign(options, { // Modifying options
+            //       //     plugins: [
+            //       //         ["import", {
+            //       //             "libraryName": "ant-design-vue",
+            //       //             "libraryDirectory": "es",
+            //       //             "style": "css"
+            //       //         }]
+            //       //     ]
+            //       // })
+            //       console.log('options:', options);
+            //       return options;
+            //   });
+
+
             config.resolve.alias[packageName] = corePath;
 
             if (!isServer && process.argv.includes('build')) {

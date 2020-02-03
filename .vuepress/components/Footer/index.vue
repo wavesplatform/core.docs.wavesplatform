@@ -8,8 +8,7 @@
               }"
           >
               <a
-                  href="/"
-                  target="_blank"
+                  :href="$store.getters.rootPagePath"
                   :class="$style.logotypeLink"
               >
                   <Logotype

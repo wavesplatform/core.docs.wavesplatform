@@ -57,6 +57,9 @@ export default {
   },
 
   computed: {
+    themeLocaleConfig() {
+      return this.$store.getters.themeLocaleConfig;
+    },
     defaultFocusIndex() {
       return this.$store.state.search.defaultFocusIndex;
     },
@@ -141,7 +144,7 @@ export default {
     },
 
     getPageLocalePath (page) {
-      for (const localePath in this.$site.locales || {}) {
+      for (const localePath in this.themeLocaleConfig.locales || {}) {
         if (localePath !== '/' && page.path.indexOf(localePath) === 0) {
           return localePath
         }

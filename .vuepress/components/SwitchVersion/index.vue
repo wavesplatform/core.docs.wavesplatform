@@ -17,7 +17,7 @@
   export default {
     computed: {
       versions() {
-        return Object.entries(this.$site.locales[this.$localePath]).reduce((accumulator, localeVersionEntry) => {
+        return Object.entries(this.$store.state.locales[this.$localePath]).reduce((accumulator, localeVersionEntry) => {
           const localeVersionKey = localeVersionEntry[0];
           const localeVersionValue = localeVersionEntry[1];
           if(localeVersionKey !== 'path') {

@@ -16,7 +16,6 @@
         mixins: [
           overallMixin
         ],
-
     }
 </script>
 

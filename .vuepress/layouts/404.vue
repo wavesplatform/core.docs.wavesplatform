@@ -193,7 +193,8 @@
                 this.$page,
                 this.$page.regularPath,
                 this.$site,
-                this.$localePath
+                this.$localePath,
+                this.$store.getters.themeLocaleConfig
         )
       },
       contentCellStyles() {
