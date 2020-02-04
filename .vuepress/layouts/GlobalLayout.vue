@@ -1,7 +1,10 @@
 <template>
     <div v-if="$localePath !== '/'">
-        versioning:
-        <SwitchVersion/>
+        <div :class="$style.versioning">
+            <SwitchVersion/>
+        </div>
+
+        <!--<Dropdown2/>-->
         <component
                 :is="layout"
                 :class="$style.root"
@@ -14,14 +17,17 @@
 </template>
 
 <script>
-    import OnlyContent from './OnlyContent';
+    import OnlyContent from './OnlyContent'
     import SwitchVersion from '@theme/components/SwitchVersion'
     import {scrollToHashElement} from '../util'
+
+    import Dropdown2 from '@theme/components/Dropdown/Type2'
 
     export default {
         components: {
             OnlyContent,
-            SwitchVersion
+            SwitchVersion,
+            Dropdown2,
         },
         data() {
           return {
@@ -127,6 +133,21 @@
 </script>
 
 <style lang="stylus" module>
+
+
+    .versioning {
+        position fixed
+        z-index 3
+        margin 10px
+        padding 10px
+        background rgba(0, 0, 0, 0.4)
+        border-radius 4px
+        border 1px solid #000
+        left 150px
+    }
+
+
+
     .root {
         transition opacity $transitionS1
     }

@@ -1,14 +1,16 @@
 <template>
 	<div>
-		<div
-			v-for="(versionValue, versionKey) in versions"
-			:key="versionKey"
-			:style="{
-			  color: currentDocsVersionName === versionKey ? '#f00' : '',
+		<div>
+			<div
+					v-for="(versionValue, versionKey) in versions"
+					:key="versionKey"
+					:style="{
+			  color: currentDocsVersionName === versionKey ? '#5a81ea' : '',
 			}"
-			@click="changeDocsVersion(versionKey)"
-		>
-			{{versionValue.label}}
+					@click="changeDocsVersion(versionKey)"
+			>
+				{{versionValue.label}}
+			</div>
 		</div>
 	</div>
 </template>
