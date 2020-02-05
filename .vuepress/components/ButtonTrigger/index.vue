@@ -12,7 +12,7 @@
 
 <style lang="stylus" module>
 	.root {
-		width 100%
+		/*width 100%*/
 		background-color $color6
 		padding $indent4 $indent1
 		color var(--color7)

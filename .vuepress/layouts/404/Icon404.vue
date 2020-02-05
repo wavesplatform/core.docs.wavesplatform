@@ -48,7 +48,7 @@
         </defs>
         <g fill="none" fill-rule="evenodd">
             <path fill="#D8D8D8" fill-opacity="0" d="M0 0h256v256H0z"/>
-            <path fill="#EEF5FE" d="M127.556 93.8l93.396 53.701-23.266 13.44 46.533 26.88-116.334 67.198-93.067-53.759 23.267-13.44-46.533-27.012z"/>
+            <path :fill="backgroundPathFill" d="M127.556 93.8l93.396 53.701-23.266 13.44 46.533 26.88-116.334 67.198-93.067-53.759 23.267-13.44-46.533-27.012z"/>
             <path fill="url(#a)" d="M82.877 5.238l23.266 13.44 78.609 196.969-15.596 9.01L82.877 5.237z" transform="translate(11.294)"/>
             <path fill="#008BFF" d="M126.126 13.66L102.86.22l-8.689 5.018 23.266 13.44z"/>
             <path fill="url(#b)" d="M192.512 211.164l-7.76 4.483-78.609-196.969 8.69-5.019 77.68 197.505z" transform="translate(11.294)"/>
@@ -67,3 +67,14 @@
         </g>
     </svg>
 </template>
+
+<script>
+    export default {
+        props: {
+            backgroundPathFill: {
+                type: String,
+                default: '#EEF5FE'
+            }
+        }
+    }
+</script>

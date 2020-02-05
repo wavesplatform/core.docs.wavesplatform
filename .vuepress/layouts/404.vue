@@ -2,9 +2,8 @@
   <div
           :class="$style.root"
   >
-    <div class="medium-zoom-container"></div>
-
     <template v-if="$page.path !== '/'">
+
       <!--<ThemeControl/>-->
       <SearchFrameContent/>
       <div :class="$style.navbarWrapper2">
@@ -87,7 +86,9 @@
         <!--<Home v-if="$page.frontmatter.home"/>-->
 
         <div :class="$style.content">
-          <Icon404/>
+          <Icon404 v-bind="{
+            backgroundPathFill: '#323f5f'
+          }"/>
           <span :class="$style.content__title1">
             Something’s missing
           </span>
@@ -98,9 +99,6 @@
             Back to index
           </ButtonTrigger>
         </div>
-
-
-
 
       </WidthLimit>
     </template>
@@ -436,6 +434,7 @@
   .root__contentCell {
     display flex
     width 100%
+    height 100%
     /*min-height 100vh*/
     justify-content flex-start
     transform translate3d(0, 0, 0);
@@ -496,12 +495,27 @@
     align-items center
   }
   .content__title1 {
-
+    margin-top 24px
+    font-size: 34px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: center;
   }
   .content__title2 {
-
+    margin-top 16px
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: center;
   }
   .content__backButton {
-
+    margin-top 44px
+    min-width 208px
   }
 </style>
