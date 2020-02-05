@@ -68,7 +68,7 @@
                    }
                    if(new RegExp(location.host).test(target.href) && !('__vue__' in target)) {
                        event.preventDefault();
-                       this.$router.push(target.pathname + target.search + target.hash)
+                       this.$router.replace(target.pathname + target.search + target.hash)
                        .catch(error => {
                            console.error(error)
                            if(error) {
