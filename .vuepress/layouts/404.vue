@@ -13,6 +13,7 @@
         >
           <!--@toggleSidebar="toggleLeftSidebar"-->
           <Sidebar
+                  v-if="layoutWidth > 719"
                   ref="sidebar1"
                   side="left"
                   :sidebar-toggle-trigger-options="{
@@ -24,6 +25,7 @@
                   :is-resizable="layoutWidth > 719"
                   :options="{
                     isMobileMod: layoutWidth < 720,
+                    isShowBodyPart: false,
                 }"
                   :class="[
                         $style.sidebar,
@@ -39,6 +41,7 @@
                     }"
                   :options="{
                     isShowSidebar: false,
+                    logotypeJustifyContent: 'flex-start',
                   }"
           />
         </WidthLimit>
@@ -79,25 +82,24 @@
             />
           </div>
         </WidthLimit>
-        <!--        <div-->
-        <!--            class="sidebar-mask"-->
-        <!--            @click="toggleSidebar(false)"-->
-        <!--        ></div>-->
-        <!--<Home v-if="$page.frontmatter.home"/>-->
-
         <div :class="$style.content">
           <Icon404 v-bind="{
-            backgroundPathFill: '#323f5f'
+            backgroundPathFill: activeColorationConfigColors.color3,
           }"/>
           <span :class="$style.content__title1">
-            Something’s missing
+            {{notFoundPageI18n.title}}
           </span>
           <span :class="$style.content__title2">
-            The page you are looking for is not found
+            {{notFoundPageI18n.description}}
           </span>
-          <ButtonTrigger :class="$style.content__backButton">
-            Back to index
-          </ButtonTrigger>
+          <router-link
+              :to="$localePath"
+              :class="$style.backButtonLink"
+          >
+            <ButtonTrigger :class="$style.content__backButton">
+              {{$themeLocaleConfig.backToIndexButtonText}}
+            </ButtonTrigger>
+          </router-link>
         </div>
 
       </WidthLimit>
@@ -147,6 +149,12 @@
     },
 
     computed: {
+      activeColorationConfigColors() {
+        return this.$store.getters.activeColorationConfigColors;
+      },
+      notFoundPageI18n() {
+        return this.$themeLocaleConfig.notFoundPage;
+      },
       isUserNaturalScrollState() {
         return this.$store.state.interface.isUserNaturalScrollState;
       },
@@ -197,7 +205,6 @@
       contentCellStyles() {
         return {
           marginTop: this.headerHeight + 'px',
-          paddingLeft: this.layoutWidth > 719 ? this.leftSidebarWidth + 'px' : '',
 
           transform: (this.layoutWidth < 720 && this.isOpenLeftSidebar) ? `translateX(${this.leftSidebarWidth}px)` : '',
 
@@ -211,16 +218,16 @@
     },
 
     watch: {
-      // layoutWidth(newValue) {
-      //   this.computedAndSetMainContentPositionLeft();
-      //   this.computedPageNavigationsTranslateY();
-      //   if (newValue < 720) {
-      //     this.$store.commit('setDisplayRightSidebar', false);
-      //     this.$store.commit('setDisplayLeftSidebar', false);
-      //   } else {
-      //     this.$store.commit('setDisplayLeftSidebar', true);
-      //   }
-      // },
+      layoutWidth(newValue) {
+        // this.computedAndSetMainContentPositionLeft();
+        // this.computedPageNavigationsTranslateY();
+        if (newValue < 720) {
+          this.$store.commit('setDisplayRightSidebar', false);
+          this.$store.commit('setDisplayLeftSidebar', false);
+        } else {
+          this.$store.commit('setDisplayLeftSidebar', true);
+        }
+      },
       // layoutHeight() {
       //   this.computedPageNavigationsTranslateY();
       // },
@@ -252,31 +259,20 @@
 
     async mounted() {
       // this._prepare();
-      // this.interval1 = null;
-      // if (this.layoutWidth > 719) {
-      //   this.$store.commit('setDisplayLeftSidebar', true);
-      // }
-      // if (!this.$isServer) {
-      //   this.pageNavigations2Element = this.$refs.pageNavigations2.$el;
-      //   this.elementResizeDetector = this.$elementResizeDetectorMaker({
-      //     strategy: 'scroll'
-      //   });
-      //   window.addEventListener('scroll', this.windowScrollEventHandler);
-      //
-      //   this.root__contentCellElement.addEventListener('transitionstart', this.transitionstartHandler, false);
-      //   this.root__contentCellElement.addEventListener('transitionend', this.transitionendHandler, false);
-      //
-      //   this.windowScrollEventHandler();
-      //   this.computedAndSetMainContentPositionLeft();
-      //
-      //   this.elementResizeDetector.listenTo(this.root__contentCellElement, this.setMainContentHeightInStore);
-      //
-      //   this.computedPageNavigationsTranslateY();
-      //
-      //   // const hash = this.$route.hash
-      //   // await this.$nextTick();
-      //   // this.scrollBehavior({hash});
-      // }
+      this.interval1 = null;
+      if (this.layoutWidth > 719) {
+        this.$store.commit('setDisplayLeftSidebar', true);
+      }
+      if (!this.$isServer) {
+
+
+        // this.windowScrollEventHandler();
+        // this.computedAndSetMainContentPositionLeft();
+
+
+        // this.computedPageNavigationsTranslateY();
+
+      }
     },
 
     updated() {
@@ -513,6 +509,9 @@
     line-height: 1;
     letter-spacing: normal;
     text-align: center;
+  }
+  .backButtonLink {
+    display flex
   }
   .content__backButton {
     margin-top 44px

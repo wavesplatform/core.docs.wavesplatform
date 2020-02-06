@@ -10,7 +10,7 @@
             <div
                 :class="$style.searchBoxWrapper2"
                 :style="{
-                    paddingLeft: mainContentPositionLeft + 'px',
+                    paddingLeft: isOpenLeftSidebar ? leftSidebarWidth + 'px' : '',
                     justifyContent: layoutWidth > 719 ? 'space-between' : 'flex-end',
                 }"
             >
@@ -20,7 +20,6 @@
                     :type="1"
                     :padding-l-r="3"
                 >
-
                     <SearchBox
                         :class="$style.searchBox"
                         :is-full-size="true"
@@ -42,11 +41,8 @@
                         />
                     </WidthLimit>
                 </WidthLimit>
-
-
                 <SwitchLanguage :class="$style.switchLanguage"/>
             </div>
-
             <Sidebar
                 v-show="isShowSidebar && layoutWidth > 719"
                 ref="sidebar2"
@@ -66,30 +62,14 @@
 
             <div
                 :class="$style.root__cell1"
-                :style="{
-                    // paddingLeft: `calc(100% - ${leftSidebarWidth}px)`
-                    // paddingLeft: leftSidebarWidth + 'px',
-
-                }"
             >
-
-                <!--<WidthLimit
-                    v-show="layoutWidth < 720"
-                    :class="$style.burgerTriggerWrapper"
-                    :type="2"
-                >
-                    <BurgerTrigger
-                        :class="$style.burgerTrigger"
-                        @click.native="$store.commit('setDisplayLeftSidebar', true)"
-                    />
-                </WidthLimit>
--->
-
-
                 <WidthLimit
                     v-show="layoutWidth < 720"
                     :class="$style.logotypeWrapper"
                     :type="1"
+                    :style="{
+                        justifyContent: logotypeJustifyContent,
+                    }"
                 >
                     <router-link :to="$localePath">
                         <Logotype
@@ -98,12 +78,6 @@
 
 
                 </WidthLimit>
-                <!--<WidthLimit
-                    :class="$style.switchLanguageWrapper"
-                    :type="2"
-                >
-                    <SwitchLanguage :class="$style.switchLanguage"/>
-                </WidthLimit>-->
             </div>
         </WidthLimit>
     </header>
@@ -121,7 +95,11 @@
         isShowSidebar: {
             type: Boolean,
             default: true,
-        }
+        },
+        logotypeJustifyContent: {
+            type: String,
+            default: 'center',
+        },
       },
     mixins: [
       overallMixin,
@@ -248,7 +226,6 @@
     }
     .logotypeWrapper {
         display flex
-        justify-content center
         position absolute
         height 100%
         visibility hidden
