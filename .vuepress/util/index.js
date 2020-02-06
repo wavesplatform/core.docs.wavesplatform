@@ -258,8 +258,19 @@ export function scrollToHashElement(hash, store) {
   if(!hash) {
     return
   }
+  hash = decodeURI(hash);
+  const isCyrillicHash = new RegExp('[А-я]').test(hash);
+  if(isCyrillicHash) {
+    hash = hash.replace(/л/gi, 'n');
+  }
+  // const locationHash = decodeURI(location.hash);
+  // console.log('locationHash:', locationHash, hash)
+  // if(hash === locationHash) {
+  //   return;
+  // }
   store.commit('setScrollTopState', true);
   const element = document.querySelector(hash);
+
   if(!element) {
     return;
   }

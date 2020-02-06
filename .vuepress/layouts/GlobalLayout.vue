@@ -66,13 +66,17 @@
                    if(target.tagName !== 'A') {
                        return;
                    }
+                   if(target.href.replace(target.origin, '') === this.$route.fullPath) {
+                       return;
+                   }
+
                    if(new RegExp(location.host).test(target.href) && !('__vue__' in target)) {
                        event.preventDefault();
                        this.$router.replace(target.pathname + target.search + target.hash)
                        .catch(error => {
                            console.error(error)
                            if(error) {
-                               this.$router.push('/404');
+                               this.$router.push(this.$localePath + '404');
                            }
                        });
                        return;
