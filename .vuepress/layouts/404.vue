@@ -2,7 +2,7 @@
   <div
           :class="$style.root"
   >
-    <template v-if="$page.path !== '/'">
+    <template v-if="$page.path !== '/' && activeColorationConfigColors">
 
       <!--<ThemeControl/>-->
       <SearchFrameContent/>
