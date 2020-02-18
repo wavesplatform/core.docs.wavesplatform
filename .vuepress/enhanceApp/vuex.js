@@ -1,7 +1,6 @@
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 import { storeMutationGenerator } from '../util'
-
 export default (context) => {
     const { Vue, isServer } = context;
     const defaultFocusIndex = -1;
@@ -37,6 +36,7 @@ export default (context) => {
             mainContentPositionLeft: 0,
             mainContentHeight: 0,
             isShowSearchResultWindow: false,
+            isShowSearchInHeaderHomePage: false,
         },
         isShowLanguageNotification: false,
         // isProcessDev: process.env.isDev,
@@ -77,6 +77,7 @@ export default (context) => {
             setDisplayShowLanguageNotification: 'isShowLanguageNotification',
             setHeaderHeight: 'interface.headerHeight',
             setSearchQuery: 'search.query',
+            setDisplaySearchInHeaderHomePage: 'interface.isShowSearchInHeaderHomePage',
         }),
     };
 

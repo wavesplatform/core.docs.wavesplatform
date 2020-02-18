@@ -16,12 +16,12 @@
             >
                 <WidthLimit
                     v-show="layoutWidth > 719"
-                    :class="$style.searchBoxWrapper"
+                    :class="$overallStyle.searchBoxWrapper"
                     :type="1"
                     :padding-l-r="3"
                 >
                     <SearchBox
-                        :class="$style.searchBox"
+                        :class="$overallStyle.searchBox"
                         :is-full-size="true"
                         :size="1"
                         :with-suggestions="false"
@@ -31,13 +31,13 @@
                     />
                     <WidthLimit
                         v-show="!isShowSearchResultWindow"
-                        :class="$style.searchSuggestionsWrapper"
+                        :class="$overallStyle.searchSuggestionsWrapper"
                         :type="1"
                         :padding-l-r="3"
                     >
                         <Suggestions
                             ref="suggestions"
-                            :class="$style.searchSuggestions"
+                            :class="$overallStyle.searchSuggestions"
                         />
                     </WidthLimit>
                 </WidthLimit>
@@ -87,8 +87,6 @@
   import BurgerTrigger from '@theme/components/BurgerTrigger'
   import overallMixin from './overallMixin'
   import Sidebar from '@theme/components/Sidebar/'
-  import Suggestions from '@theme/components/SearchBox/Suggestions'
-  import searchMixin from '@theme/components/_mixins/search'
 
   export default {
       props: {
@@ -103,17 +101,12 @@
       },
     mixins: [
       overallMixin,
-      searchMixin,
     ],
     components: {
       BurgerTrigger,
       Sidebar,
-      Suggestions,
     },
     computed: {
-      isShowSearchResultWindow() {
-        return this.$store.state.interface.isShowSearchResultWindow;
-      },
       mainContentPositionLeft() {
         return this.$store.state.interface.mainContentPositionLeft;
       },

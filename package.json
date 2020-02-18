@@ -22,6 +22,7 @@
         "puppeteer": "^2.0.0",
         "raw-loader": "^3.1.0",
         "resolve-path": "^1.4.0",
+        "scrollama": "^2.2.0",
         "strapi-sdk-javascript": "^0.3.1",
         "vuepress-plugin-clean-urls": "^1.1.1",
         "vuex": "^3.1.1",
