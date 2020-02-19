@@ -49,6 +49,7 @@ export default (context, locales) => {
             mainContentPositionLeft: 0,
             mainContentHeight: 0,
             isShowSearchResultWindow: false,
+            isShowSearchInHeaderHomePage: false,
         },
         isShowLanguageNotification: false,
         // isProcessDev: process.env.isDev,
@@ -89,6 +90,7 @@ export default (context, locales) => {
             setDisplayShowLanguageNotification: 'isShowLanguageNotification',
             setHeaderHeight: 'interface.headerHeight',
             setSearchQuery: 'search.query',
+            setDisplaySearchInHeaderHomePage: 'interface.isShowSearchInHeaderHomePage',
             setCurrentDocsVersionName: 'currentDocsVersionName',
         }),
     };

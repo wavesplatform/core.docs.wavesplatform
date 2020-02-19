@@ -10,7 +10,6 @@
             </div>
         </template>-->
         <div class="medium-zoom-container"></div>
-
         <template v-if="$page.path !== '/'">
             <!--<ThemeControl/>-->
             <SearchFrameContent/>
@@ -41,31 +40,7 @@
                         $style.sidebar,
                         $style.sidebar1,
                     ]"
-                    >
-<!--                        <div-->
-<!--                            ref="sidebar1__header"-->
-<!--                            :class="$style.sidebar1__header"-->
-<!--                            slot="header"-->
-<!--                            :style="{-->
-<!--                        height: headerHeight - 1 + 'px',-->
-<!--                    }"-->
-<!--                        >-->
-<!--                            <router-link-->
-<!--                                :to="$localePath"-->
-<!--                                :class="$style.logotypeLink"-->
-<!--                            >-->
-<!--                                <Logotype :class="$style.logotype"/>-->
-<!--                            </router-link>-->
-<!--                        </div>-->
-<!--                        <slot-->
-<!--                            name="sidebar-top"-->
-<!--                            slot="top"-->
-<!--                        />-->
-<!--                        <slot-->
-<!--                            name="sidebar-bottom"-->
-<!--                            slot="bottom"-->
-<!--                        />-->
-                    </Sidebar>
+                    />
                     <Navbar
                         ref="navbar"
                         :class="$style.navbar"
@@ -112,25 +87,11 @@
                         />
                     </div>
                 </WidthLimit>
-                <!--        <div-->
-                <!--            class="sidebar-mask"-->
-                <!--            @click="toggleSidebar(false)"-->
-                <!--        ></div>-->
-                <!--<Home v-if="$page.frontmatter.home"/>-->
                 <Page
                     ref="page"
                     :sidebar-items="sidebarItems"
                     :class="['pageContent', $style.page]"
-                >
-                    <!--<slot
-                        name="page-top"
-                        slot="top"
-                    />-->
-                    <!--<slot
-                        name="page-bottom"
-                        slot="bottom"
-                    />-->
-                </Page>
+                />
                 <PageNavigations
                     :sidebar-items="sidebarItems"
                     :class="$style.pageNavigations1"

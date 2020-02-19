@@ -21,6 +21,7 @@
                         ref="searchBoxComponentExemplar"
                         :is-full-size="true"
                         :with-suggestions="false"
+                        :focus-border-type="2"
                         :class="$style.searchBox"
                         @search="showDeepSearch"
                     ></SearchBox>

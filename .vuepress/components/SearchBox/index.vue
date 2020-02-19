@@ -22,7 +22,7 @@
         @input="$store.commit('setSearchQuery', $event.target.value)"
         aria-label="Search"
         :value="query"
-        :class="[$style.input, {
+        :class="[$style.input, $style['input_focusBorderType_' + focusBorderType], {
             [$style.focused]: isFullSize || focused,
         }]"
         spellcheck="false"
@@ -81,6 +81,13 @@ export default {
         return ['default', 1, 2].includes(value);
       },
     },
+      focusBorderType: {
+          type: [Number, String],
+          default: 1,
+          validator(value) {
+              return [1, 2].includes(value);
+          },
+      },
   },
   data () {
     return {
@@ -304,6 +311,14 @@ export default {
                 line-height: 38px;
             }
         }
+    }
+
+    .input_focusBorderType_1 {
+
+    }
+
+    .input_focusBorderType_2 {
+
     }
 
     .searchSuggestionsWrapper {

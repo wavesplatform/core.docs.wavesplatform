@@ -52,7 +52,10 @@
           />-->
         </div>
 
-        <div :class="[$style.sidebarLinks, $styleLeft.sidebarLinks]">
+        <div
+            v-show="preparedOptions.isShowBodyPart"
+            :class="[$style.sidebarLinks, $styleLeft.sidebarLinks]"
+        >
               <span
                   v-show="isResizableComputed"
                   :class="$style.resizeTrigger"
@@ -205,7 +208,8 @@
     data () {
       return {
         defaultOptions: {
-          isMobileMod: false
+            isMobileMod: false,
+            isShowBodyPart: true,
         },
         widthSetterNameInStore: 'setLeftSidebarWidth',
         sideIndexNumber: 1,

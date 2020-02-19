@@ -23,12 +23,13 @@
     },
 
     methods: {
-      renderLink (h, to, text, active) {
+      renderLink (h, to, text, active, isReplace) {
         return h('router-link', {
           props: {
             to,
             activeClass: '',
-            exactActiveClass: ''
+            exactActiveClass: '',
+            replace: isReplace,
           },
           class: [
             this.$style.sidebarLink,
@@ -65,7 +66,8 @@
               h,
               path + '#' + child.slug,
               child.title,
-              active
+              active,
+              true,
             ),
             this.renderChildren(h, {
               children: child.children,
@@ -77,6 +79,7 @@
               mod
             })
           ];
+
           return h('li',
             {
               class: this.$style.sidebarSubHeader

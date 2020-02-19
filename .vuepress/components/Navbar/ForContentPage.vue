@@ -10,19 +10,18 @@
             <div
                 :class="$style.searchBoxWrapper2"
                 :style="{
-                    paddingLeft: mainContentPositionLeft + 'px',
+                    paddingLeft: isOpenLeftSidebar ? leftSidebarWidth + 'px' : '',
                     justifyContent: layoutWidth > 719 ? 'space-between' : 'flex-end',
                 }"
             >
                 <WidthLimit
                     v-show="layoutWidth > 719"
-                    :class="$style.searchBoxWrapper"
+                    :class="$overallStyle.searchBoxWrapper"
                     :type="1"
                     :padding-l-r="3"
                 >
-
                     <SearchBox
-                        :class="$style.searchBox"
+                        :class="$overallStyle.searchBox"
                         :is-full-size="true"
                         :size="1"
                         :with-suggestions="false"
@@ -32,21 +31,18 @@
                     />
                     <WidthLimit
                         v-show="!isShowSearchResultWindow"
-                        :class="$style.searchSuggestionsWrapper"
+                        :class="$overallStyle.searchSuggestionsWrapper"
                         :type="1"
                         :padding-l-r="3"
                     >
                         <Suggestions
                             ref="suggestions"
-                            :class="$style.searchSuggestions"
+                            :class="$overallStyle.searchSuggestions"
                         />
                     </WidthLimit>
                 </WidthLimit>
-
-
                 <SwitchLanguage :class="$style.switchLanguage"/>
             </div>
-
             <Sidebar
                 v-show="isShowSidebar && layoutWidth > 719"
                 ref="sidebar2"
@@ -66,30 +62,14 @@
 
             <div
                 :class="$style.root__cell1"
-                :style="{
-                    // paddingLeft: `calc(100% - ${leftSidebarWidth}px)`
-                    // paddingLeft: leftSidebarWidth + 'px',
-
-                }"
             >
-
-                <!--<WidthLimit
-                    v-show="layoutWidth < 720"
-                    :class="$style.burgerTriggerWrapper"
-                    :type="2"
-                >
-                    <BurgerTrigger
-                        :class="$style.burgerTrigger"
-                        @click.native="$store.commit('setDisplayLeftSidebar', true)"
-                    />
-                </WidthLimit>
--->
-
-
                 <WidthLimit
                     v-show="layoutWidth < 720"
                     :class="$style.logotypeWrapper"
                     :type="1"
+                    :style="{
+                        justifyContent: logotypeJustifyContent,
+                    }"
                 >
                     <router-link :to="$store.getters.rootPagePath">
                         <Logotype
@@ -98,12 +78,6 @@
 
 
                 </WidthLimit>
-                <!--<WidthLimit
-                    :class="$style.switchLanguageWrapper"
-                    :type="2"
-                >
-                    <SwitchLanguage :class="$style.switchLanguage"/>
-                </WidthLimit>-->
             </div>
         </WidthLimit>
     </header>
@@ -113,29 +87,26 @@
   import BurgerTrigger from '@theme/components/BurgerTrigger'
   import overallMixin from './overallMixin'
   import Sidebar from '@theme/components/Sidebar/'
-  import Suggestions from '@theme/components/SearchBox/Suggestions'
-  import searchMixin from '@theme/components/_mixins/search'
 
   export default {
       props: {
         isShowSidebar: {
             type: Boolean,
             default: true,
-        }
+        },
+        logotypeJustifyContent: {
+            type: String,
+            default: 'center',
+        },
       },
     mixins: [
       overallMixin,
-      searchMixin,
     ],
     components: {
       BurgerTrigger,
       Sidebar,
-      Suggestions,
     },
     computed: {
-      isShowSearchResultWindow() {
-        return this.$store.state.interface.isShowSearchResultWindow;
-      },
       mainContentPositionLeft() {
         return this.$store.state.interface.mainContentPositionLeft;
       },
@@ -252,7 +223,6 @@
     }
     .logotypeWrapper {
         display flex
-        justify-content center
         position absolute
         height 100%
         visibility hidden
