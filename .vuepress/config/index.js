@@ -210,6 +210,8 @@ module.exports = {
     ],
 
     configureWebpack(config, isServer) {
+        console.log('dirname:', dirname)
+        // config.resolve.alias['@themeExtend'] = dirname;
         // console.log('config:', config);
         // config.module
         //   .rule('js') // Find the rule.
