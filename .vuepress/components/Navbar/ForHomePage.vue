@@ -1,6 +1,6 @@
 <template>
     <header :class="$style.root">
-
+        <slot name="rootBackground"/>
         <WidthLimit
             :class="$style.root__wrapper"
             :type="2"
