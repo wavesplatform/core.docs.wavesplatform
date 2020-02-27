@@ -11,15 +11,14 @@ const removeExtensionPartFromUrl = (url) => {
     if(computedUrl.slice(0, 2) === '//') {
         computedUrl = computedUrl.slice(1);
     }
-    // console.log('computedUrl:', computedUrl);
     return computedUrl;
 };
+
 module.exports = (redirectList = []) => {
     return async(ctx, next) => {
         const requestOriginalUrl = ctx.originalUrl;
         const originalUrlParsed = url.parse(requestOriginalUrl);
         const urlPathParsed = path.parse(requestOriginalUrl);
-
 
         if(!redirectList.length) {
             await next();
@@ -34,7 +33,6 @@ module.exports = (redirectList = []) => {
         }
         for (const redirectRule of redirectList) {
 
-            // console.log('originalUrlParsed:', originalUrlParsed, urlPathParsed);
 
             const redirectRuleFrom = redirectRule.from;
             const redirectRuleTo = redirectRule.to;
@@ -54,14 +52,16 @@ module.exports = (redirectList = []) => {
                 );
                 return;
             }
+
             let regexpResult = '';
-            if(redirectRuleFrom && redirectRuleTo) {
+            if(redirectRuleFrom && redirectRuleTo && redirectRuleTo.includes('$')) {
                 let originalUrl = requestOriginalUrl;
                 if(isExternalLinkTo) {
                     originalUrl = redirectRuleTo;
                 }
                 regexpResult = originalUrl.replace(new RegExp(redirectRuleFrom), redirectRuleTo);
             }
+
             if(regexpResult && requestOriginalUrl !== regexpResult) {
 
                 if(redirectRuleTo.includes('$')) {
@@ -72,6 +72,7 @@ module.exports = (redirectList = []) => {
                     );
                     return;
                 }
+
                 ctx.redirect(
                   removeExtensionPartFromUrl(redirectRuleTo)
                 );

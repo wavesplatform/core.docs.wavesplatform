@@ -2,9 +2,10 @@ const processEnv = process.env;
 const envPort = processEnv.port;
 const envHost = processEnv.host || '0.0.0.0';
 const envIsDev = processEnv.isDev;
-const serverPort = envPort ? envPort :
-    envIsDev ? 3000 : 3083
-;
+// const serverPort = envPort ? envPort :
+//     envIsDev ? 3000 : 3083
+// ;
+const serverPort = 3083;
 if(envIsDev) {
     const inspector = require('inspector');
     inspector.open(9229, '127.0.0.1');
