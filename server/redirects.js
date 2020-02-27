@@ -54,7 +54,11 @@ module.exports = (redirectList = []) => {
             }
 
             let regexpResult = '';
-            if(redirectRuleFrom && redirectRuleTo && redirectRuleTo.includes('$')) {
+            if(
+              redirectRuleFrom &&
+              redirectRuleTo &&
+              (redirectRuleTo.includes('$') || redirectRuleFrom.includes('('))
+            ) {
                 let originalUrl = requestOriginalUrl;
                 if(isExternalLinkTo) {
                     originalUrl = redirectRuleTo;
