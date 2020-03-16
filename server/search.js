@@ -8,8 +8,7 @@ module.exports = async (vuepressDestPath) => {
         const searchQuery = ctx.query.search;
         const searchLocalePath = ctx.query.localePath;
         if(searchQuery) {
-            const searchResult = await getSearchResultByQuery(searchQuery, searchLocalePath);
-            ctx.body = searchResult;
+            ctx.body = await getSearchResultByQuery(searchQuery, searchLocalePath);
             return;
         }
         await next();

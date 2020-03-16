@@ -5,14 +5,13 @@ const envIsDev = processEnv.isDev;
 // const serverPort = envPort ? envPort :
 //     envIsDev ? 3000 : 3083
 // ;
-const serverPort = 3083;
+const serverPort = envPort || 3083;
 if(envIsDev) {
     const inspector = require('inspector');
     inspector.open(9229, '127.0.0.1');
 }
 const path = require('path');
 const Koa = require('koa');
-console.log('global.coreRootPath:', global.coreRootPath)
 const serve = require(path.join(global.coreRootPath, 'utils/koa-static'));
 const app = new Koa();
 const search = require('./search');

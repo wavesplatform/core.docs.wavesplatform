@@ -2,7 +2,6 @@ const processEnv = process.env;
 const envIsDev = processEnv.isDev;
 const fs = require('fs');
 const Fuse = require('fuse.js');
-const lunr = require('lunr');
 const GetParsePagesQueue = require('./getParsePagesQueue');
 const textHighlightMarkup = require('./textHighlightMarkup');
 const formattedAndGroupSearchResults = require('./formattedAndGroupSearchResults');
@@ -33,7 +32,6 @@ const fuseOptions = {
     distance: 100,
     maxPatternLength: 32,
     minMatchCharLength: 4,
-    useExtendedSearch: true,
     // caseSensitive: true,
 };
 const findItemForSendingLimit = 40;
@@ -88,35 +86,12 @@ module.exports = async function(vuepressDestPath) {
     //     return accumulator;
     // }, {});
 
-
-
-
-
     const fuses = Object.entries(vuepressPages).reduce((accumulator, vuepressPagesEntry) => {
         const vuepressPagesKey = vuepressPagesEntry[0];
         const vuepressPagesValue = vuepressPagesEntry[1];
-
-
         accumulator[vuepressPagesKey] = new Fuse(Object.values(vuepressPagesValue), fuseOptions);
-
-
-        // accumulator[vuepressPagesKey] = lunr(function() {
-        //     this.ref('title');
-        //     this.field('title');
-        //     this.field('content');
-        //
-        //     this.metadataWhitelist = ['position'];
-        //
-        //     Object.values(vuepressPagesValue).forEach((doc) => {
-        //         this.add(doc)
-        //     })
-        // });
-
-
         return accumulator;
     }, {});
-
-    console.log('fuses:', fuses, vuepressPages);
 
     return (searchQueryString, searchLocale) => {
         const fuse = fuses[searchLocale];
