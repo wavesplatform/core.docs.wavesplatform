@@ -323,7 +323,8 @@
         const sidebarRootLinks = this.$themeLocaleConfig.sidebar;
         const rootLink = sidebarRootLinks[categoryRootLink];
         if(rootLink) {
-          return rootLink[0].path;
+        	const firstLinkInSidebar = rootLink[0];
+          	return firstLinkInSidebar ? firstLinkInSidebar.path : ''
         }
         return categoryRootLink
       },
