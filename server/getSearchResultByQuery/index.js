@@ -27,12 +27,13 @@ const fuseOptions = {
     findAllMatches: true,
     includeScore: true,
     includeMatches: true,
-    threshold: 0.1,
+    threshold: 0.01,
     location: 0,
-    distance: 100,
+    distance: 100000,
     maxPatternLength: 32,
     minMatchCharLength: 4,
     // caseSensitive: true,
+    useExtendedSearch: true,
 };
 const findItemForSendingLimit = 40;
 
@@ -88,6 +89,8 @@ module.exports = async function(vuepressDestPath) {
         accumulator[vuepressPagesKey] = new Fuse(Object.values(vuepressPagesValue), fuseOptions);
         return accumulator;
     }, {});
+
+    console.log('fuses:', fuses);
 
     return (searchQueryString, searchLocale) => {
         const fuse = fuses[searchLocale];
