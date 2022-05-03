@@ -66,7 +66,7 @@ module.exports = async function(vuepressDestPath) {
             end = vuepressPagesParamsListLength
         }
         await Promise.all(
-          getParsePagesQueue(vuepressPages, vuepressPagesParamsList, vuepressPageParamsIndex, end)
+            getParsePagesQueue(vuepressPages, vuepressPagesParamsList, vuepressPageParamsIndex, end)
         );
         if(end === vuepressPagesParamsListLength) {
             break;
@@ -115,7 +115,7 @@ module.exports = async function(vuepressDestPath) {
 
                 let contentMatchesFormattedString = '';
                 if(contentMatches) {
-                    contentMatchesFormattedString = textHighlightMarkup(contentMatches.value, contentMatches.indices);
+                    contentMatchesFormattedString = textHighlightMarkup(contentMatches.value, contentMatches.indices, searchQueryString);
                     contentMatchesFormattedString = formattedAndGroupSearchResults(
                         contentMatchesFormattedString
                     );

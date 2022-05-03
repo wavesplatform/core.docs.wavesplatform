@@ -1,5 +1,28 @@
-module.exports = (text, indices) => {
+const Fuse = require('fuse.js');
+const options = {
+  keys: ['value'],
+  tokenize: /*true*/true,
+  matchAllTokens: true,
+  shouldSort: true,
+  findAllMatches: true,
+  includeScore: true,
+  includeMatches: true,
+  maxPatternLength: 32,
+  useExtendedSearch: true,
+}
+
+module.exports = (text, indices, searchQueryString = null) => {
   const arrayWithSplitText = [];
+
+  if (Array.isArray(indices) && searchQueryString) {
+    const words = []
+    indices.forEach((index) => words.push({value: text.substring(index[0], index[1]), indices: index}))
+    const fuse = new Fuse(words, options)
+    const result = fuse.search(searchQueryString)
+    console.log(result)
+    indices = [result[0].item.indices]
+  }
+
   indices.forEach((index, indexNumber) => {
     if(indexNumber === 0) {
       const start = index[0];
