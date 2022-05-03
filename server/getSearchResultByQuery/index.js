@@ -27,7 +27,7 @@ const fuseOptions = {
     findAllMatches: true,
     includeScore: true,
     includeMatches: true,
-    threshold: 0.01,
+    threshold: 0.1,
     location: 0,
     distance: 100000,
     maxPatternLength: 32,
@@ -109,7 +109,7 @@ module.exports = async function(vuepressDestPath) {
 
                 let titleMatchesFormattedString = '';
                 if(titleMatches) {
-                    titleMatchesFormattedString = textHighlightMarkup(titleMatches.value, titleMatches.indices);
+                    titleMatchesFormattedString = textHighlightMarkup(titleMatches.value, titleMatches.indices, searchQueryString);
 
                 }
 
